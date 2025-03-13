@@ -132,3 +132,49 @@ footer {
     backdrop-filter: blur(10px);
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        padding: 2rem 1rem;
+    }
+
+    .neon-text {
+        font-size: 2rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    .intro, .about, .projects, .contact {
+        padding: 1rem;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 1.5rem 0.5rem;
+    }
+
+    .neon-text {
+        font-size: 1.75rem;
+    }
+
+    nav ul li a {
+        padding: 0.5rem;
+    }
+
+    .project-card h3 {
+        font-size: 1.2rem;
+    }
+}
+
