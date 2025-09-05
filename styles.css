@@ -1,5 +1,7 @@
+/* Import de Poppins depuis Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-/* j'ai trouvé ce truc sur codepen pour leétoiles animées, ça rend super bien */
+/* j'ai trouvé ce truc sur codepen pour les étoiles animées, ça rend super bien */
 @keyframes stars {
     0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
     100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
@@ -18,6 +20,7 @@ body {
     overflow-x: hidden;
     scroll-behavior: smooth;
     position: relative;
+    min-height: 100vh;
 }
 
 /* effet étoiles animées - j'ai bidouillé ça pendant des heures */
@@ -60,6 +63,18 @@ body::after {
     opacity: 0.5;
 }
 
+/* animations pour le scroll - trouvé sur stackoverflow */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 header {
     text-align: center;
     padding: 3rem 2rem;
@@ -73,18 +88,6 @@ header {
     animation: fadeInUp 1s ease-out 0.2s forwards;
 }
 
-/* animations pour le scroll - trouvé sur stackoverflow */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* titre avec glow plus intense */
 .neon-text {
     font-size: 2.5rem;
@@ -96,6 +99,7 @@ header {
         0 0 40px #00ffff;
     animation: neon-glow 2s infinite alternate;
     position: relative;
+    margin: 0 0 2rem 0;
 }
 
 /* effet glow amélioré */
@@ -131,7 +135,7 @@ nav ul {
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin-bottom: 2rem;
+    margin: 0;
 }
 
 /* boutons de navigation avec effet cyber */
@@ -179,8 +183,8 @@ main {
     margin: 0 auto;
 }
 
-/* sections avec animation au scroll */
-.intro, .about, .projects, .contact {
+/* sections avec animation au scroll - adaptées à tes vraies sections */
+.welcome, .about, .experiences, .contact {
     max-width: 800px;
     margin: 2rem auto;
     background: rgba(18, 18, 18, 0.85);
@@ -199,91 +203,115 @@ main {
 }
 
 /* j'ai décalé les animations pour que ça arrive une par une */
-.intro { animation-delay: 0.3s; }
+.welcome { animation-delay: 0.3s; }
 .about { animation-delay: 0.5s; }
-.projects { animation-delay: 0.7s; }
+.experiences { animation-delay: 0.7s; }
 .contact { animation-delay: 0.9s; }
 
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+/* titres des sections avec un peu plus de style */
+h2 {
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, #00ffff, transparent) 1;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
 }
 
-/* cartes projet avec effet holographique */
-.project-card {
-    background: rgba(18, 18, 18, 0.9);
-    border: 1px solid rgba(0, 255, 255, 0.3);
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+/* styles pour les articles d'expérience */
+.experience {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
     position: relative;
+    transition: all 0.3s ease;
 }
 
-/* effet de lueur sur hover - j'ai galéré pour avoir ça propre */
-.project-card::before {
+.experience::before {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #00ffff, #ff007f, #8a2be2, #00ffff);
-    border-radius: 15px;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.3s;
-    animation: rotate-border 3s linear infinite;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #00ffff, #ff007f);
+    border-radius: 2px;
 }
 
-@keyframes rotate-border {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.experience:hover {
+    border-color: rgba(255, 0, 127, 0.3);
+    box-shadow: 0 8px 20px rgba(255, 0, 127, 0.2);
+    transform: translateX(10px);
 }
 
-.project-card:hover::before {
-    opacity: 1;
-}
-
-.project-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 
-        0 20px 40px rgba(0, 255, 255, 0.3),
-        0 0 20px rgba(255, 0, 127, 0.2);
-}
-
-.project-card img {
-    width: 100%;
-    height: auto;
-    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-    transition: all 0.3s;
-}
-
-.project-card:hover img {
-    transform: scale(1.05);
-    filter: brightness(1.1) contrast(1.1);
-}
-
-.project-card h3 {
-    margin: 1rem 0 0.5rem;
-    font-size: 1.4rem;
-    color: #00ffff;
-    text-align: center;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    transition: all 0.3s;
-}
-
-.project-card:hover h3 {
+.experience h3 {
     color: #ff007f;
-    text-shadow: 0 0 15px rgba(255, 0, 127, 0.8);
+    text-shadow: 0 0 8px rgba(255, 0, 127, 0.5);
+    margin-top: 0;
+    font-size: 1.3rem;
 }
 
-.project-card p {
-    margin: 0 1rem 1rem;
+/* styles pour les listes */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* listes dans les sections normales (pas la nav) */
+.about ul, .experience ul {
+    padding-left: 1rem;
+}
+
+.about ul li, .experience ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+}
+
+/* puces personnalisées avec effet néon */
+.about ul li::before, .experience ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #00ffff;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+    animation: pulse-bullet 2s ease-in-out infinite;
+}
+
+@keyframes pulse-bullet {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* styles pour les liens dans le contact */
+.contact a {
+    color: #00ffff;
+    text-decoration: none;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s;
+    border-bottom: 1px solid transparent;
+}
+
+.contact a:hover {
+    color: #ff007f;
+    text-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+    border-bottom-color: #ff007f;
+}
+
+/* paragraphes avec un peu plus d'espacement */
+p {
+    margin-bottom: 1.2rem;
     text-align: justify;
+}
+
+/* strong avec couleur néon */
+strong {
+    color: #8a2be2;
+    text-shadow: 0 0 3px rgba(138, 43, 226, 0.5);
 }
 
 /* footer avec effet néon subtil */
@@ -316,7 +344,7 @@ footer::before {
     50% { opacity: 1; transform: scaleX(1.2); }
 }
 
-/* formulaires avec style cyber - au cas où il y en a */
+/* formulaires avec style cyber - au cas où tu en ajoutes plus tard */
 input, textarea, button {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(0, 255, 255, 0.3);
@@ -356,17 +384,7 @@ button:hover {
     transform: translateY(-2px);
 }
 
-/* titres des sections avec un peu plus de style */
-h2 {
-    color: #00ffff;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    border-bottom: 2px solid transparent;
-    border-image: linear-gradient(90deg, #00ffff, transparent) 1;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-/* Responsive Design - j'ai gardé tes media queries */
+/* Responsive Design */
 @media (max-width: 768px) {
     header {
         padding: 2rem 1rem;
@@ -381,11 +399,18 @@ h2 {
     main {
         padding: 1rem;
     }
-    .intro, .about, .projects, .contact {
+    .welcome, .about, .experiences, .contact {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+    .experience {
         padding: 1rem;
     }
-    .project-grid {
-        grid-template-columns: 1fr;
+    h2 {
+        font-size: 1.5rem;
+    }
+    .experience h3 {
+        font-size: 1.1rem;
     }
 }
 
@@ -397,14 +422,23 @@ h2 {
         font-size: 1.75rem;
     }
     nav ul li a {
-        padding: 0.5rem;
+        padding: 0.5rem 1rem;
     }
-    .project-card h3 {
-        font-size: 1.2rem;
+    .welcome, .about, .experiences, .contact {
+        padding: 0.8rem;
     }
     
     /* j'ai désactivé les animations sur mobile pour les performances */
     body::before, body::after {
         animation: none;
+    }
+    
+    /* navigation plus compacte sur mobile */
+    nav ul {
+        gap: 0.5rem;
+    }
+    
+    nav ul li a {
+        font-size: 0.9rem;
     }
 }
