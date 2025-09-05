@@ -1,34 +1,127 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+/* j'ai trouvé ce truc sur codepen pour les étoiles animées, ça rend super bien */
+@keyframes stars {
+    0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
 
+/* fond galaxie avec étoiles qui bougent */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background: #121212;
+    background: 
+        radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%),
+        linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #e0e0e0;
     line-height: 1.6;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    position: relative;
+}
+
+/* effet étoiles animées - j'ai bidouillé ça pendant des heures */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: stars 50s linear infinite;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+/* j'ai rajouté une deuxième couche d'étoiles pour l'effet parallax */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(1px 1px at 25px 25px, rgba(0,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 75px 75px, rgba(255,0,127,0.6), transparent),
+        radial-gradient(1px 1px at 125px 125px, rgba(138,43,226,0.7), transparent);
+    background-repeat: repeat;
+    background-size: 150px 150px;
+    animation: stars 80s linear infinite reverse;
+    z-index: -1;
+    opacity: 0.5;
 }
 
 header {
     text-align: center;
     padding: 3rem 2rem;
-    background: rgba(18, 18, 18, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    background: rgba(18, 18, 18, 0.85);
+    backdrop-filter: blur(15px);
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, #00ffff, #ff007f, #8a2be2) 1;
+    position: relative;
+    /* j'ai ajouté une animation fade-in au scroll */
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.2s forwards;
 }
 
+/* animations pour le scroll - trouvé sur stackoverflow */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* titre avec glow plus intense */
 .neon-text {
     font-size: 2.5rem;
     color: #00ffff;
-    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
-    animation: neon-glow 1.5s infinite alternate;
+    text-shadow: 
+        0 0 5px #00ffff, 
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff;
+    animation: neon-glow 2s infinite alternate;
+    position: relative;
 }
 
+/* effet glow amélioré */
 @keyframes neon-glow {
-    to {
-        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+    0% {
+        text-shadow: 
+            0 0 5px #00ffff, 
+            0 0 10px #00ffff,
+            0 0 15px #00ffff,
+            0 0 20px #00ffff;
+    }
+    50% {
+        text-shadow: 
+            0 0 10px #00ffff, 
+            0 0 20px #00ffff,
+            0 0 30px #00ffff,
+            0 0 40px #00ffff,
+            0 0 50px #ff007f;
+    }
+    100% {
+        text-shadow: 
+            0 0 15px #00ffff, 
+            0 0 25px #00ffff,
+            0 0 35px #00ffff,
+            0 0 45px #00ffff,
+            0 0 55px #8a2be2;
     }
 }
 
@@ -41,32 +134,43 @@ nav ul {
     margin-bottom: 2rem;
 }
 
+/* boutons de navigation avec effet cyber */
 nav ul li a {
     color: #e0e0e0;
     text-decoration: none;
-    transition: color 0.3s, border 0.3s;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+    transition: all 0.3s ease;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
     position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
 }
 
+/* effet de scan laser sur hover - ça c'est stylé */
 nav ul li a::before {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    background: #00ffff;
-    transition: width 0.3s;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+nav ul li a:hover::before {
+    left: 100%;
 }
 
 nav ul li a:hover {
     color: #ff007f;
-}
-
-nav ul li a:hover::before {
-    width: 100%;
+    border-color: #ff007f;
+    box-shadow: 
+        0 0 15px rgba(255, 0, 127, 0.5),
+        inset 0 0 15px rgba(255, 0, 127, 0.1);
+    transform: translateY(-2px);
 }
 
 main {
@@ -75,15 +179,30 @@ main {
     margin: 0 auto;
 }
 
+/* sections avec animation au scroll */
 .intro, .about, .projects, .contact {
     max-width: 800px;
     margin: 2rem auto;
-    background: rgba(18, 18, 18, 0.9);
+    background: rgba(18, 18, 18, 0.85);
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid transparent;
+    border-image: linear-gradient(135deg, rgba(0,255,255,0.3), rgba(255,0,127,0.3), rgba(138,43,226,0.3)) 1;
+    /* animation retardée pour chaque section */
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 0.8s ease-out forwards;
 }
+
+/* j'ai décalé les animations pour que ça arrive une par une */
+.intro { animation-delay: 0.3s; }
+.about { animation-delay: 0.5s; }
+.projects { animation-delay: 0.7s; }
+.contact { animation-delay: 0.9s; }
 
 .project-grid {
     display: grid;
@@ -91,24 +210,61 @@ main {
     gap: 2rem;
 }
 
+/* cartes projet avec effet holographique */
 .project-card {
     background: rgba(18, 18, 18, 0.9);
-    border: 1px solid rgba(0, 255, 255, 0.2);
-    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+/* effet de lueur sur hover - j'ai galéré pour avoir ça propre */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ffff, #ff007f, #8a2be2, #00ffff);
+    border-radius: 15px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s;
+    animation: rotate-border 3s linear infinite;
+}
+
+@keyframes rotate-border {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.project-card:hover::before {
+    opacity: 1;
 }
 
 .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 255, 255, 0.4);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 
+        0 20px 40px rgba(0, 255, 255, 0.3),
+        0 0 20px rgba(255, 0, 127, 0.2);
 }
 
 .project-card img {
     width: 100%;
     height: auto;
     border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    transition: all 0.3s;
+}
+
+.project-card:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1) contrast(1.1);
 }
 
 .project-card h3 {
@@ -116,6 +272,13 @@ main {
     font-size: 1.4rem;
     color: #00ffff;
     text-align: center;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s;
+}
+
+.project-card:hover h3 {
+    color: #ff007f;
+    text-shadow: 0 0 15px rgba(255, 0, 127, 0.8);
 }
 
 .project-card p {
@@ -123,38 +286,104 @@ main {
     text-align: justify;
 }
 
+/* footer avec effet néon subtil */
 footer {
-    background: rgba(18, 18, 18, 0.9);
+    background: rgba(18, 18, 18, 0.95);
     color: #e0e0e0;
     text-align: center;
-    padding: 1rem;
-    border-top: 1px solid rgba(0, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    padding: 2rem 1rem;
+    border-top: 2px solid transparent;
+    border-image: linear-gradient(90deg, transparent, #00ffff, #ff007f, #8a2be2, transparent) 1;
+    backdrop-filter: blur(15px);
+    position: relative;
+    margin-top: 3rem;
 }
 
-/* Responsive Design */
+/* petit effet de pulsation pour le footer */
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #00ffff, transparent);
+    animation: pulse-line 3s ease-in-out infinite;
+}
+
+@keyframes pulse-line {
+    0%, 100% { opacity: 0.3; transform: scaleX(0.8); }
+    50% { opacity: 1; transform: scaleX(1.2); }
+}
+
+/* formulaires avec style cyber - au cas où il y en a */
+input, textarea, button {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 0.8rem;
+    color: #e0e0e0;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #ff007f;
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* boutons avec effet glow */
+button {
+    cursor: pointer;
+    background: linear-gradient(45deg, rgba(0,255,255,0.1), rgba(255,0,127,0.1));
+    border: 2px solid #00ffff;
+    color: #00ffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover {
+    border-color: #ff007f;
+    color: #ff007f;
+    box-shadow: 
+        0 0 20px rgba(255, 0, 127, 0.6),
+        inset 0 0 20px rgba(255, 0, 127, 0.1);
+    transform: translateY(-2px);
+}
+
+/* titres des sections avec un peu plus de style */
+h2 {
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, #00ffff, transparent) 1;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive Design - j'ai gardé tes media queries */
 @media (max-width: 768px) {
     header {
         padding: 2rem 1rem;
     }
-
     .neon-text {
         font-size: 2rem;
     }
-
     nav ul {
         flex-direction: column;
         gap: 1rem;
     }
-
     main {
         padding: 1rem;
     }
-
     .intro, .about, .projects, .contact {
         padding: 1rem;
     }
-
     .project-grid {
         grid-template-columns: 1fr;
     }
@@ -164,17 +393,18 @@ footer {
     header {
         padding: 1.5rem 0.5rem;
     }
-
     .neon-text {
         font-size: 1.75rem;
     }
-
     nav ul li a {
         padding: 0.5rem;
     }
-
     .project-card h3 {
         font-size: 1.2rem;
     }
+    
+    /* j'ai désactivé les animations sur mobile pour les performances */
+    body::before, body::after {
+        animation: none;
+    }
 }
-
