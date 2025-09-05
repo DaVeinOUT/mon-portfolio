@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-/* j'ai trouvé ce truc sur codepen pour les étoiles animées, ça rend super bien */
+
+/* j'ai trouvé ce truc sur codepen pour leétoiles animées, ça rend super bien */
 @keyframes stars {
     0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
     100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
