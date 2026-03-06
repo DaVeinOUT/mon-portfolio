@@ -3,31 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio de Dorelus Davidson - Technicien IT en recherche d'alternance. Compétences en développement web, cybersécurité et infrastructure réseau.">
+    <meta property="og:title" content="Dorelus Davidson - Portfolio">
+    <meta property="og:description" content="Technicien IT passionné, en recherche d'alternance dans l'informatique et le développement web.">
     <title>Accueil - Dorelus Davidson</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1 class="neon-text">Dorelus Davidson</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="projects.html">Expériences</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="header-inner">
+            <h1 class="neon-text">Dorelus Davidson</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Accueil</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="projects.html">Expériences</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
+
     <main>
-        <section class="welcome">
-            <h2>Bienvenue sur mon portfolio</h2>
-            <p>Je suis Dorelus Davidson, passionné par l'informatique et en pleine préparation pour approfondir mes connaissances dans ce domaine. Actuellement, je suis à la recherche d'une alternance pour continuer à développer mes compétences et m'investir dans des projets concrets.</p>
-            <p>Sur ce site, vous pourrez en apprendre plus sur moi, mes expériences professionnelles, et mes compétences. N'hésitez pas à explorer les différentes sections pour découvrir mon parcours et mes projets.</p>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Disponible pour alternance
+                </div>
+                <h2 class="hero-title">Technicien IT &amp; Développeur Web</h2>
+                <p class="hero-subtitle">Passionné par l'informatique, les réseaux et le développement web. Je cherche à mettre mes compétences au service d'une entreprise innovante tout en continuant à progresser.</p>
+                <div class="hero-tags">
+                    <span class="tag">HTML / CSS / JS</span>
+                    <span class="tag">Fibre Optique</span>
+                    <span class="tag">SQL</span>
+                    <span class="tag">Cybersécurité</span>
+                    <span class="tag">Support IT</span>
+                </div>
+                <div class="hero-cta">
+                    <a href="projects.html" class="btn btn-primary">Voir mes expériences</a>
+                    <a href="contact.html" class="btn btn-secondary">Me contacter</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="avatar-ring">
+                    <div class="avatar-inner">
+                        <span class="avatar-initials">DD</span>
+                    </div>
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                    <div class="ring ring-3"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="highlights">
+            <div class="highlight-card reveal">
+                <div class="highlight-icon">🎓</div>
+                <h3>Formation</h3>
+                <p>Baccalauréat SES avec spécialisation Numérique &amp; Sciences Informatiques</p>
+            </div>
+            <div class="highlight-card reveal" style="animation-delay: 0.1s;">
+                <div class="highlight-icon">🔧</div>
+                <h3>Expérience terrain</h3>
+                <p>Stage technicien fibre optique chez Solutions 30, Guyane Française</p>
+            </div>
+            <div class="highlight-card reveal" style="animation-delay: 0.2s;">
+                <div class="highlight-icon">💡</div>
+                <h3>Objectif</h3>
+                <p>Décrocher une alternance pour approfondir mes compétences en IT &amp; développement</p>
+            </div>
         </section>
     </main>
+
     <footer>
-        <p>&copy; 2025 Dorelus Davidson. Tous droits réservés.</p>
+        <div class="footer-inner">
+            <p>&copy; 2025 Dorelus Davidson. Tous droits réservés.</p>
+            <div class="footer-links">
+                <a href="mailto:davedorelus025@icloud.com">davedorelus025@icloud.com</a>
+            </div>
+        </div>
     </footer>
+
+    <script src="main.js"></script>
 </body>
 </html>
-

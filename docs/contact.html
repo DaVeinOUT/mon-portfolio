@@ -3,33 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contactez Dorelus Davidson - Disponible pour une alternance en informatique.">
     <title>Contact - Dorelus Davidson</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1 class="neon-text">Dorelus Davidson</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="projects.html">Expériences</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="header-inner">
+            <h1 class="neon-text">Dorelus Davidson</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="projects.html">Expériences</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
+
     <main>
         <section class="contact">
             <h2>Contactez-moi</h2>
-            <p>Vous pouvez me contacter directement via les informations ci-dessous :</p>
-            <ul>
-                <li><strong>Téléphone :</strong> 07 69 59 54 72</li>
-                <li><strong>Email :</strong> <a href="mailto:davedorelus025@icloud.com">davedorelus025@icloud.com</a></li>
-            </ul>
+            <p class="section-intro">Je suis disponible pour discuter d'opportunités d'alternance ou de collaboration. N'hésitez pas à me joindre !</p>
+
+            <div class="contact-grid">
+
+                <!-- Informations de contact -->
+                <div class="contact-info reveal">
+                    <h3>Coordonnées</h3>
+
+                    <a href="tel:0769595472" class="contact-card">
+                        <div class="contact-card-icon">📞</div>
+                        <div class="contact-card-content">
+                            <span class="contact-card-label">Téléphone</span>
+                            <span class="contact-card-value">07 69 59 54 72</span>
+                        </div>
+                        <div class="contact-card-arrow">→</div>
+                    </a>
+
+                    <a href="mailto:davedorelus025@icloud.com" class="contact-card">
+                        <div class="contact-card-icon">✉️</div>
+                        <div class="contact-card-content">
+                            <span class="contact-card-label">Email</span>
+                            <span class="contact-card-value">davedorelus025@icloud.com</span>
+                        </div>
+                        <div class="contact-card-arrow">→</div>
+                    </a>
+
+                    <div class="contact-card static">
+                        <div class="contact-card-icon">📍</div>
+                        <div class="contact-card-content">
+                            <span class="contact-card-label">Localisation</span>
+                            <span class="contact-card-value">Guyane Française</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-card static">
+                        <div class="contact-card-icon">🕐</div>
+                        <div class="contact-card-content">
+                            <span class="contact-card-label">Disponibilité</span>
+                            <span class="contact-card-value">Immédiate pour alternance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulaire de contact -->
+                <div class="contact-form-wrapper reveal" style="animation-delay: 0.15s;">
+                    <h3>Envoyer un message</h3>
+                    <form class="contact-form" action="mailto:davedorelus025@icloud.com" method="get" enctype="text/plain">
+                        <div class="form-group">
+                            <label for="name">Nom complet</label>
+                            <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Sujet</label>
+                            <input type="text" id="subject" name="subject" placeholder="Opportunité d'alternance..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="body" rows="5" placeholder="Bonjour Davidson..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Envoyer le message</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Status -->
+            <div class="availability-banner reveal">
+                <div class="status-dot"></div>
+                <p><strong>Actuellement disponible</strong> — En recherche active d'une alternance en informatique ou développement web.</p>
+            </div>
+
         </section>
     </main>
+
     <footer>
-        <p>&copy; 2025 Dorelus Davidson. Tous droits réservés.</p>
+        <div class="footer-inner">
+            <p>&copy; 2025 Dorelus Davidson. Tous droits réservés.</p>
+            <div class="footer-links">
+                <a href="mailto:davedorelus025@icloud.com">davedorelus025@icloud.com</a>
+            </div>
+        </div>
     </footer>
+
+    <script src="main.js"></script>
 </body>
 </html>
