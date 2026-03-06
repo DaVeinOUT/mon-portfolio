@@ -3,39 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="À propos de Dorelus Davidson - Formation, compétences techniques et centres d'intérêt.">
     <title>À propos - Dorelus Davidson</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1 class="neon-text">Dorelus Davidson</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="projects.html">Expériences</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="header-inner">
+            <h1 class="neon-text">Dorelus Davidson</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="about.html" class="active">À propos</a></li>
+                    <li><a href="projects.html">Expériences</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
+
     <main>
         <section class="about">
             <h2>À propos de moi</h2>
-            <p>Je m'apelle Dorelus Davidson, passionné par l'informatique et les nouvelles technologies, j’aime relever des défis et apprendre en continu pour développer mes compétences.</p>
-            <p>J'ai obtenu un Baccalauréat en Sciences Économiques et Sociales avec une spécialisation en Numérique et Sciences Informatiques. Je suis motivé, ponctuel, et toujours à la recherche de nouvelles connaissances.</p>
-            <p>Mes compétences incluent :</p>
-            <ul>
-                <li>Installation et configuration d'ordinateurs et de logiciels.</li>
-                <li>Résolution de problèmes informatiques courants.</li>
-                <li>Création de sites web simples (HTML, CSS, JavaScript).</li>
-                <li>Utilisation de bases de données (SQL basique).</li>
-                <li>Aide en cas de problème informatique.</li>
-            </ul>
-            <p>Je suis également passionné par le développement web, la cybersécurité, et les nouvelles technologies.</p>
+
+            <div class="about-intro">
+                <p>Je m'appelle <strong>Dorelus Davidson</strong>, passionné par l'informatique et les nouvelles technologies. J'aime relever des défis, apprendre en continu et développer mes compétences au travers de projets concrets.</p>
+                <p>Diplômé d'un <strong>Baccalauréat en Sciences Économiques et Sociales</strong> avec une spécialisation en <strong>Numérique et Sciences Informatiques</strong>, je suis motivé, ponctuel, et toujours en quête de nouvelles connaissances.</p>
+            </div>
+
+            <div class="about-grid">
+
+                <!-- Formation -->
+                <div class="info-card reveal">
+                    <div class="info-card-header">
+                        <span class="info-card-icon">🎓</span>
+                        <h3>Formation</h3>
+                    </div>
+                    <div class="education-item">
+                        <div class="edu-badge">Bac</div>
+                        <div class="edu-details">
+                            <strong>Sciences Économiques et Sociales</strong>
+                            <span>Spécialité Numérique &amp; Sciences Informatiques</span>
+                            <span class="edu-year">2024</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soft Skills -->
+                <div class="info-card reveal" style="animation-delay: 0.1s;">
+                    <div class="info-card-header">
+                        <span class="info-card-icon">🌟</span>
+                        <h3>Qualités</h3>
+                    </div>
+                    <div class="soft-skills">
+                        <span class="soft-badge">Rigoureux</span>
+                        <span class="soft-badge">Ponctuel</span>
+                        <span class="soft-badge">Curieux</span>
+                        <span class="soft-badge">Autonome</span>
+                        <span class="soft-badge">Esprit d'équipe</span>
+                        <span class="soft-badge">Adaptable</span>
+                    </div>
+                </div>
+
+                <!-- Intérêts -->
+                <div class="info-card reveal" style="animation-delay: 0.2s;">
+                    <div class="info-card-header">
+                        <span class="info-card-icon">🔍</span>
+                        <h3>Centres d'intérêt</h3>
+                    </div>
+                    <ul class="interest-list">
+                        <li>Développement web &amp; applications</li>
+                        <li>Cybersécurité &amp; protection des données</li>
+                        <li>Nouvelles technologies &amp; tendances IT</li>
+                        <li>Réseaux &amp; infrastructure</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Compétences techniques -->
+            <div class="skills-section reveal">
+                <h3 class="skills-title">Compétences techniques</h3>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">HTML / CSS</span>
+                            <span class="skill-level">Intermédiaire</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="65"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">JavaScript</span>
+                            <span class="skill-level">Débutant</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="40"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">SQL</span>
+                            <span class="skill-level">Notions</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="35"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Support IT &amp; dépannage</span>
+                            <span class="skill-level">Intermédiaire</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="60"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Réseaux &amp; Fibre Optique</span>
+                            <span class="skill-level">Intermédiaire</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="55"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Configuration matériel</span>
+                            <span class="skill-level">Intermédiaire</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="60"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Tags -->
+            <div class="tech-tags-section reveal">
+                <h3 class="skills-title">Technologies &amp; Outils</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">HTML5</span>
+                    <span class="tech-tag">CSS3</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">Windows</span>
+                    <span class="tech-tag">Linux (notions)</span>
+                    <span class="tech-tag">Fibre Optique</span>
+                    <span class="tech-tag">Réseaux TCP/IP</span>
+                    <span class="tech-tag">Git</span>
+                    <span class="tech-tag">VS Code</span>
+                </div>
+            </div>
+
         </section>
     </main>
+
     <footer>
-        <p>&copy; 2025 Dorelus Davidson. Tous droits réservés.</p>
+        <div class="footer-inner">
+            <p>&copy; 2025 Dorelus Davidson. Tous droits réservés.</p>
+            <div class="footer-links">
+                <a href="mailto:davedorelus025@icloud.com">davedorelus025@icloud.com</a>
+            </div>
+        </div>
     </footer>
+
+    <script src="main.js"></script>
 </body>
 </html>

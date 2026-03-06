@@ -3,49 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Expériences professionnelles de Dorelus Davidson - Technicien fibre optique, service client.">
     <title>Expériences - Dorelus Davidson</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1 class="neon-text">Dorelus Davidson</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="projects.html">Expériences</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="header-inner">
+            <h1 class="neon-text">Dorelus Davidson</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="projects.html" class="active">Expériences</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
+
     <main>
         <section class="experiences">
             <h2>Mes Expériences</h2>
+            <p class="section-intro">Voici mon parcours professionnel. Chaque expérience m'a permis de développer des compétences concrètes et transférables.</p>
 
-            <article class="experience">
-                <h3>Technicien Fibre Optique (Stage)</h3>
-                <p><strong>Solutions 30, Guyane Française</strong> - Juin 2024 / Août 2024</p>
-                <ul>
-                    <li>Installation et maintenance des réseaux de fibre optique.</li>
-                    <li>Participation à la mise en place de nouveaux projets de déploiement de la fibre optique.</li>
-                    <li>Collaboration avec l'équipe technique pour résoudre les problèmes rencontrés sur le terrain.</li>
-                    <li>Utilisation d'outils de mesure et de diagnostic pour assurer la qualité des connexions.</li>
-                    <li>Formation sur les normes et les bonnes pratiques en matière de fibre optique.</li>
-                </ul>
-            </article>
+            <div class="timeline">
 
-            <article class="experience">
-                <h3>Service à la Clientèle</h3>
-                <p><strong>Festival, Guyane</strong> - 2019 / 2020</p>
-                <ul>
-                    <li>Accueil et réponse aux besoins de la clientèle.</li>
-                </ul>
-            </article>
+                <!-- Expérience 1 -->
+                <div class="timeline-item reveal">
+                    <div class="timeline-marker">
+                        <span class="timeline-icon">🔌</span>
+                    </div>
+                    <div class="experience">
+                        <div class="experience-header">
+                            <div class="experience-meta">
+                                <span class="experience-type">Stage</span>
+                                <span class="experience-date">Juin 2024 — Août 2024</span>
+                            </div>
+                            <h3>Technicien Fibre Optique</h3>
+                            <p class="experience-company">
+                                <span class="company-name">Solutions 30</span>
+                                <span class="company-location">📍 Guyane Française</span>
+                            </p>
+                        </div>
+                        <ul>
+                            <li>Installation et maintenance des réseaux de fibre optique.</li>
+                            <li>Participation à la mise en place de nouveaux projets de déploiement fibre.</li>
+                            <li>Collaboration avec l'équipe technique pour résoudre les problèmes terrain.</li>
+                            <li>Utilisation d'outils de mesure et de diagnostic pour assurer la qualité des connexions.</li>
+                            <li>Formation sur les normes et les bonnes pratiques en matière de fibre optique.</li>
+                        </ul>
+                        <div class="experience-tags">
+                            <span class="exp-tag">Fibre Optique</span>
+                            <span class="exp-tag">Réseaux</span>
+                            <span class="exp-tag">Diagnostic</span>
+                            <span class="exp-tag">Travail en équipe</span>
+                            <span class="exp-tag">Maintenance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expérience 2 -->
+                <div class="timeline-item reveal" style="animation-delay: 0.15s;">
+                    <div class="timeline-marker">
+                        <span class="timeline-icon">🛎️</span>
+                    </div>
+                    <div class="experience">
+                        <div class="experience-header">
+                            <div class="experience-meta">
+                                <span class="experience-type">Emploi</span>
+                                <span class="experience-date">2019 — 2020</span>
+                            </div>
+                            <h3>Service à la Clientèle</h3>
+                            <p class="experience-company">
+                                <span class="company-name">Festival</span>
+                                <span class="company-location">📍 Guyane</span>
+                            </p>
+                        </div>
+                        <ul>
+                            <li>Accueil, orientation et réponse aux besoins de la clientèle.</li>
+                            <li>Gestion des situations imprévues avec réactivité et professionnalisme.</li>
+                        </ul>
+                        <div class="experience-tags">
+                            <span class="exp-tag">Relation client</span>
+                            <span class="exp-tag">Communication</span>
+                            <span class="exp-tag">Réactivité</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Recherche d'alternance -->
+            <div class="alternance-card reveal">
+                <div class="alternance-icon">🎯</div>
+                <div class="alternance-content">
+                    <h3>En recherche d'alternance</h3>
+                    <p>Je suis actuellement à la recherche d'une alternance dans les domaines de l'informatique, du développement web ou des réseaux. Mon objectif : continuer à grandir dans un environnement professionnel stimulant.</p>
+                    <a href="contact.html" class="btn btn-primary">Me contacter</a>
+                </div>
+            </div>
 
         </section>
     </main>
+
     <footer>
-        <p>&copy; 2025 Dorelus Davidson. Tous droits réservés.</p>
+        <div class="footer-inner">
+            <p>&copy; 2025 Dorelus Davidson. Tous droits réservés.</p>
+            <div class="footer-links">
+                <a href="mailto:davedorelus025@icloud.com">davedorelus025@icloud.com</a>
+            </div>
+        </div>
     </footer>
+
+    <script src="main.js"></script>
 </body>
 </html>
