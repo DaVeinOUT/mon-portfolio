@@ -52,19 +52,29 @@ const burger   = document.getElementById('burger');
 const navLinks = document.getElementById('nav-links');
 
 if (burger && navLinks) {
+  const openMenu = () => {
+    navLinks.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeMenu = () => {
+    navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
   burger.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    const isOpen = navLinks.classList.contains('open');
-    burger.setAttribute('aria-expanded', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    navLinks.classList.contains('open') ? closeMenu() : openMenu();
   });
 
-  // Ferme le menu au clic sur un lien
+  // Ferme au clic sur un lien
   navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      document.body.style.overflow = '';
-    });
+    a.addEventListener('click', closeMenu);
+  });
+
+  // Ferme sur Echap
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
   });
 }
 
