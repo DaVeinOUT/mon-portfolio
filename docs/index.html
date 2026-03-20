@@ -6,7 +6,11 @@
   <meta name="description" content="Dorelus Davidson — Technicien IT & Développeur Web, disponible pour une alternance.">
   <meta property="og:title" content="Dorelus Davidson — Portfolio">
   <meta property="og:description" content="Technicien IT passionné, en recherche active d'alternance en informatique et développement web.">
+  <meta property="og:url" content="https://dorelus-davidson.vercel.app/">
+  <!-- TODO: créer og-image.png (1200×630px) et décommenter la ligne suivante -->
+  <!-- <meta property="og:image" content="https://dorelus-davidson.vercel.app/og-image.png"> -->
   <title>Dorelus Davidson — Portfolio</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
@@ -29,6 +33,8 @@
     </button>
   </nav>
 
+  <!-- CONTENU PRINCIPAL -->
+  <main>
   <!-- HERO -->
   <section class="hero">
     <div class="hero-body">
@@ -102,13 +108,17 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer-inner">
-        <p class="footer-copy">&copy; 2025 Dorelus Davidson</p>
-        <a href="mailto:davedorelus025@icloud.com" class="footer-mail">davedorelus025@icloud.com</a>
+        <p class="footer-copy">&copy; <span id="year">2026</span> Dorelus Davidson</p>
+        <div class="footer-right">
+          <a href="https://github.com/DaVeinOUT" class="footer-social" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="mailto:davedorelus025@icloud.com" class="footer-mail">davedorelus025@icloud.com</a>
+        </div>
       </div>
     </div>
   </footer>

@@ -252,7 +252,7 @@ body::before {
 .hero-meta-item {
   font-family: var(--font-mono);
   font-size: .72rem;
-  color: var(--text-3);
+  color: var(--text-2);
   letter-spacing: .08em;
   text-transform: uppercase;
   line-height: 2;
@@ -285,7 +285,7 @@ body::before {
 .marquee-track span {
   font-family: var(--font-mono);
   font-size: .72rem;
-  color: var(--text-3);
+  color: var(--text-2);
   letter-spacing: .12em;
   text-transform: uppercase;
   padding: 0 2.5rem;
@@ -343,6 +343,7 @@ body::before {
 ───────────────────────────────────────── */
 .section {
   padding: 8rem 0;
+  min-height: calc(100svh - 200px);
 }
 .section-label {
   font-family: var(--font-mono);
@@ -837,15 +838,26 @@ body::before {
 .footer-copy {
   font-family: var(--font-mono);
   font-size: .7rem;
-  color: var(--text-3);
+  color: var(--text-2);
   letter-spacing: .06em;
 }
 .footer-mail {
   font-size: .82rem;
-  color: var(--text-3);
+  color: var(--text-2);
   transition: color .2s;
 }
 .footer-mail:hover { color: var(--accent); }
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.footer-social {
+  font-size: .82rem;
+  color: var(--text-2);
+  transition: color .2s;
+}
+.footer-social:hover { color: var(--accent); }
 
 /* ─────────────────────────────────────────
    REVEAL ANIMATIONS

@@ -136,6 +136,12 @@ if (marquee) {
 }
 
 /* ──────────────────────────────────────────
+   FOOTER — année dynamique
+────────────────────────────────────────── */
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+/* ──────────────────────────────────────────
    CONTACT-LINKS — effet tilt au survol
 ────────────────────────────────────────── */
 document.querySelectorAll('.contact-link').forEach(link => {
