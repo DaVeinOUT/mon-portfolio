@@ -5,26 +5,31 @@ const cursor     = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursor-ring');
 
 if (cursor && cursorRing) {
-  let mx = 0, my = 0;   // position cible
-  let rx = 0, ry = 0;   // position anneau (lerp)
+  let mx = 0, my = 0;
+  let rx = 0, ry = 0;
+  let rafId = null;
+
+  const lerp = () => {
+    const dx = mx - rx;
+    const dy = my - ry;
+    rx += dx * 0.14;
+    ry += dy * 0.14;
+    cursorRing.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+    // Arrête la boucle quand l'anneau a rejoint la cible
+    if (Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3) {
+      rafId = requestAnimationFrame(lerp);
+    } else {
+      rafId = null;
+    }
+  };
 
   document.addEventListener('mousemove', e => {
     mx = e.clientX;
     my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
-  });
+    cursor.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
+    if (!rafId) rafId = requestAnimationFrame(lerp);
+  }, { passive: true });
 
-  // Anneau avec inertie légère
-  (function lerp() {
-    rx += (mx - rx) * 0.14;
-    ry += (my - ry) * 0.14;
-    cursorRing.style.left = rx + 'px';
-    cursorRing.style.top  = ry + 'px';
-    requestAnimationFrame(lerp);
-  })();
-
-  // Disparaît quand la souris quitte la fenêtre
   document.addEventListener('mouseleave', () => {
     cursor.style.opacity     = '0';
     cursorRing.style.opacity = '0';
