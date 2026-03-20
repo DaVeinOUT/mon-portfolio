@@ -1,3 +1,4 @@
 {
-  "root": "docs"
+  "cleanUrls": true,
+  "trailingSlash": false
 }
