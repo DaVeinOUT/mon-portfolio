@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dorelus Davidson — Portfolio Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Canvas for effects -->
+<canvas id="fx-canvas"></canvas>
+
+<!-- Terminal window -->
+<div id="terminal-window">
+
+  <!-- Title bar (macOS style) -->
+  <div id="title-bar">
+    <div id="traffic-lights">
+      <button class="tl tl-close" aria-label="Close" title="close"></button>
+      <button class="tl tl-min"   aria-label="Minimise" title="minimise"></button>
+      <button class="tl tl-max"   aria-label="Maximise" title="maximise"></button>
+    </div>
+    <span id="title-bar-text">davidson@portfolio:~</span>
+    <div id="title-bar-right">
+      <span id="theme-indicator">dark</span>
+    </div>
+  </div>
+
+  <!-- Output area -->
+  <div id="terminal-output" role="log" aria-live="polite"></div>
+
+  <!-- Input area -->
+  <div id="terminal-input-row">
+    <span id="prompt-label"><span class="p-user">davidson</span><span class="p-at">@</span><span class="p-host">portfolio</span><span class="p-sep">:</span><span class="p-dir">~</span><span class="p-dollar">$</span></span>
+    <div id="input-wrapper">
+      <input
+        id="terminal-input"
+        type="text"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        aria-label="Terminal input"
+        placeholder="type 'help' to get started..."
+      />
+      <div id="autocomplete-dropdown"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
