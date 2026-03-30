@@ -53,36 +53,35 @@ button { font-family: inherit; cursor: none; }
 #cursor {
   position: fixed;
   top: 0; left: 0;
-  width: 10px; height: 10px;
+  width: 8px; height: 8px;
   background: var(--accent);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%,-50%);
-  transition: width .25s var(--ease-smooth),
-              height .25s var(--ease-smooth),
-              background .2s,
+  will-change: transform;
+  transition: width .2s var(--ease-smooth),
+              height .2s var(--ease-smooth),
               opacity .2s;
-  mix-blend-mode: difference;
 }
 #cursor-ring {
   position: fixed;
   top: 0; left: 0;
-  width: 36px; height: 36px;
-  border: 1px solid rgba(201,168,76,.5);
+  width: 32px; height: 32px;
+  border: 1.5px solid rgba(201,168,76,.4);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
   transform: translate(-50%,-50%);
-  transition: transform .12s linear,
-              width .3s var(--ease-smooth),
+  will-change: transform;
+  transition: width .3s var(--ease-smooth),
               height .3s var(--ease-smooth),
               opacity .2s;
 }
 body:has(a:hover) #cursor,
-body:has(button:hover) #cursor { width:20px; height:20px; }
+body:has(button:hover) #cursor { width:18px; height:18px; }
 body:has(a:hover) #cursor-ring,
-body:has(button:hover) #cursor-ring { width:54px; height:54px; }
+body:has(button:hover) #cursor-ring { width:50px; height:50px; }
 
 /* ─────────────────────────────────────────
    TEXTURE BRUIT
@@ -121,8 +120,9 @@ body::before {
   transition: background .4s, border-color .4s;
 }
 .nav.scrolled {
-  background: rgba(11,11,11,.92);
-  backdrop-filter: blur(20px);
+  background: rgba(11,11,11,.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 }
 .nav-logo {
