@@ -1,128 +1,94 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dorelus Davidson — Technicien IT & Développeur Web, disponible pour une alternance.">
-  <meta property="og:title" content="Dorelus Davidson — Portfolio">
-  <meta property="og:description" content="Technicien IT passionné, en recherche active d'alternance en informatique et développement web.">
-  <meta property="og:url" content="https://mon-portfolio-two-gamma.vercel.app/">
-  <!-- TODO: créer og-image.png (1200×630px) et décommenter la ligne suivante -->
-  <!-- <meta property="og:image" content="https://dorelus-davidson.vercel.app/og-image.png"> -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <meta name="description" content="Dorelus Davidson — Technicien IT & Développeur Web — Paris, France" />
   <title>Dorelus Davidson — Portfolio</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <div id="cursor"></div>
-  <div id="cursor-ring"></div>
+<!-- Scanlines overlay -->
+<div id="scanlines" aria-hidden="true"></div>
 
-  <!-- NAV -->
-  <nav class="nav" id="nav">
-    <a href="index.html" class="nav-logo">D<span>.</span>Davidson</a>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="index.html" class="active">Accueil</a></li>
-      <li><a href="about.html">À propos</a></li>
-      <li><a href="projects.html">Expériences</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-    <a href="contact.html" class="nav-cta">Me contacter</a>
-    <button class="nav-burger" id="burger" aria-label="Menu">
-      <span></span><span></span><span></span>
+<!-- Canvas for effects -->
+<canvas id="fx-canvas" aria-hidden="true"></canvas>
+
+<!-- Terminal window -->
+<div id="terminal-window">
+
+  <!-- Title bar (macOS style) -->
+  <div id="title-bar">
+    <div id="traffic-lights">
+      <button class="tl tl-close" aria-label="Fermer"></button>
+      <button class="tl tl-min"   aria-label="Minimiser"></button>
+      <button class="tl tl-max"   aria-label="Plein écran"></button>
+    </div>
+    <span id="title-bar-text">davidson@portfolio:~</span>
+    <div id="title-bar-right">
+      <span id="theme-indicator" role="button" tabindex="0" title="Changer de thème">dark</span>
+    </div>
+  </div>
+
+  <!-- Output area -->
+  <div id="terminal-output" role="log" aria-live="polite" aria-label="Terminal output"></div>
+
+  <!-- Input area -->
+  <div id="terminal-input-row">
+    <span id="prompt-label" aria-hidden="true">
+      <span class="p-user">davidson</span><span class="p-at">@</span><span class="p-host">portfolio</span><span class="p-sep">:</span><span class="p-dir">~</span><span class="p-dollar">$</span>
+    </span>
+    <div id="input-wrapper">
+      <input
+        id="terminal-input"
+        type="text"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        aria-label="Terminal input"
+        placeholder="type 'help'..."
+        enterkeyhint="send"
+      />
+      <div id="autocomplete-dropdown" role="listbox" aria-label="Suggestions"></div>
+    </div>
+  </div>
+
+  <!-- Mobile command bar -->
+  <nav id="mobile-cmd-bar" aria-label="Commandes rapides">
+    <button class="mob-cmd" data-cmd="whoami" aria-label="À propos">
+      <span class="mob-cmd-icon" aria-hidden="true">👤</span>
+      <span class="mob-cmd-label">about</span>
+    </button>
+    <button class="mob-cmd" data-cmd="skills" aria-label="Compétences">
+      <span class="mob-cmd-icon" aria-hidden="true">⚡</span>
+      <span class="mob-cmd-label">skills</span>
+    </button>
+    <button class="mob-cmd" data-cmd="projects" aria-label="Expérience">
+      <span class="mob-cmd-icon" aria-hidden="true">💼</span>
+      <span class="mob-cmd-label">xp</span>
+    </button>
+    <button class="mob-cmd" data-cmd="education" aria-label="Formation">
+      <span class="mob-cmd-icon" aria-hidden="true">🎓</span>
+      <span class="mob-cmd-label">edu</span>
+    </button>
+    <button class="mob-cmd" data-cmd="contact" aria-label="Contact">
+      <span class="mob-cmd-icon" aria-hidden="true">📬</span>
+      <span class="mob-cmd-label">contact</span>
+    </button>
+    <button class="mob-cmd mob-cmd-hire" data-cmd="sudo hire davidson" aria-label="Recruter">
+      <span class="mob-cmd-icon" aria-hidden="true">✨</span>
+      <span class="mob-cmd-label">hire!</span>
     </button>
   </nav>
 
-  <!-- CONTENU PRINCIPAL -->
-  <main>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-body">
+</div>
 
-      <p class="hero-eyebrow" data-reveal>
-        <span class="dot-live"></span>
-        Disponible pour alternance · Paris, France
-      </p>
-
-      <h1 class="hero-name" data-reveal data-delay="1">
-        Dorelus<br>
-        <span class="line-2">Davidson</span>
-      </h1>
-
-      <div class="hero-row">
-        <div class="hero-desc" data-reveal data-delay="2">
-          <p>
-            <strong>Technicien IT & Développeur Web.</strong><br>
-            Passionné par l'informatique, les réseaux et le web.
-            Je cherche une alternance pour continuer à progresser
-            dans un environnement exigeant.
-          </p>
-          <div class="hero-actions">
-            <a href="projects.html" class="btn btn-gold btn-arrow">Voir mes expériences</a>
-            <a href="about.html" class="btn btn-ghost">À propos</a>
-          </div>
-        </div>
-
-        <div class="hero-meta" data-reveal data-delay="3">
-          <div class="hero-meta-item">
-            Formation
-            <span>Bac SES · Spé. NSI</span>
-          </div>
-          <div class="hero-meta-item">
-            Expérience
-            <span>Technicien Fibre Optique</span>
-          </div>
-          <div class="hero-meta-item">
-            Objectif
-            <span>Alternance IT · 2025</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Marquee bande défilante -->
-    <div class="hero-footer" data-reveal data-delay="4">
-      <div class="marquee-track">
-        <span>HTML</span><span class="sep">·</span>
-        <span>CSS</span><span class="sep">·</span>
-        <span>JavaScript</span><span class="sep">·</span>
-        <span>SQL</span><span class="sep">·</span>
-        <span>Fibre Optique</span><span class="sep">·</span>
-        <span>Réseaux TCP/IP</span><span class="sep">·</span>
-        <span>Support IT</span><span class="sep">·</span>
-        <span>Cybersécurité</span><span class="sep">·</span>
-        <span>Git</span><span class="sep">·</span>
-        <span>Windows / Linux</span><span class="sep">·</span>
-        <!-- doublon pour loop infinie -->
-        <span>HTML</span><span class="sep">·</span>
-        <span>CSS</span><span class="sep">·</span>
-        <span>JavaScript</span><span class="sep">·</span>
-        <span>SQL</span><span class="sep">·</span>
-        <span>Fibre Optique</span><span class="sep">·</span>
-        <span>Réseaux TCP/IP</span><span class="sep">·</span>
-        <span>Support IT</span><span class="sep">·</span>
-        <span>Cybersécurité</span><span class="sep">·</span>
-        <span>Git</span><span class="sep">·</span>
-        <span>Windows / Linux</span><span class="sep">·</span>
-      </div>
-    </div>
-  </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-inner">
-        <p class="footer-copy">&copy; <span id="year">2026</span> Dorelus Davidson</p>
-        <div class="footer-right">
-          <a href="https://github.com/DaVeinOUT" class="footer-social" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="mailto:davedorelus025@icloud.com" class="footer-mail">davedorelus025@icloud.com</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="assets/js/main.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
