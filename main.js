@@ -154,7 +154,7 @@ function printWelcome() {
       <div class="role">
         Technicien IT &amp; Développeur Web
         &nbsp;—&nbsp;
-        <span class="t-dot"></span><span class="t-green">Disponible pour alternance</span>
+        <span class="t-dot"></span><span class="t-green">Disponible · Ouvert aux opportunités</span>
       </div>
     </div>
     <div class="links">
@@ -220,7 +220,7 @@ function cmdWhoami() {
     line('Solutions 30 en Guyane m\'a permis de consolider mes bases'),
     line('techniques sur le terrain (fibre optique, diagnostics réseaux).'),
     blank(),
-    line('<span class="t-dot"></span><span class="t-green">Disponible pour alternance · Paris, France</span>'),
+    line('<span class="t-dot"></span><span class="t-green">Disponible · Paris, France</span>'),
     blank(),
     (() => {
       const g = el('div', 't-card');
@@ -228,7 +228,7 @@ function cmdWhoami() {
         <div class="t-card-title">Infos rapides</div>
         <div class="t-card-body">
           <span class="t-dim">Localisation &nbsp;:</span> Paris, France<br>
-          <span class="t-dim">Objectif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> BTS SIO / Licence Pro IT<br>
+          <span class="t-dim">Objectif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Informatique &amp; Développement<br>
           <span class="t-dim">Langues &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Français (natif) · Anglais (intermédiaire)<br>
           <span class="t-dim">Permis &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> En cours
         </div>
@@ -356,7 +356,7 @@ function cmdProjects() {
   });
 
   nodes.push(blank());
-  nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">Disponible pour alternance dès 2026.</span>'));
+  nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">Disponible · Paris, France.</span>'));
   nodes.push(blank());
   printLines(nodes);
 }
@@ -413,22 +413,6 @@ function cmdEducation() {
   nodes.push(piscine);
   nodes.push(blank());
 
-  const next = el('div', 't-card');
-  next.innerHTML = `
-    <div class="t-card-title">BTS SIO — Objectif 2026</div>
-    <div class="t-card-sub">
-      <span class="t-accent">En recherche d'alternance</span>
-      <span class="t-dim2"> — Paris, France</span>
-    </div>
-    <div class="t-card-body">
-      Prêt à rejoindre une entreprise en alternance pour préparer un BTS SIO.
-    </div>
-    <div class="t-card-tags">
-      <span class="t-tag accent">BTS SIO</span>
-      <span class="t-tag">Alternance</span>
-    </div>
-  `;
-  nodes.push(next);
   nodes.push(blank());
 
   const online = el('div', 't-card');
@@ -440,7 +424,7 @@ function cmdEducation() {
     </div>
     <div class="t-card-body">
       HTML, CSS, JavaScript, Computer Science (Python, algorithmique), C.
-      Apprentissage continu en parallèle du parcours BTS SIO.
+      Apprentissage continu en autodidacte.
     </div>
     <div class="t-card-tags">
       <span class="t-tag accent">HTML</span>
@@ -570,7 +554,7 @@ function cmdContact() {
     { label: 'Email',       value: 'davedorelus025@icloud.com',  href: 'mailto:davedorelus025@icloud.com' },
     { label: 'Téléphone',   value: '07 69 59 54 72',             href: 'tel:+33769595472'                 },
     { label: 'Localisation',value: 'Paris, France',              href: null                               },
-    { label: 'Statut',      value: '🟢  Disponible pour alternance', href: null                           },
+    { label: 'Statut',      value: '🟢  Disponible · Ouvert aux opportunités', href: null               },
   ];
 
   contacts.forEach(c => {
@@ -645,7 +629,7 @@ function cmdSudoHire() {
     line(' ✦  Bases solides en réseaux, systèmes et développement web'),
     line(' ✦  Motivé à apprendre rapidement en environnement professionnel'),
     line(' ✦  Disponible immédiatement à Paris'),
-    line(' ✦  Cherche alternance BTS SIO ou Licence Pro'),
+    line(' ✦  Passionné d\'informatique, en apprentissage continu'),
     blank(),
     line('<span class="t-dim">→ </span><span class="t-accent">davedorelus025@icloud.com</span>'),
     line('<span class="t-dim">→ </span><span class="t-text">07 69 59 54 72</span>'),
