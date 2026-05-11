@@ -389,9 +389,33 @@ function cmdEducation() {
   nodes.push(card);
   nodes.push(blank());
 
+  const piscine = el('div', 't-card');
+  piscine.innerHTML = `
+    <div class="t-card-title">Piscine — École 42</div>
+    <div class="t-card-sub">
+      <span class="t-accent">École 42</span>
+      <span class="t-dim2"> — Paris · Août 2025</span>
+      <span class="t-tag blue" style="margin-left:.3rem">Immersion</span>
+    </div>
+    <div class="t-card-body">
+      Immersion intensive de 4 semaines : programmation en C, shell scripting,
+      algorithmique et gestion de projet en peer-to-peer. Apprentissage
+      sous pression réelle, évaluation par les pairs, travail en équipe.
+    </div>
+    <div class="t-card-tags">
+      <span class="t-tag purple">C</span>
+      <span class="t-tag blue">Shell</span>
+      <span class="t-tag accent">Algorithmique</span>
+      <span class="t-tag green">Peer-to-peer</span>
+      <span class="t-tag">Git</span>
+    </div>
+  `;
+  nodes.push(piscine);
+  nodes.push(blank());
+
   const next = el('div', 't-card');
   next.innerHTML = `
-    <div class="t-card-title">BTS SIO — Objectif 2025</div>
+    <div class="t-card-title">BTS SIO — Objectif 2026</div>
     <div class="t-card-sub">
       <span class="t-accent">En recherche d'alternance</span>
       <span class="t-dim2"> — Paris, France</span>
@@ -634,6 +658,7 @@ function cmdSudoHire() {
     blank(),
     line(' ✦  Rigoureux, curieux et constamment en apprentissage'),
     line(' ✦  Expérience terrain en fibre optique (Solutions 30, Guyane 2024)'),
+    line(' ✦  Piscine École 42 — immersion intensive C, shell, algo (Août 2025)'),
     line(' ✦  Bases solides en réseaux, systèmes et développement web'),
     line(' ✦  Motivé à apprendre rapidement en environnement professionnel'),
     line(' ✦  Disponible immédiatement à Paris'),
