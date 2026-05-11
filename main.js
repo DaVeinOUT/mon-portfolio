@@ -356,6 +356,35 @@ function cmdProjects() {
   });
 
   nodes.push(blank());
+  nodes.push(el('span', 't-section', 'Projets personnels'));
+  nodes.push(blank());
+
+  const algoCard = el('div', 't-card');
+  algoCard.innerHTML = `
+    <div class="t-card-title">Algo Visualizer</div>
+    <div class="t-card-sub">
+      <span class="t-accent">Projet solo</span>
+      <span class="t-dim2"> · Vanilla JS · 2025</span>
+      <span class="t-tag blue" style="margin-left:.3rem">Perso</span>
+    </div>
+    <div class="t-card-body">
+      Visualiseur interactif d'algorithmes (5 tris, 3 pathfinding, 3 structures de données) animés en temps réel sur canvas HTML5. Aucune dépendance, aucun build step.
+    </div>
+    <div class="t-card-tags">
+      <span class="t-tag accent">Algorithmique</span>
+      <span class="t-tag blue">Canvas API</span>
+      <span class="t-tag">Vanilla JS</span>
+      <span class="t-tag green">Pathfinding</span>
+    </div>
+    <div style="margin-top:.6rem;font-size:.82rem">
+      <a href="https://algo-visualizer-gamma-three.vercel.app" target="_blank" rel="noopener" style="color:var(--t-accent);text-decoration:none">→ Démo live</a>
+      <span class="t-dim2"> · </span>
+      <a href="https://github.com/DaVeinOUT/algo-visualizer" target="_blank" rel="noopener" style="color:var(--t-dim2);text-decoration:none">GitHub</a>
+    </div>
+  `;
+  nodes.push(algoCard);
+
+  nodes.push(blank());
   nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">Disponible · Paris, France.</span>'));
   nodes.push(blank());
   printLines(nodes);
