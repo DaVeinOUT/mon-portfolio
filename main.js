@@ -421,13 +421,10 @@ function cmdEducation() {
       <span class="t-dim2"> — Paris, France</span>
     </div>
     <div class="t-card-body">
-      Prêt à rejoindre une entreprise en alternance pour préparer un BTS SIO
-      option SLAM (développement) ou SISR (infrastructure &amp; réseaux).
+      Prêt à rejoindre une entreprise en alternance pour préparer un BTS SIO.
     </div>
     <div class="t-card-tags">
       <span class="t-tag accent">BTS SIO</span>
-      <span class="t-tag blue">SLAM</span>
-      <span class="t-tag green">SISR</span>
       <span class="t-tag">Alternance</span>
     </div>
   `;
@@ -461,110 +458,96 @@ function cmdEducation() {
 }
 
 function cmdLearning() {
-  const courses = [
-    {
-      title:    'Computer Science',
-      platform: 'Codecademy',
-      type:     'Career Path',
-      pct:      31,
-      color:    'accent',
-      desc:     'Algorithmique, structures de données (Linked Lists, Doubly Linked Lists), Python.',
-      tags: [
-        { text: 'Python',           cls: 'accent' },
-        { text: 'Algorithmique',    cls: 'blue'   },
-        { text: 'Structures données', cls: ''     },
-      ],
-    },
-    {
-      title:    'Learn CSS',
-      platform: 'Codecademy',
-      type:     'Course',
-      pct:      45,
-      color:    'blue',
-      desc:     'Sélecteurs, box model, flexbox, grid, animations et responsive design.',
-      tags: [
-        { text: 'CSS3',       cls: 'blue'  },
-        { text: 'Flexbox',    cls: ''      },
-        { text: 'Responsive', cls: 'green' },
-      ],
-    },
-    {
-      title:    'Learn C',
-      platform: 'Codecademy',
-      type:     'Skill Path',
-      pct:      12,
-      color:    'purple',
-      desc:     'Bases du langage C, types, variables, conditionnelles et boucles.',
-      tags: [
-        { text: 'C',              cls: 'purple' },
-        { text: 'Programmation',  cls: ''       },
-        { text: 'Bas niveau',     cls: ''       },
-      ],
-    },
-    {
-      title:    'How to Make a Website with NameCheap',
-      platform: 'Codecademy',
-      type:     'Course',
-      pct:      40,
-      color:    'green',
-      desc:     'Hébergement web, nom de domaine, DNS et déploiement d\'un site statique.',
-      tags: [
-        { text: 'DNS',          cls: 'green' },
-        { text: 'Hébergement',  cls: ''      },
-        { text: 'Déploiement',  cls: ''      },
-      ],
-    },
-    {
-      title:    'Learn HTML',
-      platform: 'Codecademy',
-      type:     'Course',
-      pct:      100,
-      color:    'green',
-      desc:     'Structure sémantique, formulaires, accessibilité et bonnes pratiques HTML5.',
-      tags: [
-        { text: 'HTML5',         cls: 'accent' },
-        { text: 'Sémantique',    cls: ''       },
-        { text: 'Accessibilité', cls: 'green'  },
-      ],
-    },
+  const CS_MODULES = [
+    { name: 'Intro to Programming',    pct: 59,  done: false },
+    { name: 'Intro to Data Structures',pct: 84,  done: false },
+    { name: 'Linked Lists',            pct: 35,  done: false },
+    { name: 'Queues, Stacks, HashMaps',pct: 0,   done: false },
+    { name: 'Algorithms',              pct: 4,   done: false, current: true },
+    { name: 'Trees and Graphs',        pct: 0,   done: false },
+    { name: 'Databases',               pct: 0,   done: false },
+    { name: 'Computer Architecture',   pct: 0,   done: false },
+    { name: 'Math for CS',             pct: 0,   done: false },
+    { name: 'Interview Prep',          pct: 0,   done: false },
+  ];
+
+  const OTHER_COURSES = [
+    { title: 'Learn CSS',                         type: 'Course',     pct: 45,  color: 'blue'   },
+    { title: 'Learn HTML',                        type: 'Course',     pct: 100, color: 'green'  },
+    { title: 'Learn C',                           type: 'Skill Path', pct: 12,  color: 'purple' },
+    { title: 'How to Make a Website with NameCheap', type: 'Course', pct: 40,  color: 'green'  },
   ];
 
   const nodes = [
     el('span', 't-section', 'Formation en ligne — Codecademy'),
     blank(),
-    line('<span class="t-dim">Apprentissage autodidacte en parallèle du BTS SIO.</span>'),
-    blank(),
   ];
 
-  courses.forEach(c => {
+  /* ── Career Path CS — carte principale ── */
+  const csCard = el('div', 't-card');
+  const modulesHtml = CS_MODULES.map(m => {
+    const label = m.current
+      ? `<span class="t-accent" style="font-size:10px">▶ en cours</span>`
+      : (m.pct === 100 ? `<span class="t-green" style="font-size:10px">✓</span>` : '');
+    return `
+      <div class="skill-row" style="margin:.22rem 0">
+        <span class="skill-name" style="font-size:11px;color:${m.current ? 'var(--accent)' : 'var(--text-2)'}">${escHtml(m.name)}</span>
+        <div class="skill-bar-bg">
+          <div class="skill-bar-fill accent" data-pct="${m.pct}"></div>
+        </div>
+        <span class="skill-pct" style="width:52px;text-align:right;font-size:10px">${m.pct > 0 ? m.pct + '%' : ''} ${label}</span>
+      </div>`;
+  }).join('');
+
+  csCard.innerHTML = `
+    <div class="t-card-title" style="font-size:15px">Computer Science — Career Path</div>
+    <div class="t-card-sub">
+      <span class="t-accent">Codecademy</span>
+      <span class="t-dim2"> · Python · Algorithmique · Structures de données · Bases de données</span>
+    </div>
+    <div style="margin:.5rem 0 .3rem;display:flex;align-items:center;gap:.8rem">
+      <div class="skill-bar-bg" style="flex:1;height:6px">
+        <div class="skill-bar-fill accent" data-pct="31" style="transition:width 1.2s cubic-bezier(.22,.68,0,1.18)"></div>
+      </div>
+      <span class="t-accent t-bold" style="font-size:13px;flex-shrink:0">31%</span>
+    </div>
+    <div class="t-card-body" style="margin-top:.8rem">${modulesHtml}</div>
+    <div class="t-card-tags" style="margin-top:.8rem">
+      <span class="t-tag accent">Python</span>
+      <span class="t-tag blue">Algorithmique</span>
+      <span class="t-tag">Structures de données</span>
+      <span class="t-tag green">SQL</span>
+      <span class="t-tag">Architecture</span>
+    </div>
+  `;
+  nodes.push(csCard);
+  nodes.push(blank());
+
+  /* ── Autres cours ── */
+  nodes.push(el('div', 'skill-group-title', 'Autres cours'));
+
+  OTHER_COURSES.forEach(c => {
     const card = el('div', 't-card');
-    const tagsHtml = c.tags.map(t =>
-      `<span class="t-tag ${t.cls}">${escHtml(t.text)}</span>`
-    ).join('');
     const pctLabel = c.pct === 100
       ? '<span class="t-green t-bold">✓ Terminé</span>'
-      : `<span class="t-dim2">${c.pct}% complété</span>`;
-
+      : `<span class="t-dim2">${c.pct}%</span>`;
     card.innerHTML = `
-      <div class="t-card-title">${escHtml(c.title)}</div>
-      <div class="t-card-sub">
-        <span class="t-accent">${escHtml(c.platform)}</span>
-        <span class="t-dim2"> · ${escHtml(c.type)}</span>
-        <span style="margin-left:auto">${pctLabel}</span>
+      <div class="t-card-sub" style="justify-content:space-between">
+        <div>
+          <span class="t-bold" style="color:var(--text);font-size:12.5px">${escHtml(c.title)}</span>
+          <span class="t-dim2" style="font-size:10.5px"> · ${escHtml(c.type)}</span>
+        </div>
+        ${pctLabel}
       </div>
-      <div style="margin:.6rem 0 .4rem">
-        <div class="skill-bar-bg" style="height:5px">
+      <div style="margin:.45rem 0 0">
+        <div class="skill-bar-bg" style="height:4px">
           <div class="skill-bar-fill ${c.color}" data-pct="${c.pct}" style="transition:width 1.1s cubic-bezier(.22,.68,0,1.18)"></div>
         </div>
       </div>
-      <div class="t-card-body">${escHtml(c.desc)}</div>
-      <div class="t-card-tags">${tagsHtml}</div>
     `;
     nodes.push(card);
   });
 
-  nodes.push(blank());
-  nodes.push(line('<span class="t-dim2">→ Profil : </span><span class="t-accent">codecademy.com</span>'));
   nodes.push(blank());
   printLines(nodes);
 
