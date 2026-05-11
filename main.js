@@ -417,21 +417,27 @@ function cmdEducation() {
 
   const online = el('div', 't-card');
   online.innerHTML = `
-    <div class="t-card-title">Codecademy — Formation en ligne</div>
+    <div class="t-card-title">Computer Science — Career Path</div>
     <div class="t-card-sub">
-      <span class="t-accent">Autodidacte</span>
-      <span class="t-dim2"> — En cours · 2024 – 2025</span>
+      <span class="t-accent">Codecademy</span>
+      <span class="t-dim2"> — En cours · 31% complété</span>
+      <span class="t-tag blue" style="margin-left:.3rem">Career Path</span>
+    </div>
+    <div style="margin:.5rem 0 .4rem">
+      <div class="skill-bar-bg" style="height:5px">
+        <div class="skill-bar-fill accent" data-pct="31" style="transition:width 1.1s cubic-bezier(.22,.68,0,1.18)"></div>
+      </div>
     </div>
     <div class="t-card-body">
-      HTML, CSS, JavaScript, Computer Science (Python, algorithmique), C.
-      Apprentissage continu en autodidacte.
+      Algorithmique, structures de données, Python, bases de données et
+      architecture des systèmes. Parcours complet orienté fondamentaux
+      de l'informatique.
     </div>
     <div class="t-card-tags">
-      <span class="t-tag accent">HTML</span>
-      <span class="t-tag blue">CSS</span>
-      <span class="t-tag">JavaScript</span>
-      <span class="t-tag green">Python</span>
-      <span class="t-tag purple">C</span>
+      <span class="t-tag accent">Python</span>
+      <span class="t-tag blue">Algorithmique</span>
+      <span class="t-tag">Structures de données</span>
+      <span class="t-tag green">SQL</span>
     </div>
   `;
   nodes.push(online);
