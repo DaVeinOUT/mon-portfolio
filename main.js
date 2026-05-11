@@ -36,6 +36,7 @@ const COMMANDS = [
   { cmd: 'xp',                desc: 'Alias de projects' },
   { cmd: 'contact',           desc: 'Mes coordonnées' },
   { cmd: 'education',         desc: 'Formation & diplômes' },
+  { cmd: 'learning',          desc: 'Cours en ligne — Codecademy' },
   { cmd: 'clear',             desc: 'Efface le terminal' },
   { cmd: 'ls',                desc: 'Liste les sections' },
   { cmd: 'theme',             desc: 'theme [dark|light|retro|glass]' },
@@ -45,12 +46,13 @@ const COMMANDS = [
 
 /* Natural language fallback */
 const NL_MAP = [
-  [/compétence|skill|techno|stack/i,       'skills'],
-  [/projet|project|expérience|xp/i,        'projects'],
-  [/contact|email|téléphone|phone/i,       'contact'],
-  [/formation|étude|école|bac|diplôme/i,   'education'],
-  [/à propos|about|qui|profil/i,           'whoami'],
-  [/aide|help|commande/i,                  'help'],
+  [/compétence|skill|techno|stack/i,              'skills'],
+  [/projet|project|expérience|xp/i,               'projects'],
+  [/contact|email|téléphone|phone/i,              'contact'],
+  [/formation|étude|école|bac|diplôme/i,          'education'],
+  [/codecademy|cours|learning|apprendre|online/i, 'learning'],
+  [/à propos|about|qui|profil/i,                  'whoami'],
+  [/aide|help|commande/i,                         'help'],
 ];
 
 /* ── DOM helpers ──────────────────────────────────────────── */
@@ -180,6 +182,7 @@ function cmdHelp() {
     ['skills',             'Compétences avec barres de progression'],
     ['projects / xp',      'Expériences professionnelles'],
     ['education',          'Formation & diplômes'],
+    ['learning',           'Cours en ligne Codecademy'],
     ['contact',            'Email, téléphone, localisation'],
     ['ls',                 'Liste les sections disponibles'],
     ['clear',              'Efface le terminal'],
@@ -243,10 +246,12 @@ function cmdSkills() {
       title: 'Développement Web',
       color: 'accent',
       skills: [
-        { name: 'HTML5 / CSS3',    pct: 80 },
+        { name: 'HTML5',           pct: 80 },
+        { name: 'CSS3',            pct: 65 },
         { name: 'JavaScript',      pct: 60 },
         { name: 'SQL',             pct: 55 },
         { name: 'Git / VS Code',   pct: 70 },
+        { name: 'C (en cours)',     pct: 12 },
       ],
     },
     {
@@ -351,7 +356,7 @@ function cmdProjects() {
   });
 
   nodes.push(blank());
-  nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">Disponible pour alternance dès 2025.</span>'));
+  nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">Disponible pour alternance dès 2026.</span>'));
   nodes.push(blank());
   printLines(nodes);
 }
@@ -404,7 +409,146 @@ function cmdEducation() {
   `;
   nodes.push(next);
   nodes.push(blank());
+
+  const online = el('div', 't-card');
+  online.innerHTML = `
+    <div class="t-card-title">Codecademy — Formation en ligne</div>
+    <div class="t-card-sub">
+      <span class="t-accent">Autodidacte</span>
+      <span class="t-dim2"> — En cours · 2024 – 2025</span>
+    </div>
+    <div class="t-card-body">
+      HTML, CSS, JavaScript, Computer Science (Python, algorithmique), C.
+      Apprentissage continu en parallèle du parcours BTS SIO.
+    </div>
+    <div class="t-card-tags">
+      <span class="t-tag accent">HTML</span>
+      <span class="t-tag blue">CSS</span>
+      <span class="t-tag">JavaScript</span>
+      <span class="t-tag green">Python</span>
+      <span class="t-tag purple">C</span>
+    </div>
+  `;
+  nodes.push(online);
+  nodes.push(blank());
+  nodes.push(line('<span class="t-dim2">→ Tape </span><span class="t-accent">learning</span><span class="t-dim2"> pour voir la progression détaillée.</span>'));
+  nodes.push(blank());
   printLines(nodes);
+}
+
+function cmdLearning() {
+  const courses = [
+    {
+      title:    'Computer Science',
+      platform: 'Codecademy',
+      type:     'Career Path',
+      pct:      31,
+      color:    'accent',
+      desc:     'Algorithmique, structures de données (Linked Lists, Doubly Linked Lists), Python.',
+      tags: [
+        { text: 'Python',           cls: 'accent' },
+        { text: 'Algorithmique',    cls: 'blue'   },
+        { text: 'Structures données', cls: ''     },
+      ],
+    },
+    {
+      title:    'Learn CSS',
+      platform: 'Codecademy',
+      type:     'Course',
+      pct:      45,
+      color:    'blue',
+      desc:     'Sélecteurs, box model, flexbox, grid, animations et responsive design.',
+      tags: [
+        { text: 'CSS3',       cls: 'blue'  },
+        { text: 'Flexbox',    cls: ''      },
+        { text: 'Responsive', cls: 'green' },
+      ],
+    },
+    {
+      title:    'Learn C',
+      platform: 'Codecademy',
+      type:     'Skill Path',
+      pct:      12,
+      color:    'purple',
+      desc:     'Bases du langage C, types, variables, conditionnelles et boucles.',
+      tags: [
+        { text: 'C',              cls: 'purple' },
+        { text: 'Programmation',  cls: ''       },
+        { text: 'Bas niveau',     cls: ''       },
+      ],
+    },
+    {
+      title:    'How to Make a Website with NameCheap',
+      platform: 'Codecademy',
+      type:     'Course',
+      pct:      40,
+      color:    'green',
+      desc:     'Hébergement web, nom de domaine, DNS et déploiement d\'un site statique.',
+      tags: [
+        { text: 'DNS',          cls: 'green' },
+        { text: 'Hébergement',  cls: ''      },
+        { text: 'Déploiement',  cls: ''      },
+      ],
+    },
+    {
+      title:    'Learn HTML',
+      platform: 'Codecademy',
+      type:     'Course',
+      pct:      100,
+      color:    'green',
+      desc:     'Structure sémantique, formulaires, accessibilité et bonnes pratiques HTML5.',
+      tags: [
+        { text: 'HTML5',         cls: 'accent' },
+        { text: 'Sémantique',    cls: ''       },
+        { text: 'Accessibilité', cls: 'green'  },
+      ],
+    },
+  ];
+
+  const nodes = [
+    el('span', 't-section', 'Formation en ligne — Codecademy'),
+    blank(),
+    line('<span class="t-dim">Apprentissage autodidacte en parallèle du BTS SIO.</span>'),
+    blank(),
+  ];
+
+  courses.forEach(c => {
+    const card = el('div', 't-card');
+    const tagsHtml = c.tags.map(t =>
+      `<span class="t-tag ${t.cls}">${escHtml(t.text)}</span>`
+    ).join('');
+    const pctLabel = c.pct === 100
+      ? '<span class="t-green t-bold">✓ Terminé</span>'
+      : `<span class="t-dim2">${c.pct}% complété</span>`;
+
+    card.innerHTML = `
+      <div class="t-card-title">${escHtml(c.title)}</div>
+      <div class="t-card-sub">
+        <span class="t-accent">${escHtml(c.platform)}</span>
+        <span class="t-dim2"> · ${escHtml(c.type)}</span>
+        <span style="margin-left:auto">${pctLabel}</span>
+      </div>
+      <div style="margin:.6rem 0 .4rem">
+        <div class="skill-bar-bg" style="height:5px">
+          <div class="skill-bar-fill ${c.color}" data-pct="${c.pct}" style="transition:width 1.1s cubic-bezier(.22,.68,0,1.18)"></div>
+        </div>
+      </div>
+      <div class="t-card-body">${escHtml(c.desc)}</div>
+      <div class="t-card-tags">${tagsHtml}</div>
+    `;
+    nodes.push(card);
+  });
+
+  nodes.push(blank());
+  nodes.push(line('<span class="t-dim2">→ Profil : </span><span class="t-accent">codecademy.com</span>'));
+  nodes.push(blank());
+  printLines(nodes);
+
+  setTimeout(() => {
+    document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  }, 80);
 }
 
 function cmdContact() {
@@ -442,7 +586,7 @@ function cmdContact() {
 }
 
 function cmdLs() {
-  const sections = ['whoami', 'skills', 'projects', 'education', 'contact'];
+  const sections = ['whoami', 'skills', 'projects', 'education', 'learning', 'contact'];
   printLines([
     line(`<span class="t-dim">total ${sections.length}</span>`),
     ...sections.map(s => line(`drwxr-xr-x  <span class="t-accent">${s}/</span>`)),
@@ -550,6 +694,7 @@ function runCommand(raw) {
     case cmd === 'projects':
     case cmd === 'xp':                    cmdProjects(); break;
     case cmd === 'education':             cmdEducation();break;
+    case cmd === 'learning':              cmdLearning(); break;
     case cmd === 'contact':               cmdContact();  break;
     case cmd === 'ls':                    cmdLs();       break;
     case cmd === 'clear':                 cmdClear();    break;
