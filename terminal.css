@@ -860,3 +860,13 @@ body.theme-retro .t-card-title,
 body.theme-retro .t-welcome-box .name {
   text-shadow: 0 0 8px currentColor;
 }
+
+/* ── Lien retour vers le site classique ── */
+#title-bar-right { display: flex; align-items: center; gap: 12px; }
+#back-to-site {
+  font-size: 11px;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color .2s;
+}
+#back-to-site:hover { color: var(--accent); }

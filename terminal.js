@@ -36,21 +36,24 @@ const COMMANDS = [
   { cmd: 'xp',                desc: 'Alias de projects' },
   { cmd: 'contact',           desc: 'Mes coordonnées' },
   { cmd: 'education',         desc: 'Formation & diplômes' },
+  { cmd: 'learning',          desc: 'Cours en ligne — Codecademy' },
   { cmd: 'clear',             desc: 'Efface le terminal' },
   { cmd: 'ls',                desc: 'Liste les sections' },
   { cmd: 'theme',             desc: 'theme [dark|light|retro|glass]' },
   { cmd: 'matrix',            desc: 'Easter egg Matrix rain' },
   { cmd: 'sudo hire davidson', desc: '👀' },
+  { cmd: 'exit',              desc: 'Retour au site classique' },
 ];
 
 /* Natural language fallback */
 const NL_MAP = [
-  [/compétence|skill|techno|stack/i,       'skills'],
-  [/projet|project|expérience|xp/i,        'projects'],
-  [/contact|email|téléphone|phone/i,       'contact'],
-  [/formation|étude|école|bac|diplôme/i,   'education'],
-  [/à propos|about|qui|profil/i,           'whoami'],
-  [/aide|help|commande/i,                  'help'],
+  [/compétence|skill|techno|stack/i,              'skills'],
+  [/projet|project|expérience|xp/i,               'projects'],
+  [/contact|email|téléphone|phone/i,              'contact'],
+  [/formation|étude|école|bac|diplôme/i,          'education'],
+  [/codecademy|cours|learning|apprendre|online/i, 'learning'],
+  [/à propos|about|qui|profil/i,                  'whoami'],
+  [/aide|help|commande/i,                         'help'],
 ];
 
 /* ── DOM helpers ──────────────────────────────────────────── */
@@ -152,7 +155,7 @@ function printWelcome() {
       <div class="role">
         Technicien IT &amp; Développeur Web
         &nbsp;—&nbsp;
-        <span class="t-dot"></span><span class="t-green">Disponible pour alternance</span>
+        <span class="t-dot"></span><span class="t-green">Disponible · Ouvert aux opportunités</span>
       </div>
     </div>
     <div class="links">
@@ -180,12 +183,14 @@ function cmdHelp() {
     ['skills',             'Compétences avec barres de progression'],
     ['projects / xp',      'Expériences professionnelles'],
     ['education',          'Formation & diplômes'],
+    ['learning',           'Cours en ligne Codecademy'],
     ['contact',            'Email, téléphone, localisation'],
     ['ls',                 'Liste les sections disponibles'],
     ['clear',              'Efface le terminal'],
     ['theme <nom>',        'dark · light · retro · glass'],
     ['matrix',             'Easter egg 🟩'],
     ['sudo hire davidson', 'Pourquoi me recruter 👀'],
+    ['exit',               'Retour au site classique'],
   ];
 
   const frag = [
@@ -210,14 +215,14 @@ function cmdWhoami() {
     el('span', 't-section', 'À propos de moi'),
     blank(),
     line('<span class="t-accent t-bold">Dorelus Davidson</span>'),
-    line('<span class="t-dim">Technicien IT &amp; Développeur Web</span>'),
+    line('<span class="t-dim">Technicien IT &amp; Développeur Web · Passionné d\'informatique</span>'),
     blank(),
-    line('Curieux, rigoureux et motivé, je m\'intéresse aux réseaux,'),
-    line('à l\'informatique et au développement web. Mon stage chez'),
-    line('Solutions 30 en Guyane m\'a permis de consolider mes bases'),
-    line('techniques sur le terrain (fibre optique, diagnostics réseaux).'),
+    line('Curieux et autodidacte, je me forme activement en développement,'),
+    line('algorithmique et infrastructure. Mon stage chez Solutions 30 en'),
+    line('Guyane et ma participation à la Piscine de l\'École 42 m\'ont'),
+    line('permis de confronter mes connaissances à des environnements réels.'),
     blank(),
-    line('<span class="t-dot"></span><span class="t-green">Disponible pour alternance · Paris, France</span>'),
+    line('<span class="t-dot"></span><span class="t-green">Disponible · Ouvert aux opportunités · Paris, France</span>'),
     blank(),
     (() => {
       const g = el('div', 't-card');
@@ -225,7 +230,7 @@ function cmdWhoami() {
         <div class="t-card-title">Infos rapides</div>
         <div class="t-card-body">
           <span class="t-dim">Localisation &nbsp;:</span> Paris, France<br>
-          <span class="t-dim">Objectif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> BTS SIO / Licence Pro IT<br>
+          <span class="t-dim">Objectif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Informatique &amp; Développement<br>
           <span class="t-dim">Langues &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Français (natif) · Anglais (intermédiaire)<br>
           <span class="t-dim">Permis &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> En cours
         </div>
@@ -243,10 +248,12 @@ function cmdSkills() {
       title: 'Développement Web',
       color: 'accent',
       skills: [
-        { name: 'HTML5 / CSS3',    pct: 80 },
+        { name: 'HTML5',           pct: 80 },
+        { name: 'CSS3',            pct: 65 },
         { name: 'JavaScript',      pct: 60 },
         { name: 'SQL',             pct: 55 },
         { name: 'Git / VS Code',   pct: 70 },
+        { name: 'C (en cours)',     pct: 12 },
       ],
     },
     {
@@ -351,7 +358,36 @@ function cmdProjects() {
   });
 
   nodes.push(blank());
-  nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">Disponible pour alternance dès 2025.</span>'));
+  nodes.push(el('span', 't-section', 'Projets personnels'));
+  nodes.push(blank());
+
+  const algoCard = el('div', 't-card');
+  algoCard.innerHTML = `
+    <div class="t-card-title">Algo Visualizer</div>
+    <div class="t-card-sub">
+      <span class="t-accent">Projet solo</span>
+      <span class="t-dim2"> · Vanilla JS · 2025</span>
+      <span class="t-tag blue" style="margin-left:.3rem">Perso</span>
+    </div>
+    <div class="t-card-body">
+      Visualiseur interactif d'algorithmes (5 tris, 3 pathfinding, 3 structures de données) animés en temps réel sur canvas HTML5. Aucune dépendance, aucun build step.
+    </div>
+    <div class="t-card-tags">
+      <span class="t-tag accent">Algorithmique</span>
+      <span class="t-tag blue">Canvas API</span>
+      <span class="t-tag">Vanilla JS</span>
+      <span class="t-tag green">Pathfinding</span>
+    </div>
+    <div style="margin-top:.6rem;font-size:.82rem">
+      <a href="https://algo-visualizer-gamma-three.vercel.app" target="_blank" rel="noopener" style="color:var(--t-accent);text-decoration:none">→ Démo live</a>
+      <span class="t-dim2"> · </span>
+      <a href="https://github.com/DaVeinOUT/algo-visualizer" target="_blank" rel="noopener" style="color:var(--t-dim2);text-decoration:none">GitHub</a>
+    </div>
+  `;
+  nodes.push(algoCard);
+
+  nodes.push(blank());
+  nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">Disponible · Paris, France.</span>'));
   nodes.push(blank());
   printLines(nodes);
 }
@@ -384,27 +420,163 @@ function cmdEducation() {
   nodes.push(card);
   nodes.push(blank());
 
-  const next = el('div', 't-card');
-  next.innerHTML = `
-    <div class="t-card-title">BTS SIO — Objectif 2025</div>
+  const piscine = el('div', 't-card');
+  piscine.innerHTML = `
+    <div class="t-card-title">Piscine — École 42</div>
     <div class="t-card-sub">
-      <span class="t-accent">En recherche d'alternance</span>
-      <span class="t-dim2"> — Paris, France</span>
+      <span class="t-accent">École 42</span>
+      <span class="t-dim2"> — Paris · Août 2025</span>
+      <span class="t-tag blue" style="margin-left:.3rem">Immersion</span>
     </div>
     <div class="t-card-body">
-      Prêt à rejoindre une entreprise en alternance pour préparer un BTS SIO
-      option SLAM (développement) ou SISR (infrastructure &amp; réseaux).
+      Immersion intensive de 4 semaines : programmation en C, shell scripting,
+      algorithmique et gestion de projet en peer-to-peer. Apprentissage
+      sous pression réelle, évaluation par les pairs, travail en équipe.
     </div>
     <div class="t-card-tags">
-      <span class="t-tag accent">BTS SIO</span>
-      <span class="t-tag blue">SLAM</span>
-      <span class="t-tag green">SISR</span>
-      <span class="t-tag">Alternance</span>
+      <span class="t-tag purple">C</span>
+      <span class="t-tag blue">Shell</span>
+      <span class="t-tag accent">Algorithmique</span>
+      <span class="t-tag green">Peer-to-peer</span>
+      <span class="t-tag">Git</span>
     </div>
   `;
-  nodes.push(next);
+  nodes.push(piscine);
+  nodes.push(blank());
+
+  nodes.push(blank());
+
+  const online = el('div', 't-card');
+  online.innerHTML = `
+    <div class="t-card-title">Computer Science — Career Path</div>
+    <div class="t-card-sub">
+      <span class="t-accent">Codecademy</span>
+      <span class="t-dim2"> — En cours · 31% complété</span>
+      <span class="t-tag blue" style="margin-left:.3rem">Career Path</span>
+    </div>
+    <div style="margin:.5rem 0 .4rem">
+      <div class="skill-bar-bg" style="height:5px">
+        <div class="skill-bar-fill accent" data-pct="31" style="transition:width 1.1s cubic-bezier(.22,.68,0,1.18)"></div>
+      </div>
+    </div>
+    <div class="t-card-body">
+      Algorithmique, structures de données, Python, bases de données et
+      architecture des systèmes. Parcours complet orienté fondamentaux
+      de l'informatique.
+    </div>
+    <div class="t-card-tags">
+      <span class="t-tag accent">Python</span>
+      <span class="t-tag blue">Algorithmique</span>
+      <span class="t-tag">Structures de données</span>
+      <span class="t-tag green">SQL</span>
+    </div>
+  `;
+  nodes.push(online);
+  nodes.push(blank());
+  nodes.push(line('<span class="t-dim2">→ Tape </span><span class="t-accent">learning</span><span class="t-dim2"> pour voir la progression détaillée.</span>'));
   nodes.push(blank());
   printLines(nodes);
+}
+
+function cmdLearning() {
+  const CS_MODULES = [
+    { name: 'Intro to Programming',    pct: 59,  done: false },
+    { name: 'Intro to Data Structures',pct: 84,  done: false },
+    { name: 'Linked Lists',            pct: 35,  done: false },
+    { name: 'Queues, Stacks, HashMaps',pct: 0,   done: false },
+    { name: 'Algorithms',              pct: 4,   done: false, current: true },
+    { name: 'Trees and Graphs',        pct: 0,   done: false },
+    { name: 'Databases',               pct: 0,   done: false },
+    { name: 'Computer Architecture',   pct: 0,   done: false },
+    { name: 'Math for CS',             pct: 0,   done: false },
+    { name: 'Interview Prep',          pct: 0,   done: false },
+  ];
+
+  const OTHER_COURSES = [
+    { title: 'Learn CSS',                         type: 'Course',     pct: 45,  color: 'blue'   },
+    { title: 'Learn HTML',                        type: 'Course',     pct: 100, color: 'green'  },
+    { title: 'Learn C',                           type: 'Skill Path', pct: 12,  color: 'purple' },
+    { title: 'How to Make a Website with NameCheap', type: 'Course', pct: 40,  color: 'green'  },
+  ];
+
+  const nodes = [
+    el('span', 't-section', 'Formation en ligne — Codecademy'),
+    blank(),
+  ];
+
+  /* ── Career Path CS — carte principale ── */
+  const csCard = el('div', 't-card');
+  const modulesHtml = CS_MODULES.map(m => {
+    const label = m.current
+      ? `<span class="t-accent" style="font-size:10px">▶ en cours</span>`
+      : (m.pct === 100 ? `<span class="t-green" style="font-size:10px">✓</span>` : '');
+    return `
+      <div class="skill-row" style="margin:.22rem 0">
+        <span class="skill-name" style="font-size:11px;color:${m.current ? 'var(--accent)' : 'var(--text-2)'}">${escHtml(m.name)}</span>
+        <div class="skill-bar-bg">
+          <div class="skill-bar-fill accent" data-pct="${m.pct}"></div>
+        </div>
+        <span class="skill-pct" style="width:52px;text-align:right;font-size:10px">${m.pct > 0 ? m.pct + '%' : ''} ${label}</span>
+      </div>`;
+  }).join('');
+
+  csCard.innerHTML = `
+    <div class="t-card-title" style="font-size:15px">Computer Science — Career Path</div>
+    <div class="t-card-sub">
+      <span class="t-accent">Codecademy</span>
+      <span class="t-dim2"> · Python · Algorithmique · Structures de données · Bases de données</span>
+    </div>
+    <div style="margin:.5rem 0 .3rem;display:flex;align-items:center;gap:.8rem">
+      <div class="skill-bar-bg" style="flex:1;height:6px">
+        <div class="skill-bar-fill accent" data-pct="31" style="transition:width 1.2s cubic-bezier(.22,.68,0,1.18)"></div>
+      </div>
+      <span class="t-accent t-bold" style="font-size:13px;flex-shrink:0">31%</span>
+    </div>
+    <div class="t-card-body" style="margin-top:.8rem">${modulesHtml}</div>
+    <div class="t-card-tags" style="margin-top:.8rem">
+      <span class="t-tag accent">Python</span>
+      <span class="t-tag blue">Algorithmique</span>
+      <span class="t-tag">Structures de données</span>
+      <span class="t-tag green">SQL</span>
+      <span class="t-tag">Architecture</span>
+    </div>
+  `;
+  nodes.push(csCard);
+  nodes.push(blank());
+
+  /* ── Autres cours ── */
+  nodes.push(el('div', 'skill-group-title', 'Autres cours'));
+
+  OTHER_COURSES.forEach(c => {
+    const card = el('div', 't-card');
+    const pctLabel = c.pct === 100
+      ? '<span class="t-green t-bold">✓ Terminé</span>'
+      : `<span class="t-dim2">${c.pct}%</span>`;
+    card.innerHTML = `
+      <div class="t-card-sub" style="justify-content:space-between">
+        <div>
+          <span class="t-bold" style="color:var(--text);font-size:12.5px">${escHtml(c.title)}</span>
+          <span class="t-dim2" style="font-size:10.5px"> · ${escHtml(c.type)}</span>
+        </div>
+        ${pctLabel}
+      </div>
+      <div style="margin:.45rem 0 0">
+        <div class="skill-bar-bg" style="height:4px">
+          <div class="skill-bar-fill ${c.color}" data-pct="${c.pct}" style="transition:width 1.1s cubic-bezier(.22,.68,0,1.18)"></div>
+        </div>
+      </div>
+    `;
+    nodes.push(card);
+  });
+
+  nodes.push(blank());
+  printLines(nodes);
+
+  setTimeout(() => {
+    document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  }, 80);
 }
 
 function cmdContact() {
@@ -419,7 +591,7 @@ function cmdContact() {
     { label: 'Email',       value: 'davedorelus025@icloud.com',  href: 'mailto:davedorelus025@icloud.com' },
     { label: 'Téléphone',   value: '07 69 59 54 72',             href: 'tel:+33769595472'                 },
     { label: 'Localisation',value: 'Paris, France',              href: null                               },
-    { label: 'Statut',      value: '🟢  Disponible pour alternance', href: null                           },
+    { label: 'Statut',      value: '🟢  Disponible · Ouvert aux opportunités', href: null               },
   ];
 
   contacts.forEach(c => {
@@ -442,7 +614,7 @@ function cmdContact() {
 }
 
 function cmdLs() {
-  const sections = ['whoami', 'skills', 'projects', 'education', 'contact'];
+  const sections = ['whoami', 'skills', 'projects', 'education', 'learning', 'contact'];
   printLines([
     line(`<span class="t-dim">total ${sections.length}</span>`),
     ...sections.map(s => line(`drwxr-xr-x  <span class="t-accent">${s}/</span>`)),
@@ -488,12 +660,12 @@ function cmdSudoHire() {
     blank(),
     line('Pourquoi recruter Dorelus Davidson :'),
     blank(),
-    line(' ✦  Rigoureux, curieux et constamment en apprentissage'),
-    line(' ✦  Expérience terrain en fibre optique (Solutions 30, Guyane 2024)'),
-    line(' ✦  Bases solides en réseaux, systèmes et développement web'),
-    line(' ✦  Motivé à apprendre rapidement en environnement professionnel'),
-    line(' ✦  Disponible immédiatement à Paris'),
-    line(' ✦  Cherche alternance BTS SIO ou Licence Pro'),
+    line(' ✦  <span class="t-accent">Autodidacte</span> — apprend en continu, par lui-même, sans attendre'),
+    line(' ✦  <span class="t-accent">Terrain</span> — stage fibre optique chez Solutions 30, Guyane 2024'),
+    line(' ✦  <span class="t-accent">Intensif</span> — Piscine École 42, immersion C, shell, algo (Août 2025)'),
+    line(' ✦  <span class="t-accent">Fondamentaux</span> — Career Path Computer Science (Codecademy, 31%)'),
+    line(' ✦  <span class="t-accent">Polyvalent</span> — développement web, réseaux, systèmes, infra'),
+    line(' ✦  <span class="t-accent">Disponible</span> — Paris, immédiatement'),
     blank(),
     line('<span class="t-dim">→ </span><span class="t-accent">davedorelus025@icloud.com</span>'),
     line('<span class="t-dim">→ </span><span class="t-text">07 69 59 54 72</span>'),
@@ -550,9 +722,11 @@ function runCommand(raw) {
     case cmd === 'projects':
     case cmd === 'xp':                    cmdProjects(); break;
     case cmd === 'education':             cmdEducation();break;
+    case cmd === 'learning':              cmdLearning(); break;
     case cmd === 'contact':               cmdContact();  break;
     case cmd === 'ls':                    cmdLs();       break;
     case cmd === 'clear':                 cmdClear();    break;
+    case cmd === 'exit' || cmd === 'gui': window.location.href = 'index.html'; break;
     case cmd === 'theme':                 cmdTheme(arg); break;
     case cmd === 'matrix':                cmdMatrix();   break;
     case lower === 'sudo hire davidson':  cmdSudoHire(); break;
