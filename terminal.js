@@ -40,13 +40,13 @@ const COMMANDS = [
   { cmd: 'alternance',        desc: 'Infos recruteurs — apprentissage' },
   { cmd: 'cv',                desc: 'Télécharge mon CV (PDF)' },
   { cmd: 'neofetch',          desc: 'Carte d\'identité système' },
-  { cmd: 'snake',             desc: 'Mini-jeu dans le terminal 🐍' },
+  { cmd: 'snake',             desc: 'Mini-jeu dans le terminal' },
   { cmd: 'history',           desc: 'Historique des commandes' },
   { cmd: 'clear',             desc: 'Efface le terminal' },
   { cmd: 'ls',                desc: 'Liste les sections' },
   { cmd: 'theme',             desc: 'theme [dark|light|retro|glass]' },
   { cmd: 'matrix',            desc: 'Easter egg Matrix rain' },
-  { cmd: 'sudo hire davidson', desc: '👀' },
+  { cmd: 'sudo hire davidson', desc: 'root access' },
   { cmd: 'exit',              desc: 'Retour au site classique' },
 ];
 
@@ -191,7 +191,7 @@ function cmdHelp() {
   const rows = [
     ['help',               'Affiche cette aide'],
     ['whoami / about',     'Qui je suis'],
-    ['alternance',         'Infos recruteurs — apprentissage 👔'],
+    ['alternance',         'Infos recruteurs — apprentissage'],
     ['cv',                 'Télécharge mon CV (PDF)'],
     ['skills',             'Compétences techniques'],
     ['projects / xp',      'Projets & expériences'],
@@ -202,9 +202,9 @@ function cmdHelp() {
     ['ls',                 'Liste les sections disponibles'],
     ['history',            'Historique des commandes'],
     ['theme <nom>',        'dark · light · retro · glass'],
-    ['matrix',             'Easter egg 🟩'],
-    ['snake',              'Mini-jeu 🐍'],
-    ['sudo hire davidson', 'Pourquoi me recruter 👀'],
+    ['matrix',             'Pluie verte — easter egg'],
+    ['snake',              'Mini-jeu snake'],
+    ['sudo hire davidson', 'Pourquoi me recruter'],
     ['clear',              'Efface le terminal'],
     ['exit',               'Retour au site classique'],
   ];
@@ -670,7 +670,7 @@ function cmdContact() {
     { label: 'Téléphone',   value: '07 69 59 54 72',             href: 'tel:+33769595472'                 },
     { label: 'GitHub',      value: 'github.com/DaVeinOUT',       href: 'https://github.com/DaVeinOUT'     },
     { label: 'Localisation',value: 'Paris, France',              href: null                               },
-    { label: 'Statut',      value: '🟢  Recherche alternance · dispo immédiatement', href: null          },
+    { label: 'Statut',      value: '●  Recherche alternance · dispo immédiatement', href: null          },
   ];
 
   contacts.forEach(c => {
@@ -958,10 +958,10 @@ const IDLE_HINTS = [
   'Tape <span class="t-accent">contact</span> pour me joindre directement.',
   'Essaie <span class="t-accent">theme retro</span> pour le look phosphore vert.',
   'Tape <span class="t-accent">matrix</span> pour une surprise.',
-  'Tu recrutes ? Tape <span class="t-accent">alternance</span> 👔',
-  'Un break ? Tape <span class="t-accent">snake</span> 🐍',
+  'Tu recrutes ? Tape <span class="t-accent">alternance</span>.',
+  'Un break ? Tape <span class="t-accent">snake</span>.',
   'Tape <span class="t-accent">neofetch</span> pour ma carte d\'identité système.',
-  'Essaie <span class="t-accent">sudo hire davidson</span> 👀',
+  'Essaie <span class="t-accent">sudo hire davidson</span> — accès root garanti.',
 ];
 
 function resetIdleTimer() {
@@ -972,7 +972,7 @@ function resetIdleTimer() {
 function showIdleHint() {
   const hint = IDLE_HINTS[idleCount % IDLE_HINTS.length];
   idleCount++;
-  append(line(`<span class="t-dim2">💡 ${hint}</span>`));
+  append(line(`<span class="t-dim2">[hint] ${hint}</span>`));
   output.scrollTop = output.scrollHeight;
   idleTimer = setTimeout(showIdleHint, 30000);
 }
@@ -1074,7 +1074,7 @@ document.addEventListener('keydown', e => {
       konamiIdx = 0;
       printLines([
         blank(),
-        line('<span class="t-purple t-bold">🎉 Konami Code activé ! Confettis !</span>'),
+        line('<span class="t-purple t-bold">[ok] Konami Code activé — confettis.</span>'),
         blank(),
       ]);
       launchConfetti();
@@ -1086,7 +1086,7 @@ document.addEventListener('keydown', e => {
 
 /* ── Traffic light buttons ────────────────────────────────── */
 document.querySelector('.tl-close').addEventListener('click', () => {
-  printLines([line('<span class="t-err">Permission refusée — le terminal persiste. 😈</span>'), blank()]);
+  printLines([line('<span class="t-err">Permission refusée — le terminal persiste.</span>'), blank()]);
 });
 document.querySelector('.tl-min').addEventListener('click', () => {
   printLines([line('<span class="t-dim">Minimisation non disponible en mode plein écran.</span>'), blank()]);

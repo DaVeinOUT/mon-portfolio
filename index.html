@@ -7,7 +7,7 @@
   <title>Davidson Dorelus — Technicien Informatique · Recherche alternance (Paris / IdF)</title>
   <meta name="description" content="Davidson Dorelus, technicien informatique en recherche d'alternance (contrat d'apprentissage, 12 mois, 4j entreprise / 1j formation) à Paris et en Île-de-France. Systèmes, réseaux, support IT et développement web." />
   <meta property="og:title" content="Davidson Dorelus — Technicien Informatique" />
-  <meta property="og:description" content="En recherche d'alternance — Paris / Île-de-France. Systèmes, réseaux, support IT et développement web." />
+  <meta property="og:description" content="En recherche d'alternance — Paris / Île-de-France. Un portfolio-voyage dans un réseau 3D." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_FR" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
@@ -15,6 +15,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js" } }
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -32,14 +35,15 @@
 </head>
 <body>
 
+<canvas id="gl-canvas" aria-hidden="true"></canvas>
+
 <header id="nav">
   <a href="#top" class="nav-logo mono">dd<span class="accent">.</span></a>
   <nav id="nav-links" aria-label="Navigation principale">
-    <a href="#apropos">À propos</a>
+    <a href="#profil">Profil</a>
     <a href="#competences">Compétences</a>
-    <a href="#experiences">Expériences</a>
+    <a href="#parcours">Parcours</a>
     <a href="#projets">Projets</a>
-    <a href="#formation">Formation</a>
     <a href="#contact">Contact</a>
   </nav>
   <div class="nav-right">
@@ -48,213 +52,145 @@
   </div>
 </header>
 
+<nav id="dots" aria-label="Étapes du voyage">
+  <a href="#top" data-i="0" class="active"><span class="sr-only">Accueil</span></a>
+  <a href="#profil" data-i="1"><span class="sr-only">Profil</span></a>
+  <a href="#competences" data-i="2"><span class="sr-only">Compétences</span></a>
+  <a href="#parcours" data-i="3"><span class="sr-only">Parcours</span></a>
+  <a href="#projets" data-i="4"><span class="sr-only">Projets</span></a>
+  <a href="#contact" data-i="5"><span class="sr-only">Contact</span></a>
+</nav>
+
 <main id="top">
 
-  <!-- ============ HERO + RÉSEAU 3D ============ -->
-  <section id="hero">
-    <canvas id="net-canvas" aria-hidden="true"></canvas>
-    <div class="hero-inner">
-      <p class="status-chip mono"><span class="dot" aria-hidden="true"></span>Disponible dès maintenant — recherche alternance</p>
-      <h1>Davidson<br>Dorelus</h1>
-      <p class="hero-lede">
-        Technicien informatique &amp; développeur web. Je prépare un titre
-        <strong>Technicien Informatique (bac+2, RNCP niveau 5)</strong> avec OpenClassrooms
-        et je cherche l'entreprise qui m'accueillera en apprentissage —
-        systèmes, réseaux, support IT et un vrai goût pour l'automatisation.
-      </p>
-      <ul class="hero-meta mono" aria-label="Informations alternance">
-        <li>Paris · Île-de-France</li>
-        <li>4 j entreprise / 1 j formation</li>
-        <li>12 mois</li>
-        <li>Jour de formation flexible</li>
-      </ul>
+  <!-- ══ STATION 0 — HERO ══ -->
+  <section class="station" id="hero">
+    <div class="st-inner">
+      <p class="status-chip mono"><span class="dot" aria-hidden="true"></span>Disponible — alternance 12 mois</p>
+      <h1 id="kinetic-name">Davidson<br>Dorelus</h1>
+      <p class="hero-lede">Technicien informatique &amp; développeur web — Paris.</p>
       <div class="hero-cta">
         <a class="btn btn-primary magnetic" href="#contact">Me contacter</a>
-        <a class="btn" href="assets/cv-davidson-dorelus.pdf" download>Télécharger le CV</a>
-        <a class="btn btn-ghost" href="https://github.com/DaVeinOUT" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="assets/cv-davidson-dorelus.pdf" download>CV (PDF)</a>
+        <a class="btn btn-ghost to-terminal mono" href="terminal.html">&gt;_ terminal</a>
       </div>
-      <p class="hero-hint mono">Tu préfères la ligne de commande ? <a href="terminal.html" class="to-terminal">Essaie le mode terminal →</a></p>
     </div>
-    <p class="scroll-cue mono" aria-hidden="true">scroll ↓</p>
+    <p class="scroll-cue mono" aria-hidden="true">scroll — le réseau t'accompagne ↓</p>
   </section>
 
-  <!-- ============ À PROPOS ============ -->
-  <section id="apropos" class="reveal">
-    <p class="sec-num mono">01 — À propos</p>
-    <h2>Curieux, autodidacte,<br>et déjà sur le terrain.</h2>
-    <div class="two-col">
-      <div class="prose">
-        <p>
-          Passionné par le développement web et l'automatisation, j'apprends en construisant :
-          déploiement de serveurs VPS sous Docker, applications full-stack, visualiseur
-          d'algorithmes en vanilla JS. Mon expérience de technicien fibre optique chez
-          Solutions 30 en Guyane et la Piscine de l'École 42 m'ont appris à travailler
-          sous pression réelle, en équipe et au contact du terrain.
-        </p>
-        <p>
-          Aujourd'hui je vise un titre RNCP de technicien informatique en alternance,
-          pour ancrer ces compétences dans une entreprise et son parc au quotidien.
-        </p>
-      </div>
-      <dl class="facts">
-        <div><dt class="mono">Localisation</dt><dd>Paris, France</dd></div>
-        <div><dt class="mono">Zones de recherche</dt><dd>Paris · Hauts-de-Seine · Île-de-France · Guyane</dd></div>
-        <div><dt class="mono">Langues</dt><dd>Français (natif) · Anglais (B1-B2) · Portugais (A1-A2)</dd></div>
-        <div><dt class="mono">Intérêts</dt><dd>Veille techno · Open source · Musique</dd></div>
-      </dl>
-    </div>
-    <ul class="stats mono" aria-label="Chiffres clés">
-      <li><span class="stat-n" data-count="6">0</span><span class="stat-l">mois sur la fibre</span></li>
-      <li><span class="stat-n" data-count="10">0</span><span class="stat-l">mois de terrain</span></li>
-      <li><span class="stat-n" data-count="4">0</span><span class="stat-l">semaines de Piscine 42</span></li>
-      <li><span class="stat-n" data-count="3">0</span><span class="stat-l">projets construits</span></li>
-    </ul>
-  </section>
-
-  <!-- ============ BANDEAU ALTERNANCE ============ -->
-  <section id="alternance" class="reveal">
-    <div class="alt-card">
-      <div>
-        <p class="mono alt-label">// recruteurs</p>
-        <h3>Je cherche un contrat d'apprentissage de 12 mois.</h3>
-        <p>Rythme 4 jours en entreprise / 1 jour en formation (jour au choix), démarrage possible immédiatement. Formation Technicien Informatique — OpenClassrooms, diplôme de niveau 5 (bac+2).</p>
-      </div>
-      <a class="btn btn-invert magnetic" href="mailto:davedorelus025@icloud.com?subject=Alternance%20Technicien%20Informatique">Parlons-en</a>
+  <!-- ══ STATION 1 — PROFIL ══ -->
+  <section class="station" id="profil">
+    <div class="st-inner reveal">
+      <p class="sec-num mono">01 — profil</p>
+      <h2>J'apprends<br>en construisant.</h2>
+      <ul class="punch-list">
+        <li><span class="mono punch-k">fibre</span>6 mois de fibre optique — Solutions 30, Guyane</li>
+        <li><span class="mono punch-k">42</span>Piscine École 42 — C, shell, peer-to-peer</li>
+        <li><span class="mono punch-k">auto</span>Docker, VPS, full-stack — en autodidacte</li>
+      </ul>
+      <p class="st-hint mono">l'histoire complète vit dans <a href="terminal.html" class="to-terminal">le terminal →</a></p>
     </div>
   </section>
 
-  <!-- ============ COMPÉTENCES ============ -->
-  <section id="competences" class="reveal">
-    <p class="sec-num mono">02 — Compétences</p>
-    <h2>Ce que je sais faire.</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <h3 class="mono">Systèmes &amp; Réseaux</h3>
-        <ul class="tags">
-          <li>Linux</li><li>Windows Server</li><li>Active Directory</li>
-          <li>TCP/IP</li><li>Configuration réseau</li><li>Fibre optique · OTDR</li>
-        </ul>
+  <!-- ══ STATION 2 — COMPÉTENCES ══ -->
+  <section class="station" id="competences">
+    <div class="st-inner st-wide reveal">
+      <p class="sec-num mono">02 — compétences</p>
+      <h2>Ce que je sais faire.</h2>
+    </div>
+    <div class="marquees reveal" aria-label="Compétences">
+      <div class="marquee" data-dir="left">
+        <div class="marquee-track mono">
+          <span>Linux</span><span>Windows Server</span><span>Active Directory</span><span>TCP/IP</span><span>Fibre optique · OTDR</span><span>Support IT</span><span>HTML / CSS</span><span>JavaScript</span><span>Python</span><span>SQL</span><span>Docker</span><span>PowerShell</span><span>Git · GitHub</span>
+          <span aria-hidden="true">Linux</span><span aria-hidden="true">Windows Server</span><span aria-hidden="true">Active Directory</span><span aria-hidden="true">TCP/IP</span><span aria-hidden="true">Fibre optique · OTDR</span><span aria-hidden="true">Support IT</span><span aria-hidden="true">HTML / CSS</span><span aria-hidden="true">JavaScript</span><span aria-hidden="true">Python</span><span aria-hidden="true">SQL</span><span aria-hidden="true">Docker</span><span aria-hidden="true">PowerShell</span><span aria-hidden="true">Git · GitHub</span>
+        </div>
       </div>
-      <div class="skill-card">
-        <h3 class="mono">Dev &amp; Automatisation</h3>
-        <ul class="tags">
-          <li>HTML / CSS</li><li>JavaScript</li><li>Python</li><li>SQL</li>
-          <li>Docker</li><li>PowerShell</li><li>Git · GitHub</li><li>C (en cours)</li>
-        </ul>
+      <div class="marquee marquee-next" data-dir="right">
+        <div class="marquee-track mono">
+          <span>GLPI · ITIL</span><span>Nagios · OCS</span><span>GPO · IAM</span><span>VLAN · ACL</span><span>Veeam</span><span>Déploiement de parc</span><span>Supervision</span><span>Sauvegardes</span>
+          <span aria-hidden="true">GLPI · ITIL</span><span aria-hidden="true">Nagios · OCS</span><span aria-hidden="true">GPO · IAM</span><span aria-hidden="true">VLAN · ACL</span><span aria-hidden="true">Veeam</span><span aria-hidden="true">Déploiement de parc</span><span aria-hidden="true">Supervision</span><span aria-hidden="true">Sauvegardes</span>
+        </div>
       </div>
-      <div class="skill-card">
-        <h3 class="mono">Support IT</h3>
-        <ul class="tags">
-          <li>Helpdesk</li><li>Diagnostic terrain</li><li>Relation utilisateur</li><li>Documentation</li>
-        </ul>
-      </div>
-      <div class="skill-card skill-card-next">
-        <h3 class="mono">Au programme de ma formation</h3>
-        <ul class="tags">
-          <li>GLPI · ITIL</li><li>Nagios · OCS</li><li>GPO · IAM</li><li>VLAN · ACL</li><li>Veeam</li><li>Déploiement de parc</li>
-        </ul>
+      <p class="st-hint mono st-center">ligne 1 : acquis — ligne 2 : au programme OpenClassrooms</p>
+    </div>
+  </section>
+
+  <!-- ══ STATION 3 — PARCOURS ══ -->
+  <section class="station" id="parcours">
+    <div class="st-inner reveal">
+      <p class="sec-num mono">03 — parcours</p>
+      <h2>Du terrain<br>au parc informatique.</h2>
+      <ol class="path-list">
+        <li><span class="mono path-y">2023</span><span>Bac général et technologique — Guyane</span></li>
+        <li><span class="mono path-y">2023-24</span><span>Installateur d'équipements — Multi-Services · 10 mois</span></li>
+        <li><span class="mono path-y">2024</span><span>Technicien fibre optique — Solutions 30 · 6 mois</span></li>
+        <li><span class="mono path-y">2025</span><span>Piscine École 42 — Paris</span></li>
+        <li><span class="mono path-y">2026</span><span>Technicien Informatique — OpenClassrooms · bac+2 RNCP 5</span></li>
+        <li class="path-next"><span class="mono path-y">→</span><a href="#contact">Ton entreprise ?</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══ STATION 4 — PROJETS ══ -->
+  <section class="station" id="projets">
+    <div class="st-inner st-wide reveal">
+      <p class="sec-num mono">04 — projets</p>
+      <h2>Trois preuves.</h2>
+      <div class="projects-grid">
+        <article class="project-card tilt">
+          <div class="proj-viz"><canvas data-viz="radar" aria-hidden="true"></canvas></div>
+          <h3>Médecin Proche</h3>
+          <p class="mono proj-stack">TypeScript · Next.js · Supabase</p>
+          <p>Trouver un médecin dans les DOM-TOM.</p>
+          <p class="proj-links"><a href="https://github.com/DaVeinOUT/medecin-proche" target="_blank" rel="noopener">GitHub ↗</a></p>
+        </article>
+        <article class="project-card tilt">
+          <div class="proj-viz"><canvas data-viz="sort" aria-hidden="true"></canvas></div>
+          <h3>Algo Visualizer</h3>
+          <p class="mono proj-stack">Vanilla JS · Canvas API</p>
+          <p>11 algorithmes animés, zéro dépendance.</p>
+          <p class="proj-links"><a href="https://algo-visualizer-gamma-three.vercel.app" target="_blank" rel="noopener">Démo ↗</a> · <a href="https://github.com/DaVeinOUT/algo-visualizer" target="_blank" rel="noopener">GitHub ↗</a></p>
+        </article>
+        <article class="project-card tilt">
+          <div class="proj-viz"><canvas data-viz="term" aria-hidden="true"></canvas></div>
+          <h3>Ce portfolio</h3>
+          <p class="mono proj-stack">Three.js · vanilla JS</p>
+          <p>Le réseau 3D et un vrai terminal caché.</p>
+          <p class="proj-links"><a href="terminal.html" class="to-terminal">Terminal →</a> · <a href="https://github.com/DaVeinOUT/mon-portfolio" target="_blank" rel="noopener">GitHub ↗</a></p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- ============ EXPÉRIENCES ============ -->
-  <section id="experiences" class="reveal">
-    <p class="sec-num mono">03 — Expériences</p>
-    <h2>Le terrain, déjà.</h2>
-    <ol class="timeline">
-      <li>
-        <p class="mono tl-date">06/2024 — 11/2024 · 6 mois</p>
-        <h3>Technicien Fibre Optique <span class="tl-org">· Solutions 30, Guyane</span></h3>
-        <p>Installation, maintenance et déploiement de la fibre optique. Diagnostics terrain au réflectomètre OTDR, raccordements, coordination avec les équipes sur site.</p>
-        <ul class="tags"><li>Fibre optique</li><li>OTDR</li><li>Réseaux</li><li>Diagnostic</li></ul>
-      </li>
-      <li>
-        <p class="mono tl-date">08/2023 — 05/2024 · 10 mois</p>
-        <h3>Installateur d'équipements sportifs <span class="tl-org">· Multi-Services et Finitions, Guyane</span></h3>
-        <p>Installation de paniers de basket et systèmes de support, montage et fixation sécurisée des équipements, mise en place des structures associées.</p>
-        <ul class="tags"><li>Rigueur</li><li>Sécurité</li><li>Travail en équipe</li></ul>
-      </li>
-    </ol>
-  </section>
-
-  <!-- ============ PROJETS ============ -->
-  <section id="projets" class="reveal">
-    <p class="sec-num mono">04 — Projets</p>
-    <h2>J'apprends en construisant.</h2>
-    <div class="projects-grid">
-      <article class="project-card tilt">
-        <div class="proj-viz"><canvas data-viz="radar" aria-hidden="true"></canvas></div>
-        <h3>Médecin Proche</h3>
-        <p class="mono proj-stack">TypeScript · Next.js · Supabase</p>
-        <p>Annuaire médical pour les DOM-TOM : conception complète de l'interface, de la base de données et de la logique de recherche. Application responsive, pensée pour améliorer l'accès aux soins.</p>
-        <p class="proj-links"><a href="https://github.com/DaVeinOUT/medecin-proche" target="_blank" rel="noopener">GitHub ↗</a></p>
-      </article>
-      <article class="project-card tilt">
-        <div class="proj-viz"><canvas data-viz="sort" aria-hidden="true"></canvas></div>
-        <h3>Algo Visualizer</h3>
-        <p class="mono proj-stack">Vanilla JS · Canvas API</p>
-        <p>Visualiseur interactif d'algorithmes : 5 tris, 3 algorithmes de pathfinding et 3 structures de données animés en temps réel. Zéro dépendance, zéro build.</p>
-        <p class="proj-links"><a href="https://algo-visualizer-gamma-three.vercel.app" target="_blank" rel="noopener">Démo live ↗</a> · <a href="https://github.com/DaVeinOUT/algo-visualizer" target="_blank" rel="noopener">GitHub ↗</a></p>
-      </article>
-      <article class="project-card tilt">
-        <div class="proj-viz"><canvas data-viz="term" aria-hidden="true"></canvas></div>
-        <h3>Ce portfolio</h3>
-        <p class="mono proj-stack">HTML · CSS · JS — fait main</p>
-        <p>Site statique sans framework ni build. Le réseau 3D du haut de page est projeté à la main en canvas 2D, et le mode terminal est un vrai interpréteur de commandes.</p>
-        <p class="proj-links"><a href="terminal.html" class="to-terminal">Mode terminal →</a> · <a href="https://github.com/DaVeinOUT/mon-portfolio" target="_blank" rel="noopener">GitHub ↗</a></p>
-      </article>
+  <!-- ══ STATION 5 — CONTACT ══ -->
+  <section class="station" id="contact">
+    <div class="st-inner st-center reveal">
+      <p class="sec-num mono">05 — contact</p>
+      <h2>Un poste ?<br>Parlons-en.</h2>
+      <a class="contact-mail" href="mailto:davedorelus025@icloud.com">davedorelus025@icloud.com</a>
+      <ul class="alt-chips mono" aria-label="Conditions d'alternance">
+        <li>4 j entreprise / 1 j formation</li>
+        <li>12 mois</li>
+        <li>dispo immédiatement</li>
+        <li>Paris · Île-de-France</li>
+      </ul>
+      <ul class="contact-list mono">
+        <li><a href="tel:+33769595472">07 69 59 54 72</a></li>
+        <li><a href="https://github.com/DaVeinOUT" target="_blank" rel="noopener">github.com/DaVeinOUT</a></li>
+        <li><a href="assets/cv-davidson-dorelus.pdf" download>CV (PDF)</a></li>
+      </ul>
+      <footer>
+        <p class="mono">© <span id="year">2026</span> Davidson Dorelus · fait main — Three.js &amp; vanilla JS</p>
+        <a href="terminal.html" class="mono to-terminal">&gt;_ mode terminal</a>
+      </footer>
     </div>
-  </section>
-
-  <!-- ============ FORMATION ============ -->
-  <section id="formation" class="reveal">
-    <p class="sec-num mono">05 — Formation</p>
-    <h2>En progression constante.</h2>
-    <ol class="timeline">
-      <li>
-        <p class="mono tl-date">Alternance à venir</p>
-        <h3>Technicien Informatique <span class="tl-org">· OpenClassrooms — bac+2, RNCP niveau 5</span></h3>
-        <p>Installation et configuration de postes et serveurs, administration et sécurisation de parc, réseaux, support utilisateur et automatisation PowerShell.</p>
-      </li>
-      <li>
-        <p class="mono tl-date">Août 2025</p>
-        <h3>Piscine <span class="tl-org">· École 42, Paris</span></h3>
-        <p>Immersion intensive de 4 semaines : C, shell, algorithmique, évaluation par les pairs. Apprentissage sous pression réelle.</p>
-      </li>
-      <li>
-        <p class="mono tl-date">En cours — certification 2026</p>
-        <h3>Computer Science Career Path <span class="tl-org">· Codecademy</span></h3>
-        <p>Algorithmique, structures de données, Python, bases de données et architecture des systèmes.</p>
-      </li>
-      <li>
-        <p class="mono tl-date">2023</p>
-        <h3>Baccalauréat général et technologique <span class="tl-org">· Lycée Melkior-Garré, Guyane</span></h3>
-      </li>
-    </ol>
-  </section>
-
-  <!-- ============ CONTACT ============ -->
-  <section id="contact" class="reveal">
-    <p class="sec-num mono">06 — Contact</p>
-    <h2>Travaillons ensemble.</h2>
-    <p class="contact-lede">Un poste en alternance, une question, un projet ? Réponse rapide garantie.</p>
-    <a class="contact-mail" href="mailto:davedorelus025@icloud.com">davedorelus025@icloud.com</a>
-    <ul class="contact-list mono">
-      <li><a href="tel:+33769595472">07 69 59 54 72</a></li>
-      <li><a href="https://github.com/DaVeinOUT" target="_blank" rel="noopener">github.com/DaVeinOUT</a></li>
-      <li>Paris, France</li>
-    </ul>
   </section>
 
 </main>
 
-<footer>
-  <p class="mono">© <span id="year">2026</span> Davidson Dorelus · fait main en vanilla HTML/CSS/JS — même la 3D</p>
-  <a href="terminal.html" class="mono to-terminal">&gt;_ mode terminal</a>
-</footer>
-
 <div id="boot" aria-hidden="true"><p class="mono"><span class="p-user">davidson</span>@portfolio:~$ <span id="boot-text"></span><span id="boot-cursor">█</span></p></div>
 
 <script src="main.js"></script>
+<script type="module" src="scene.js"></script>
 </body>
 </html>
