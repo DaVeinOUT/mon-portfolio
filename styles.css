@@ -242,7 +242,7 @@ h2 {
   border: 1px solid var(--line-h);
   background: rgba(19, 19, 26, .72);
   color: var(--ink);
-  font-weight: 550;
+  font-weight: 500;
   font-size: 15px;
   transition: border-color .18s, background .18s, color .18s;
 }
@@ -318,7 +318,6 @@ h2 {
 
 .marquee-track {
   display: inline-flex;
-  gap: 14px;
   white-space: nowrap;
   width: max-content;
   animation: slide 36s linear infinite;
@@ -331,6 +330,7 @@ h2 {
 }
 
 .marquee-track span {
+  margin-right: 14px;
   font-size: clamp(1rem, 2.4vw, 1.5rem);
   padding: 12px 26px;
   border: 1px solid var(--line-h);
@@ -545,6 +545,8 @@ footer a:hover { color: var(--pulse); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
   .marquee-track { animation: none; flex-wrap: wrap; white-space: normal; width: auto; }
+  .marquee-track span { margin: 0 8px 8px 0; }
+  .marquee-track span[aria-hidden="true"] { display: none; }
   .marquees { width: auto; margin-left: 0; }
   .marquee { mask-image: none; -webkit-mask-image: none; }
 }

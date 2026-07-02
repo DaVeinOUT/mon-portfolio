@@ -251,12 +251,29 @@ if (renderer) {
   const PULSE_BOOST = [1, 1, 1, 2.4, 1.3, 1];
 
   /* ── Scroll & souris ── */
+  /* Mapping scroll → station basé sur la position réelle des sections :
+     une section plus haute que l'écran (ex. projets sur mobile)
+     ne désynchronise plus la scène. */
   let gTarget = 0, gCur = 0;
+  let anchors = [];
+  function readAnchors() {
+    anchors = [...document.querySelectorAll('.station')].map(s => s.offsetTop);
+  }
   function readScroll() {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    gTarget = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) * (STATIONS - 1) : 0;
+    if (anchors.length < 2) { gTarget = 0; return; }
+    const sy = window.scrollY;
+    let g = anchors.length - 1;
+    for (let i = 0; i < anchors.length - 1; i++) {
+      if (sy < anchors[i + 1]) {
+        const span = Math.max(1, anchors[i + 1] - anchors[i]);
+        g = i + Math.min(1, Math.max(0, (sy - anchors[i]) / span));
+        break;
+      }
+    }
+    gTarget = Math.min(STATIONS - 1, Math.max(0, g));
   }
   window.addEventListener('scroll', readScroll, { passive: true });
+  window.addEventListener('load', () => { readAnchors(); readScroll(); });
 
   let mx = 0, my = 0, tmx = 0, tmy = 0;
   window.addEventListener('pointermove', e => {
@@ -269,10 +286,11 @@ if (renderer) {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    readAnchors();
+    readScroll();
   }
   window.addEventListener('resize', resize);
   resize();
-  readScroll();
 
   const ease = t => t * t * (3 - 2 * t);
   const lerp = (a, b, t) => a + (b - a) * t;

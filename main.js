@@ -8,6 +8,10 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FINE_POINTER = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const DPR = Math.min(window.devicePixelRatio || 1, 2);
 
+/* Ouvert en double-clic (file://) : les modules ES sont bloqués par le
+   navigateur, la scène 3D ne peut pas se charger → fond de repli propre. */
+if (location.protocol === 'file:') document.body.classList.add('no3d');
+
 /* ── Registre d'animations 2D : ne tourne que si visible ── */
 const engines = [];
 
@@ -67,7 +71,7 @@ if (burger && navLinks) {
       const idx = [...stations].indexOf(en.target);
       links.forEach((l, i) => l.classList.toggle('active', i === idx));
     });
-  }, { threshold: 0.45 });
+  }, { rootMargin: '-45% 0px -45%', threshold: 0 });
   stations.forEach(s => io.observe(s));
 })();
 

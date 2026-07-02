@@ -766,6 +766,7 @@ function cmdMatrix() {
 }
 
 function cmdClear() {
+  if (snakeActive && cmdSnake.stop) cmdSnake.stop();
   output.innerHTML = '';
   printWelcome();
 }
@@ -1318,6 +1319,7 @@ function cmdSnake() {
     if (m) { e.preventDefault(); e.stopPropagation(); turn(m); }
   }
 
+  cmdSnake.stop = end;
   document.addEventListener('keydown', onKey, true);
 
   let tx = 0, ty = 0;

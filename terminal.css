@@ -870,3 +870,10 @@ body.theme-retro .t-welcome-box .name {
   transition: color .2s;
 }
 #back-to-site:hover { color: var(--accent); }
+
+/* ── Glyphes mono de la barre mobile (remplacent les emojis) ── */
+.mob-cmd-icon {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 500;
+}
