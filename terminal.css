@@ -860,3 +860,132 @@ body.theme-retro .t-card-title,
 body.theme-retro .t-welcome-box .name {
   text-shadow: 0 0 8px currentColor;
 }
+
+/* ── Lien retour vers le site classique ── */
+#title-bar-right { display: flex; align-items: center; gap: 12px; }
+#back-to-site {
+  font-size: 11px;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color .2s;
+}
+#back-to-site:hover { color: var(--accent); }
+
+/* ── Glyphes mono de la barre mobile (remplacent les emojis) ── */
+.mob-cmd-icon {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+
+/* ============================================================
+   V4 — CRT PREMIUM (bloom, vignette, flicker) + nouveaux thèmes
+   ============================================================ */
+
+/* ── Bloom phosphore ── */
+#terminal-output, #prompt-label, #terminal-input, #title-bar-text {
+  text-shadow: 0 0 5px color-mix(in srgb, currentColor 32%, transparent);
+}
+body.theme-light #terminal-output,
+body.theme-light #prompt-label,
+body.theme-light #terminal-input,
+body.theme-light #title-bar-text { text-shadow: none; }
+
+#terminal-input { caret-color: var(--accent); }
+
+/* ── Vignette + reflet d'écran ──
+   (la fenêtre est déjà position:fixed — ne surtout pas y toucher) */
+#terminal-window::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 55;
+  border-radius: inherit;
+  background:
+    linear-gradient(rgba(255, 255, 255, .03), transparent 10%),
+    radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, .30) 100%);
+}
+body.theme-light #terminal-window::after { opacity: .35; }
+
+/* ── Micro-scintillement ── */
+@keyframes crtFlicker {
+  0%, 96.8%, 98.4%, 100% { opacity: 1; }
+  97.2% { opacity: .93; }
+  97.8% { opacity: .985; }
+}
+#terminal-output { animation: crtFlicker 9s infinite; }
+
+/* ── Prompt riche ── */
+.p-git    { color: var(--text-3); }
+.p-branch { color: var(--purple); }
+
+/* ── Horloge ── */
+#t-clock { font-size: 11px; color: var(--text-3); letter-spacing: .05em; }
+
+/* ── Thème gruvbox ── */
+body.theme-gruvbox {
+  --bg:          #1d2021;
+  --bg-card:     #282828;
+  --bg-hover:    #32302f;
+  --text:        #ebdbb2;
+  --text-2:      #a89984;
+  --text-3:      #665c54;
+  --border:      rgba(235, 219, 178, .08);
+  --border-h:    rgba(235, 219, 178, .18);
+  --accent:      #fabd2f;
+  --accent-dim:  rgba(250, 189, 47, .1);
+  --accent-b:    rgba(250, 189, 47, .28);
+  --accent-glow: rgba(250, 189, 47, .35);
+  --green:       #b8bb26;
+  --blue:        #83a598;
+  --red:         #fb4934;
+  --purple:      #d3869b;
+}
+
+/* ── Thème synthwave ── */
+body.theme-synthwave {
+  --bg:          #12081f;
+  --bg-card:     #1a0b2e;
+  --bg-hover:    #241040;
+  --text:        #f4eefe;
+  --text-2:      #b39ddb;
+  --text-3:      #5e4a8a;
+  --border:      rgba(244, 238, 254, .1);
+  --border-h:    rgba(244, 238, 254, .22);
+  --accent:      #ff6ec7;
+  --accent-dim:  rgba(255, 110, 199, .1);
+  --accent-b:    rgba(255, 110, 199, .3);
+  --accent-glow: rgba(255, 110, 199, .45);
+  --green:       #00f0b5;
+  --blue:        #00d4ff;
+  --red:         #ff5370;
+  --purple:      #b388ff;
+}
+body.theme-synthwave #scanlines { opacity: .5; }
+
+/* ── Thème amber (phosphore ambre) ── */
+body.theme-amber {
+  --bg:          #0d0700;
+  --bg-card:     #140b00;
+  --bg-hover:    #1c1000;
+  --text:        #ffb000;
+  --text-2:      #c78800;
+  --text-3:      #6e4a00;
+  --border:      rgba(255, 176, 0, .1);
+  --border-h:    rgba(255, 176, 0, .22);
+  --accent:      #ffcf60;
+  --accent-dim:  rgba(255, 176, 0, .1);
+  --accent-b:    rgba(255, 176, 0, .28);
+  --accent-glow: rgba(255, 176, 0, .45);
+  --green:       #ffb000;
+  --blue:        #ffcf60;
+  --red:         #ff8c00;
+  --purple:      #ffcf60;
+}
+body.theme-amber #scanlines { opacity: .8; }
+
+@media (prefers-reduced-motion: reduce) {
+  #terminal-output { animation: none; }
+}

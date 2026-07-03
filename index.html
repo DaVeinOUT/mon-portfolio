@@ -3,92 +3,556 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0b0b" />
-  <meta name="description" content="Dorelus Davidson — Technicien IT & Développeur Web — Paris, France" />
-  <title>Dorelus Davidson — Portfolio</title>
+  <meta name="theme-color" content="#0a0a0d" />
+  <title>Davidson Dorelus — Technicien Informatique · Recherche alternance (Paris / IdF)</title>
+  <meta name="description" content="Davidson Dorelus, technicien informatique en recherche d'alternance (contrat d'apprentissage, 12 mois, 4j entreprise / 1j formation) à Paris et en Île-de-France. Systèmes, réseaux, support IT et développement web." />
+  <meta property="og:title" content="Davidson Dorelus — Technicien Informatique" />
+  <meta property="og:description" content="En recherche d'alternance — Paris / Île-de-France. Un portfolio-voyage dans un réseau 3D." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js" } }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Davidson Dorelus",
+    "jobTitle": "Technicien Informatique",
+    "email": "mailto:davedorelus025@icloud.com",
+    "telephone": "+33769595472",
+    "url": "https://mon-portfolio-two-gamma.vercel.app",
+    "sameAs": ["https://github.com/DaVeinOUT"],
+    "address": { "@type": "PostalAddress", "addressLocality": "Paris", "addressCountry": "FR" },
+    "knowsLanguage": ["fr", "en", "pt"]
+  }
+  </script>
 </head>
 <body>
 
-<!-- Scanlines overlay -->
-<div id="scanlines" aria-hidden="true"></div>
+<canvas id="gl-canvas" aria-hidden="true"></canvas>
 
-<!-- Canvas for effects -->
-<canvas id="fx-canvas" aria-hidden="true"></canvas>
-
-<!-- Terminal window -->
-<div id="terminal-window">
-
-  <!-- Title bar (macOS style) -->
-  <div id="title-bar">
-    <div id="traffic-lights">
-      <button class="tl tl-close" aria-label="Fermer"></button>
-      <button class="tl tl-min"   aria-label="Minimiser"></button>
-      <button class="tl tl-max"   aria-label="Plein écran"></button>
-    </div>
-    <span id="title-bar-text">davidson@portfolio:~</span>
-    <div id="title-bar-right">
-      <span id="theme-indicator" role="button" tabindex="0" title="Changer de thème">dark</span>
-    </div>
-  </div>
-
-  <!-- Output area -->
-  <div id="terminal-output" role="log" aria-live="polite" aria-label="Terminal output"></div>
-
-  <!-- Input area -->
-  <div id="terminal-input-row">
-    <span id="prompt-label" aria-hidden="true">
-      <span class="p-user">davidson</span><span class="p-at">@</span><span class="p-host">portfolio</span><span class="p-sep">:</span><span class="p-dir">~</span><span class="p-dollar">$</span>
-    </span>
-    <div id="input-wrapper">
-      <input
-        id="terminal-input"
-        type="text"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="false"
-        aria-label="Terminal input"
-        placeholder="type 'help'..."
-        enterkeyhint="send"
-      />
-      <div id="autocomplete-dropdown" role="listbox" aria-label="Suggestions"></div>
-    </div>
-  </div>
-
-  <!-- Mobile command bar -->
-  <nav id="mobile-cmd-bar" aria-label="Commandes rapides">
-    <button class="mob-cmd" data-cmd="whoami" aria-label="À propos">
-      <span class="mob-cmd-icon" aria-hidden="true">👤</span>
-      <span class="mob-cmd-label">about</span>
-    </button>
-    <button class="mob-cmd" data-cmd="skills" aria-label="Compétences">
-      <span class="mob-cmd-icon" aria-hidden="true">⚡</span>
-      <span class="mob-cmd-label">skills</span>
-    </button>
-    <button class="mob-cmd" data-cmd="projects" aria-label="Expérience">
-      <span class="mob-cmd-icon" aria-hidden="true">💼</span>
-      <span class="mob-cmd-label">xp</span>
-    </button>
-    <button class="mob-cmd" data-cmd="education" aria-label="Formation">
-      <span class="mob-cmd-icon" aria-hidden="true">🎓</span>
-      <span class="mob-cmd-label">edu</span>
-    </button>
-    <button class="mob-cmd" data-cmd="contact" aria-label="Contact">
-      <span class="mob-cmd-icon" aria-hidden="true">📬</span>
-      <span class="mob-cmd-label">contact</span>
-    </button>
-    <button class="mob-cmd mob-cmd-hire" data-cmd="sudo hire davidson" aria-label="Recruter">
-      <span class="mob-cmd-icon" aria-hidden="true">✨</span>
-      <span class="mob-cmd-label">hire!</span>
-    </button>
+<header id="nav">
+  <a href="#top" class="nav-logo mono">dd<span class="accent">.</span></a>
+  <nav id="nav-links" aria-label="Navigation principale">
+    <a href="#profil">Profil</a>
+    <a href="#competences">Compétences</a>
+    <a href="#parcours">Parcours</a>
+    <a href="#projets">Projets</a>
+    <a href="#contact">Contact</a>
   </nav>
+  <div class="nav-right">
+    <a href="terminal.html" class="btn-terminal mono to-terminal" title="Version terminal du portfolio">&gt;_</a>
+    <button id="nav-burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
 
-</div>
+<nav id="dots" aria-label="Étapes du voyage">
+  <a href="#top" data-i="0" class="active"><span class="sr-only">Accueil</span></a>
+  <a href="#profil" data-i="1"><span class="sr-only">Profil</span></a>
+  <a href="#competences" data-i="2"><span class="sr-only">Compétences</span></a>
+  <a href="#parcours" data-i="3"><span class="sr-only">Parcours</span></a>
+  <a href="#projets" data-i="4"><span class="sr-only">Projets</span></a>
+  <a href="#contact" data-i="5"><span class="sr-only">Contact</span></a>
+</nav>
+
+<main id="top">
+
+  <!-- ══ STATION 0 — HERO ══ -->
+  <section class="station" id="hero">
+    <div class="st-inner">
+      <p class="status-chip mono"><span class="dot" aria-hidden="true"></span>Disponible — alternance 12 mois</p>
+      <h1 id="kinetic-name">Davidson<br>Dorelus</h1>
+      <p class="hero-lede">Technicien informatique &amp; développeur web — Paris.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary magnetic" href="#contact">Me contacter</a>
+        <a class="btn" href="assets/cv-davidson-dorelus.pdf" download>CV (PDF)</a>
+        <a class="btn btn-ghost to-terminal mono" href="terminal.html">&gt;_ terminal</a>
+      </div>
+    </div>
+    <p class="scroll-cue mono" aria-hidden="true">scroll — le réseau t'accompagne ↓</p>
+  </section>
+
+  <!-- ══ STATION 1 — PROFIL ══ -->
+  <section class="station" id="profil">
+    <div class="st-inner reveal">
+      <p class="sec-num mono">01 — profil</p>
+      <h2>J'apprends<br>en construisant.</h2>
+      <ul class="punch-list">
+        <li><span class="mono punch-k">fibre</span>6 mois de fibre optique — Solutions 30, Guyane</li>
+        <li><span class="mono punch-k">42</span>Piscine École 42 — C, shell, peer-to-peer</li>
+        <li><span class="mono punch-k">auto</span>Docker, VPS, full-stack — en autodidacte</li>
+      </ul>
+      <p class="st-hint mono">l'histoire complète vit dans <a href="terminal.html" class="to-terminal">le terminal →</a></p>
+    </div>
+  </section>
+
+  <!-- ══ STATION 2 — COMPÉTENCES ══ -->
+  <section class="station" id="competences">
+    <div class="st-inner st-wide reveal">
+      <p class="sec-num mono">02 — compétences</p>
+      <h2>Ce que je sais faire.</h2>
+    </div>
+    <div class="marquees reveal" aria-label="Compétences">
+      <div class="marquee" data-dir="left">
+        <div class="marquee-track mono">
+          <span>Linux</span><span>Windows Server</span><span>Active Directory</span><span>TCP/IP</span><span>Fibre optique · OTDR</span><span>Support IT</span><span>HTML / CSS</span><span>JavaScript</span><span>Python</span><span>SQL</span><span>Docker</span><span>PowerShell</span><span>Git · GitHub</span>
+          <span aria-hidden="true">Linux</span><span aria-hidden="true">Windows Server</span><span aria-hidden="true">Active Directory</span><span aria-hidden="true">TCP/IP</span><span aria-hidden="true">Fibre optique · OTDR</span><span aria-hidden="true">Support IT</span><span aria-hidden="true">HTML / CSS</span><span aria-hidden="true">JavaScript</span><span aria-hidden="true">Python</span><span aria-hidden="true">SQL</span><span aria-hidden="true">Docker</span><span aria-hidden="true">PowerShell</span><span aria-hidden="true">Git · GitHub</span>
+        </div>
+      </div>
+      <div class="marquee marquee-next" data-dir="right">
+        <div class="marquee-track mono">
+          <span>GLPI · ITIL</span><span>Nagios · OCS</span><span>GPO · IAM</span><span>VLAN · ACL</span><span>Veeam</span><span>Déploiement de parc</span><span>Supervision</span><span>Sauvegardes</span>
+          <span aria-hidden="true">GLPI · ITIL</span><span aria-hidden="true">Nagios · OCS</span><span aria-hidden="true">GPO · IAM</span><span aria-hidden="true">VLAN · ACL</span><span aria-hidden="true">Veeam</span><span aria-hidden="true">Déploiement de parc</span><span aria-hidden="true">Supervision</span><span aria-hidden="true">Sauvegardes</span>
+        </div>
+      </div>
+      <p class="st-hint mono st-center">ligne 1 : acquis — ligne 2 : au programme OpenClassrooms</p>
+    </div>
+  </section>
+
+  <!-- ══ STATION 3 — PARCOURS ══ -->
+  <section class="station" id="parcours">
+    <div class="st-inner reveal">
+      <p class="sec-num mono">03 — parcours</p>
+      <h2>Du terrain<br>au parc informatique.</h2>
+      <ol class="path-list">
+        <li><span class="mono path-y">2023</span><span>Bac général et technologique — Guyane</span></li>
+        <li><span class="mono path-y">2023-24</span><span>Installateur d'équipements — Multi-Services · 10 mois</span></li>
+        <li><span class="mono path-y">2024</span><span>Technicien fibre optique — Solutions 30 · 6 mois</span></li>
+        <li><span class="mono path-y">2025</span><span>Piscine École 42 — Paris</span></li>
+        <li><span class="mono path-y">2026</span><span>Technicien Informatique — OpenClassrooms · bac+2 RNCP 5</span></li>
+        <li class="path-next"><span class="mono path-y">→</span><a href="#contact">Ton entreprise ?</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══ STATION 4 — PROJETS ══ -->
+  <section class="station" id="projets">
+    <div class="st-inner st-wide reveal">
+      <p class="sec-num mono">04 — projets</p>
+      <h2>Trois preuves.</h2>
+      <div class="projects-grid">
+        <article class="project-card tilt">
+          <div class="proj-viz"><canvas data-viz="radar" aria-hidden="true"></canvas></div>
+          <h3>Médecin Proche</h3>
+          <p class="mono proj-stack">TypeScript · Next.js · Supabase</p>
+          <p>Trouver un médecin dans les DOM-TOM.</p>
+          <p class="proj-links"><a href="https://github.com/DaVeinOUT/medecin-proche" target="_blank" rel="noopener">GitHub ↗</a></p>
+        </article>
+        <article class="project-card tilt">
+          <div class="proj-viz"><canvas data-viz="sort" aria-hidden="true"></canvas></div>
+          <h3>Algo Visualizer</h3>
+          <p class="mono proj-stack">Vanilla JS · Canvas API</p>
+          <p>11 algorithmes animés, zéro dépendance.</p>
+          <p class="proj-links"><a href="https://algo-visualizer-gamma-three.vercel.app" target="_blank" rel="noopener">Démo ↗</a> · <a href="https://github.com/DaVeinOUT/algo-visualizer" target="_blank" rel="noopener">GitHub ↗</a></p>
+        </article>
+        <article class="project-card tilt">
+          <div class="proj-viz"><canvas data-viz="term" aria-hidden="true"></canvas></div>
+          <h3>Ce portfolio</h3>
+          <p class="mono proj-stack">Three.js · vanilla JS</p>
+          <p>Le réseau 3D et un vrai terminal caché.</p>
+          <p class="proj-links"><a href="terminal.html" class="to-terminal">Terminal →</a> · <a href="https://github.com/DaVeinOUT/mon-portfolio" target="_blank" rel="noopener">GitHub ↗</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ STATION 5 — CONTACT ══ -->
+  <section class="station" id="contact">
+    <div class="st-inner st-center reveal">
+      <p class="sec-num mono">05 — contact</p>
+      <h2>Un poste ?<br>Parlons-en.</h2>
+      <a class="contact-mail" href="mailto:davedorelus025@icloud.com">davedorelus025@icloud.com</a>
+      <ul class="alt-chips mono" aria-label="Conditions d'alternance">
+        <li>4 j entreprise / 1 j formation</li>
+        <li>12 mois</li>
+        <li>dispo immédiatement</li>
+        <li>Paris · Île-de-France</li>
+      </ul>
+      <ul class="contact-list mono">
+        <li><a href="tel:+33769595472">07 69 59 54 72</a></li>
+        <li><a href="https://github.com/DaVeinOUT" target="_blank" rel="noopener">github.com/DaVeinOUT</a></li>
+        <li><a href="assets/cv-davidson-dorelus.pdf" download>CV (PDF)</a></li>
+      </ul>
+      <footer>
+        <p class="mono">© <span id="year">2026</span> Davidson Dorelus · fait main — Three.js &amp; vanilla JS</p>
+        <a href="terminal.html" class="mono to-terminal">&gt;_ mode terminal</a>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<div id="boot" aria-hidden="true"><p class="mono"><span class="p-user">davidson</span>@portfolio:~$ <span id="boot-text"></span><span id="boot-cursor">█</span></p></div>
 
 <script src="main.js"></script>
+<script type="module">
+/* ============================================================
+   SCÈNE 3D — voyage dans le réseau (Three.js, CDN, sans build)
+   Le scroll pilote la caméra et le réseau se réorganise :
+   sphère → nébuleuse → constellations → fibre → projets → anneau
+   ============================================================ */
+/* Import dynamique : fonctionne aussi en ouverture locale (double-clic),
+   car seul le CDN est requis — pas de fetch d'un fichier local. */
+let THREE;
+try { THREE = await import('three'); } catch (e) { document.body.classList.add('no3d'); }
+
+
+const canvas = document.getElementById('gl-canvas');
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let renderer;
+if (THREE) try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+} catch (e) {
+  document.body.classList.add('no3d');
+}
+
+if (renderer) {
+  /* ── Base ── */
+  const MOBILE = window.innerWidth < 720;
+  const N = MOBILE ? 255 : 510;         /* divisible par 15 → blocs propres */
+  const BLOCK = N / 15;
+  const STATIONS = 6;
+
+  renderer.setClearColor(0x0a0a0d, 1);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MOBILE ? 1.5 : 1.75));
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x0a0a0d, 0.05);
+
+  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+
+  let seed = 20260702;
+  function rnd() {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+
+  /* ── Formations (Float32Array N*3 chacune) ──
+     Les indices consécutifs restent voisins dans chaque formation,
+     pour que les arêtes (i → i+1) restent organiques partout. */
+
+  const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+
+  function fSphere() {
+    const a = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      const y = 1 - (i / (N - 1)) * 2;
+      const r = Math.sqrt(1 - y * y);
+      const th = GOLDEN * i;
+      const R = 2.9 + (rnd() - 0.5) * 0.5;
+      a[i * 3]     = Math.cos(th) * r * R;
+      a[i * 3 + 1] = y * R * 0.82;
+      a[i * 3 + 2] = Math.sin(th) * r * R;
+    }
+    return a;
+  }
+
+  function fNebula(base) {
+    const a = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      const k = 0.35 + rnd() * 1.05;
+      a[i * 3]     = base[i * 3] * k + (rnd() - 0.5) * 0.6;
+      a[i * 3 + 1] = base[i * 3 + 1] * k * 0.9 + (rnd() - 0.5) * 0.5;
+      a[i * 3 + 2] = base[i * 3 + 2] * k + (rnd() - 0.5) * 0.6;
+    }
+    return a;
+  }
+
+  function fClusters() {
+    const a = new Float32Array(N * 3);
+    const per = N / 3;
+    const C = [
+      [-2.5, 0.7, -0.4],
+      [2.5, 0.9, -0.6],
+      [0, -1.7, 0.5],
+    ];
+    for (let i = 0; i < N; i++) {
+      const b = Math.floor(i / per);
+      const j = i % per;
+      const y = 1 - (j / (per - 1)) * 2;
+      const r = Math.sqrt(1 - y * y);
+      const th = GOLDEN * j;
+      const R = 1.05 + (rnd() - 0.5) * 0.3;
+      a[i * 3]     = C[b][0] + Math.cos(th) * r * R;
+      a[i * 3 + 1] = C[b][1] + y * R * 0.85;
+      a[i * 3 + 2] = C[b][2] + Math.sin(th) * r * R;
+    }
+    return a;
+  }
+
+  function fCable() {
+    const a = new Float32Array(N * 3);
+    const per = N / 5;
+    for (let i = 0; i < N; i++) {
+      const s = Math.floor(i / per);
+      const t = (i % per) / (per - 1);
+      const ang = (s / 5) * Math.PI * 2;
+      const x = -5.6 + t * 11.2;
+      const braid = Math.sin(x * 0.55 + ang) * 0.5;
+      a[i * 3]     = x + (rnd() - 0.5) * 0.08;
+      a[i * 3 + 1] = Math.cos(ang) * 0.42 + braid * 0.55 + (rnd() - 0.5) * 0.07;
+      a[i * 3 + 2] = Math.sin(ang) * 0.42 + Math.cos(x * 0.5 + ang) * 0.4 + (rnd() - 0.5) * 0.07;
+    }
+    return a;
+  }
+
+  function fTrio() {
+    const a = new Float32Array(N * 3);
+    const per = N / 3;
+    const C = [
+      [-2.4, 1.0, 0],
+      [2.4, 1.0, 0],
+      [0, -1.6, 0.3],
+    ];
+    for (let i = 0; i < N; i++) {
+      const b = Math.floor(i / per);
+      const t = ((i % per) / per) * Math.PI * 2;
+      const R = 0.95 + (rnd() - 0.5) * 0.14;
+      const tilt = b * 0.7;
+      const x = Math.cos(t) * R;
+      const y = Math.sin(t) * R;
+      a[i * 3]     = C[b][0] + x;
+      a[i * 3 + 1] = C[b][1] + y * Math.cos(tilt);
+      a[i * 3 + 2] = C[b][2] + y * Math.sin(tilt) + (rnd() - 0.5) * 0.1;
+    }
+    return a;
+  }
+
+  function fRing() {
+    const a = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      const t = (i / N) * Math.PI * 2;
+      const halo = i % 12 === 0;
+      const R = halo ? 3.7 + rnd() * 0.5 : 2.75 + (rnd() - 0.5) * 0.24;
+      a[i * 3]     = Math.cos(t) * R;
+      a[i * 3 + 1] = Math.sin(t) * R;
+      a[i * 3 + 2] = (rnd() - 0.5) * (halo ? 0.8 : 0.24);
+    }
+    return a;
+  }
+
+  const sphere = fSphere();
+  const FORMS = [sphere, fNebula(sphere), fClusters(), fCable(), fTrio(), fRing()];
+
+  /* ── Arêtes : chaîne i→i+1 (sans franchir les blocs) + chordes ── */
+  const edges = [];
+  for (let i = 0; i < N - 1; i++) {
+    if ((i + 1) % BLOCK !== 0) edges.push([i, i + 1]);
+  }
+  for (let i = 0; i < N; i += 17) edges.push([i, (i + 151) % N]);
+  const E = edges.length;
+
+  /* ── Géométries ── */
+  const cur = new Float32Array(N * 3);
+  cur.set(FORMS[0]);
+
+  const pGeo = new THREE.BufferGeometry();
+  const pAttr = new THREE.BufferAttribute(cur, 3);
+  pAttr.setUsage(THREE.DynamicDrawUsage);
+  pGeo.setAttribute('position', pAttr);
+
+  const cols = new Float32Array(N * 3);
+  for (let i = 0; i < N; i++) {
+    if (i % 8 === 0) { cols[i * 3] = 0.37; cols[i * 3 + 1] = 0.94; cols[i * 3 + 2] = 0.69; }
+    else             { cols[i * 3] = 0.91; cols[i * 3 + 1] = 0.77; cols[i * 3 + 2] = 0.42; }
+  }
+  pGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+
+  function glowTexture(inner, outer) {
+    const c = document.createElement('canvas');
+    c.width = c.height = 64;
+    const g = c.getContext('2d');
+    const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, inner);
+    grad.addColorStop(0.35, outer);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    return new THREE.CanvasTexture(c);
+  }
+
+  const points = new THREE.Points(pGeo, new THREE.PointsMaterial({
+    size: MOBILE ? 0.11 : 0.09,
+    map: glowTexture('rgba(255,255,255,1)', 'rgba(255,220,140,.5)'),
+    vertexColors: true,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+  }));
+  scene.add(points);
+
+  const lPos = new Float32Array(E * 6);
+  const lGeo = new THREE.BufferGeometry();
+  const lAttr = new THREE.BufferAttribute(lPos, 3);
+  lAttr.setUsage(THREE.DynamicDrawUsage);
+  lGeo.setAttribute('position', lAttr);
+
+  const lines = new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({
+    color: 0xe8c56a,
+    transparent: true,
+    opacity: 0.13,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  }));
+  scene.add(lines);
+
+  /* ── Impulsions lumineuses ── */
+  const NP = MOBILE ? 8 : 14;
+  const pulses = [];
+  for (let i = 0; i < NP; i++) {
+    pulses.push({ e: (Math.random() * E) | 0, t: Math.random(), sp: 0.008 + Math.random() * 0.014 });
+  }
+  const puPos = new Float32Array(NP * 3);
+  const puGeo = new THREE.BufferGeometry();
+  const puAttr = new THREE.BufferAttribute(puPos, 3);
+  puAttr.setUsage(THREE.DynamicDrawUsage);
+  puGeo.setAttribute('position', puAttr);
+
+  const pulsePts = new THREE.Points(puGeo, new THREE.PointsMaterial({
+    size: 0.2,
+    map: glowTexture('rgba(255,255,255,1)', 'rgba(94,240,176,.65)'),
+    color: 0x5ef0b0,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+  }));
+  scene.add(pulsePts);
+
+  /* ── Trajectoire caméra par station ── */
+  const CAM = [
+    [0, 0.2, 7.4],
+    [2.6, 0.8, 4.6],
+    [0, 4.2, 6.6],
+    [0.4, 1.6, 6.6],
+    [0, 0.3, 5.9],
+    [0, 0, 7.0],
+  ];
+  const LOOK = [
+    [0, 0, 0],
+    [-0.4, 0, -0.6],
+    [0, 0.2, 0],
+    [0, 0, 0],
+    [0, 0.2, 0],
+    [0, 0, 0],
+  ];
+  const PULSE_BOOST = [1, 1, 1, 2.4, 1.3, 1];
+
+  /* ── Scroll & souris ── */
+  /* Mapping scroll → station basé sur la position réelle des sections :
+     une section plus haute que l'écran (ex. projets sur mobile)
+     ne désynchronise plus la scène. */
+  let gTarget = 0, gCur = 0;
+  let anchors = [];
+  function readAnchors() {
+    anchors = [...document.querySelectorAll('.station')].map(s => s.offsetTop);
+  }
+  function readScroll() {
+    if (anchors.length < 2) { gTarget = 0; return; }
+    const sy = window.scrollY;
+    let g = anchors.length - 1;
+    for (let i = 0; i < anchors.length - 1; i++) {
+      if (sy < anchors[i + 1]) {
+        const span = Math.max(1, anchors[i + 1] - anchors[i]);
+        g = i + Math.min(1, Math.max(0, (sy - anchors[i]) / span));
+        break;
+      }
+    }
+    gTarget = Math.min(STATIONS - 1, Math.max(0, g));
+  }
+  window.addEventListener('scroll', readScroll, { passive: true });
+  window.addEventListener('load', () => { readAnchors(); readScroll(); });
+
+  let mx = 0, my = 0, tmx = 0, tmy = 0;
+  window.addEventListener('pointermove', e => {
+    tmx = e.clientX / window.innerWidth - 0.5;
+    tmy = e.clientY / window.innerHeight - 0.5;
+  }, { passive: true });
+
+  function resize() {
+    const w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    readAnchors();
+    readScroll();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const ease = t => t * t * (3 - 2 * t);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const look = new THREE.Vector3();
+
+  function frame(ts) {
+    const time = ts / 1000;
+    gCur += (gTarget - gCur) * 0.06;
+    mx += (tmx - mx) * 0.05;
+    my += (tmy - my) * 0.05;
+
+    const k = Math.min(STATIONS - 2, Math.floor(gCur));
+    const e = ease(Math.min(1, Math.max(0, gCur - k)));
+    const fa = FORMS[k], fb = FORMS[k + 1];
+
+    for (let i = 0; i < N * 3; i++) cur[i] = fa[i] + (fb[i] - fa[i]) * e;
+    pAttr.needsUpdate = true;
+
+    for (let j = 0; j < E; j++) {
+      const [a, b] = edges[j];
+      lPos[j * 6]     = cur[a * 3];
+      lPos[j * 6 + 1] = cur[a * 3 + 1];
+      lPos[j * 6 + 2] = cur[a * 3 + 2];
+      lPos[j * 6 + 3] = cur[b * 3];
+      lPos[j * 6 + 4] = cur[b * 3 + 1];
+      lPos[j * 6 + 5] = cur[b * 3 + 2];
+    }
+    lAttr.needsUpdate = true;
+
+    const boost = lerp(PULSE_BOOST[k], PULSE_BOOST[k + 1], e);
+    for (let i = 0; i < NP; i++) {
+      const pl = pulses[i];
+      pl.t += pl.sp * boost;
+      if (pl.t >= 1) { pl.t = 0; pl.e = (Math.random() * E) | 0; }
+      const [a, b] = edges[pl.e];
+      puPos[i * 3]     = cur[a * 3]     + (cur[b * 3]     - cur[a * 3])     * pl.t;
+      puPos[i * 3 + 1] = cur[a * 3 + 1] + (cur[b * 3 + 1] - cur[a * 3 + 1]) * pl.t;
+      puPos[i * 3 + 2] = cur[a * 3 + 2] + (cur[b * 3 + 2] - cur[a * 3 + 2]) * pl.t;
+    }
+    puAttr.needsUpdate = true;
+
+    const drift = Math.sin(time * 0.25) * 0.12;
+    camera.position.set(
+      lerp(CAM[k][0], CAM[k + 1][0], e) + mx * 1.1 + drift,
+      lerp(CAM[k][1], CAM[k + 1][1], e) - my * 0.8,
+      lerp(CAM[k][2], CAM[k + 1][2], e)
+    );
+    look.set(
+      lerp(LOOK[k][0], LOOK[k + 1][0], e),
+      lerp(LOOK[k][1], LOOK[k + 1][1], e),
+      lerp(LOOK[k][2], LOOK[k + 1][2], e)
+    );
+    camera.lookAt(look);
+
+    /* rotation douce partout sauf sur la station fibre (3) pour la lisibilité */
+    points.rotation.y = lines.rotation.y = pulsePts.rotation.y =
+      Math.sin(time * 0.08) * 0.12 * Math.min(1, Math.abs(gCur - 3));
+
+    renderer.render(scene, camera);
+    if (!REDUCED) requestAnimationFrame(frame);
+  }
+
+  requestAnimationFrame(frame);
+}
+</script>
 </body>
 </html>
