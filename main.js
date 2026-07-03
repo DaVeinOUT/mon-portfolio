@@ -213,7 +213,7 @@ if (!REDUCED && 'IntersectionObserver' in window) {
         s.wait = ts + 46;
         const [, txt] = SCRIPT[s.li];
         if (s.ch < txt.length) s.ch++;
-        else { s.wait = ts + 750; s.lines.push(s.li); s.li = (s.li + 1) % SCRIPT.length; s.ch = 0; if (s.li === 0) s.lines = []; }
+        else { s.wait = ts + 750; s.lines.push(s.li); s.lines = s.lines.slice(-3); s.li = (s.li + 1) % SCRIPT.length; s.ch = 0; }
       }
       if (still) { s.lines = [0, 1, 2]; s.li = 3; s.ch = SCRIPT[3][1].length; }
       ctx.clearRect(0, 0, w, h);
