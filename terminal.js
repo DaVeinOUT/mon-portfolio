@@ -24,7 +24,7 @@ let matrixActive = false;
 let matrixRAF    = null;
 
 /* ── Themes ───────────────────────────────────────────────── */
-const THEMES = ['dark', 'light', 'retro', 'glass'];
+const THEMES = ['dark', 'retro', 'amber', 'gruvbox', 'synthwave', 'light', 'glass'];
 
 /* ── Commands registry ────────────────────────────────────── */
 const COMMANDS = [
@@ -42,6 +42,14 @@ const COMMANDS = [
   { cmd: 'neofetch',          desc: 'Carte d\'identité système' },
   { cmd: 'snake',             desc: 'Mini-jeu dans le terminal' },
   { cmd: 'history',           desc: 'Historique des commandes' },
+  { cmd: 'tour',              desc: 'Visite guidée automatique' },
+  { cmd: 'ask',               desc: 'Pose-moi une question (FAQ)' },
+  { cmd: 'nmap',              desc: 'Scan de ports → compétences' },
+  { cmd: 'traceroute',        desc: "La route vers l'alternance" },
+  { cmd: 'ping',              desc: 'Teste ma réactivité' },
+  { cmd: 'ssh',               desc: 'Session distante — Guyane' },
+  { cmd: 'htop',              desc: 'Mes processus en cours' },
+  { cmd: 'git',               desc: 'git log — le parcours en commits' },
   { cmd: 'clear',             desc: 'Efface le terminal' },
   { cmd: 'ls',                desc: 'Liste les sections' },
   { cmd: 'theme',             desc: 'theme [dark|light|retro|glass]' },
@@ -117,6 +125,7 @@ function printCmdEcho(cmd) {
     `<span class="p-host">portfolio</span>` +
     `<span class="p-sep">:</span>` +
     `<span class="p-dir">~</span>` +
+    `<span class="p-git"> git:(</span><span class="p-branch">alternance</span><span class="p-git">)</span>` +
     `<span class="p-dollar">$</span> ` +
     `<span class="t-typed">${escHtml(cmd)}</span>`
   ));
@@ -168,12 +177,14 @@ function printWelcome() {
       </div>
     </div>
     <div class="links">
+      <button class="t-quick-link" data-cmd="tour">tour</button>
       <button class="t-quick-link" data-cmd="whoami">whoami</button>
       <button class="t-quick-link" data-cmd="skills">skills</button>
       <button class="t-quick-link" data-cmd="projects">projects</button>
       <button class="t-quick-link" data-cmd="alternance">alternance</button>
       <button class="t-quick-link" data-cmd="contact">contact</button>
       <button class="t-quick-link" data-cmd="cv">cv</button>
+      <button class="t-quick-link" data-cmd="nmap">nmap</button>
       <button class="t-quick-link" data-cmd="snake">snake</button>
       <button class="t-quick-link" data-cmd="help">help</button>
     </div>
@@ -189,7 +200,8 @@ function printWelcome() {
 /* ── Commands ─────────────────────────────────────────────── */
 function cmdHelp() {
   const rows = [
-    ['help',               'Affiche cette aide'],
+    ['tour',               'Visite guidée automatique (recruteurs)'],
+    ['ask <question>',     'FAQ interactive — dispo, rythme, lieu…'],
     ['whoami / about',     'Qui je suis'],
     ['alternance',         'Infos recruteurs — apprentissage'],
     ['cv',                 'Télécharge mon CV (PDF)'],
@@ -198,15 +210,16 @@ function cmdHelp() {
     ['education',          'Formation & diplômes'],
     ['learning',           'Progression Codecademy'],
     ['contact',            'Email, téléphone, GitHub'],
-    ['neofetch',           'Carte d\'identité système'],
-    ['ls',                 'Liste les sections disponibles'],
-    ['history',            'Historique des commandes'],
-    ['theme <nom>',        'dark · light · retro · glass'],
-    ['matrix',             'Pluie verte — easter egg'],
-    ['snake',              'Mini-jeu snake'],
+    ['nmap davidson',      'Scan de ports → compétences'],
+    ['traceroute',         "La route vers l'alternance"],
+    ['ping / ssh / htop',  'Boîte à outils réseau'],
+    ['git log',            'Le parcours en commits'],
+    ['neofetch',           "Carte d'identité système"],
+    ['ls / history',       'Sections · historique'],
+    ['theme <nom>',        'dark · retro · amber · gruvbox · synthwave · light · glass'],
+    ['matrix / snake',     'Easter eggs'],
     ['sudo hire davidson', 'Pourquoi me recruter'],
-    ['clear',              'Efface le terminal'],
-    ['exit',               'Retour au site classique'],
+    ['clear / exit',       'Effacer · retour au site'],
   ];
 
   const frag = [
@@ -814,9 +827,18 @@ function runCommand(raw) {
     case cmd === 'neofetch':              cmdNeofetch(); break;
     case cmd === 'snake':                 cmdSnake();    break;
     case cmd === 'history':               cmdHistory();  break;
+    case cmd === 'nmap':                  cmdNmap(arg);  break;
+    case cmd === 'traceroute' || cmd === 'tracert': cmdTraceroute(); break;
+    case cmd === 'ping':                  cmdPing(arg);  break;
+    case cmd === 'ssh':                   cmdSsh();      break;
+    case cmd === 'htop' || cmd === 'top': cmdHtop();     break;
+    case cmd === 'tour':                  cmdTour();     break;
+    case cmd === 'ask':                   cmdAsk(input); break;
+    case cmd === 'git':                   cmdGit(arg);   break;
     case cmd === 'matrix':                cmdMatrix();   break;
     case lower === 'sudo hire davidson':  cmdSudoHire(); break;
     default: {
+      if (input.includes('?')) { cmdAsk(input); break; }
       let matched = false;
       for (const [re, target] of NL_MAP) {
         if (re.test(input)) {
@@ -962,6 +984,9 @@ const IDLE_HINTS = [
   'Tu recrutes ? Tape <span class="t-accent">alternance</span>.',
   'Un break ? Tape <span class="t-accent">snake</span>.',
   'Tape <span class="t-accent">neofetch</span> pour ma carte d\'identité système.',
+  'Scanne-moi : <span class="t-accent">nmap davidson</span>',
+  'Pressé ? Tape <span class="t-accent">tour</span> — le terminal fait la visite tout seul.',
+  'Essaie <span class="t-accent">theme synthwave</span> ou <span class="t-accent">theme amber</span>.',
   'Essaie <span class="t-accent">sudo hire davidson</span> — accès root garanti.',
 ];
 
@@ -1340,3 +1365,280 @@ function cmdSnake() {
   draw();
   raf = requestAnimationFrame(step);
 }
+
+
+/* ============================================================
+   TERMINAL V4 — outils réseau + mode recruteur
+   ============================================================ */
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function printSlow(items, stepMs = 110) {
+  return new Promise(resolve => {
+    let i = 0;
+    (function next() {
+      if (i >= items.length) { resolve(); return; }
+      const it = items[i++];
+      if (it === '') append(blank());
+      else if (typeof it === 'string') append(line(it));
+      else append(it);
+      setTimeout(next, stepMs);
+    })();
+  });
+}
+
+/* ── nmap : scan de ports → compétences ── */
+function cmdNmap(target) {
+  const t = (target || 'davidson').split(/\s+/)[0];
+  const ports = [
+    ['22/tcp',   'open', 'ssh',       'Support IT · Helpdesk'],
+    ['53/tcp',   'open', 'dns',       'Réseaux · TCP/IP'],
+    ['80/tcp',   'open', 'http',      'HTML · CSS · JavaScript'],
+    ['389/tcp',  'open', 'ldap',      'Active Directory'],
+    ['443/tcp',  'open', 'https',     'Cybersécurité (bases)'],
+    ['2375/tcp', 'open', 'docker',    'Docker · VPS'],
+    ['3306/tcp', 'open', 'mysql',     'SQL'],
+    ['5985/tcp', 'open', 'winrm',     'PowerShell · Windows Server'],
+    ['8443/tcp', 'open', 'fibre',     'Fibre optique · OTDR'],
+  ];
+  const rows = ports.map(([p, st, svc, skill]) =>
+    line(`<span class="t-accent">${p.padEnd(10)}</span><span class="t-green">${st.padEnd(7)}</span><span class="t-text">${svc.padEnd(12)}</span><span class="t-dim">${skill}</span>`)
+  );
+  printSlow([
+    line(`<span class="t-dim">Starting nmap 7.95 — scan de <span class="t-accent">${escHtml(t)}</span></span>`),
+    line('<span class="t-dim">Host is up (0.042s latency).</span>'),
+    '',
+    line(`<span class="t-dim2">${'PORT'.padEnd(10)}${'ÉTAT'.padEnd(7)}${'SERVICE'.padEnd(12)}COMPÉTENCE</span>`),
+    ...rows,
+    '',
+    line('<span class="t-dim">OS detection : Technicien Informatique — RNCP 5 en préparation</span>'),
+    line('<span class="t-text">nmap done : 1 profil scanné — </span><span class="t-green t-bold">recrutable ✓</span>'),
+    '',
+  ], 90);
+}
+
+/* ── traceroute : la route vers l'alternance ── */
+function cmdTraceroute() {
+  const hops = [
+    ['1', 'lycee-melkior-garre.gf',  'bac général & technologique', '2023', '1.2'],
+    ['2', 'multi-services.gf',       'installateur · 10 mois',      '2023', '4.8'],
+    ['3', 'solutions30-fibre.gf',    'technicien fibre · 6 mois',   '2024', '9.1'],
+    ['4', 'piscine.42.fr',           'C · shell · peer-to-peer',    '2025', '14.6'],
+    ['5', 'openclassrooms.fr',       'technicien info · RNCP 5',    '2026', '18.3'],
+  ];
+  const rows = hops.map(([i, host, det, y, ms]) =>
+    line(` ${i}  <span class="t-accent">${host.padEnd(24)}</span><span class="t-dim">${det.padEnd(30)}</span><span class="t-dim2">${y}</span>  <span class="t-text">${ms} ms</span>`)
+  );
+  printSlow([
+    line('<span class="t-dim">traceroute to alternance (ton-entreprise.fr), 6 hops max</span>'),
+    ...rows,
+    line(` 6  <span class="t-green t-bold">ton-entreprise.fr</span>          <span class="t-green">* * *  en attente de réponse — contacte-moi</span>`),
+    '',
+  ], 320);
+}
+
+/* ── ping ── */
+function cmdPing(target) {
+  const t = (target || 'ton-entreprise.fr').split(/\s+/)[0];
+  if (/davidson/i.test(t)) {
+    printLines([
+      line('<span class="t-green">PONG — réponse en 0.1 ms. Toujours dispo, toujours réactif.</span>'),
+      line('<span class="t-dim2">→ davedorelus025@icloud.com · 07 69 59 54 72</span>'),
+      '',
+    ]);
+    return;
+  }
+  const seqs = [1, 2, 3, 4].map(i =>
+    line(`<span class="t-dim">64 bytes from </span><span class="t-accent">${escHtml(t)}</span><span class="t-dim">: icmp_seq=${i} ttl=64 time=${(8 + Math.random() * 26).toFixed(1)} ms</span>`)
+  );
+  printSlow([
+    line(`<span class="t-text">PING ${escHtml(t)} 56(84) bytes of data.</span>`),
+    ...seqs,
+    '',
+    line(`<span class="t-dim">--- ${escHtml(t)} ping statistics ---</span>`),
+    line('<span class="t-dim">4 packets transmitted, 4 received, 0% packet loss</span>'),
+    line('<span class="t-green">La connexion est bonne — on se lance ? Tape </span><span class="t-accent">contact</span>'),
+    '',
+  ], 480);
+}
+
+/* ── ssh : session distante Guyane ── */
+function cmdSsh() {
+  const card = el('div', 't-card');
+  card.innerHTML = `
+    <div class="t-card-title">davidson@guyane — chantier fibre, 2024</div>
+    <div class="t-card-body">
+      Six mois sur le terrain avec Solutions 30 : déploiement et maintenance
+      de la fibre optique, diagnostics au réflectomètre OTDR, raccordements,
+      coordination des équipes sur site. La vraie vie du réseau — celle
+      qu'on ne voit pas depuis un bureau.
+    </div>
+    <div class="t-card-tags">
+      <span class="t-tag accent">Fibre optique</span>
+      <span class="t-tag blue">OTDR</span>
+      <span class="t-tag green">Terrain</span>
+    </div>
+  `;
+  printSlow([
+    line("<span class=\"t-dim\">ssh davidson@guyane.solutions30.gf</span>"),
+    line('<span class="t-dim">Authentification par expérience… </span><span class="t-green">OK</span>'),
+    line('<span class="t-dim">Bienvenue sur le chantier. Dernière connexion : 11/2024.</span>'),
+    '',
+    card,
+    '',
+    line('<span class="t-dim">logout — Connection to guyane closed.</span>'),
+    '',
+  ], 340);
+}
+
+/* ── htop : mes processus ── */
+function cmdHtop() {
+  const bar = pct => {
+    const f = Math.round(pct / 10);
+    return `<span class="t-green">${'▓'.repeat(f)}</span><span class="t-dim2">${'░'.repeat(10 - f)}</span>`;
+  };
+  const procs = [
+    ['1',    'recherche-alternance', 100.0],
+    ['42',   'motivation',            99.9],
+    ['2024', 'apprentissage-c',       87.3],
+    ['365',  'veille-techno',         64.2],
+    ['31',   'codecademy-cs',         31.0],
+    ['7',    'snake.exe',              4.2],
+  ];
+  const rows = procs.map(([pid, name, pct]) =>
+    line(`<span class="t-dim2">${pid.padStart(5)}</span> <span class="t-dim">davidson</span>  ${bar(pct)} <span class="t-text">${String(pct).padStart(5)}%</span>  <span class="t-accent">${name}</span>`)
+  );
+  printLines([
+    el('span', 't-section', 'htop — uptime : depuis 2023 · load average : 0.99 1.00 0.87'),
+    '',
+    line(`<span class="t-dim2">${'PID'.padStart(5)} ${'USER'.padEnd(9)} ${'CPU'.padEnd(11)}${'%'.padStart(6)}  COMMAND</span>`),
+    ...rows,
+    '',
+    line('<span class="t-dim2">Aucun processus zombie. Tape </span><span class="t-accent">kill</span><span class="t-dim2"> … non, rien ne tue la motivation.</span>'),
+    '',
+  ]);
+}
+
+/* ── tour : visite guidée automatique ── */
+let tourActive = false;
+
+async function cmdTour() {
+  if (tourActive) return;
+  tourActive = true;
+  printLines([line('<span class="t-dim2">— visite guidée · <span class="t-accent">Échap</span> pour arrêter —</span>'), '']);
+  const steps = ['whoami', 'skills', 'projects', 'alternance', 'contact'];
+  const stop = e => {
+    if (e.key === 'Escape') { e.preventDefault(); tourActive = false; }
+  };
+  document.addEventListener('keydown', stop, true);
+  await sleep(700);
+  for (const c of steps) {
+    if (!tourActive) break;
+    for (let i = 1; i <= c.length; i++) {
+      if (!tourActive) break;
+      inputEl.value = c.slice(0, i);
+      await sleep(65);
+    }
+    if (!tourActive) break;
+    await sleep(260);
+    inputEl.value = '';
+    runCommand(c);
+    await sleep(2700);
+  }
+  document.removeEventListener('keydown', stop, true);
+  printLines([
+    tourActive
+      ? line('<span class="t-green">— fin de la visite · tape </span><span class="t-accent">help</span><span class="t-green"> pour explorer, ou </span><span class="t-accent">cv</span><span class="t-green"> pour le PDF —</span>')
+      : line('<span class="t-dim">Visite interrompue.</span>'),
+    '',
+  ]);
+  tourActive = false;
+}
+
+/* ── ask : FAQ interactive ── */
+function cmdAsk(raw) {
+  const q = String(raw || '').replace(/^ask\s*/i, '').trim();
+  if (!q) {
+    printLines([
+      line('<span class="t-dim">Usage : </span><span class="t-accent">ask &lt;ta question&gt;</span>'),
+      line('<span class="t-dim2">Exemples : </span><span class="t-accent">ask dispo ?</span><span class="t-dim2"> · </span><span class="t-accent">ask quel rythme ?</span><span class="t-dim2"> · </span><span class="t-accent">ask où ?</span><span class="t-dim2"> · </span><span class="t-accent">ask quelle stack ?</span>'),
+      '',
+    ]);
+    return;
+  }
+  const RULES = [
+    [/dispo|disponib|quand|date|d[ée]but|commence/i,
+      "Disponible <span class='t-green'>immédiatement</span> — contrat d'apprentissage de 12 mois."],
+    [/rythme|jour|semaine|planning|pr[ée]sence/i,
+      '4 jours en entreprise / 1 jour en formation — jour au choix, flexible.'],
+    [/o[uù]\b|lieu|ville|paris|mobilit|zone|r[ée]gion/i,
+      'Paris · Hauts-de-Seine · Île-de-France (et Guyane).'],
+    [/salaire|r[ée]mun[ée]ration|paye|co[uû]t/i,
+      "Grille légale du contrat d'apprentissage — parlons-en : <span class='t-accent'>davedorelus025@icloud.com</span>"],
+    [/stack|techno|comp[ée]tence|skill|outil|niveau/i,
+      "Systèmes & réseaux (Linux, AD, TCP/IP, fibre) + dev (JS, Python, SQL, Docker, PowerShell). Tape <span class='t-accent'>skills</span>."],
+    [/formation|[ée]cole|dipl[oô]me|rncp|openclassrooms|[ée]tude/i,
+      "Technicien Informatique — OpenClassrooms, bac+2, RNCP niveau 5. Tape <span class='t-accent'>education</span>."],
+    [/projet|medecin|algo|portfolio|r[ée]alis/i,
+      "Médecin Proche (Next.js/Supabase), Algo Visualizer, ce portfolio. Tape <span class='t-accent'>projects</span>."],
+    [/contact|mail|t[ée]l[ée]phone|joindre|appel|num[ée]ro/i,
+      "davedorelus025@icloud.com · 07 69 59 54 72. Tape <span class='t-accent'>contact</span>."],
+    [/\bcv\b|curriculum/i,
+      "Tape <span class='t-accent'>cv</span> — le PDF se télécharge direct."],
+    [/qui|profil|pr[ée]sent|parle.moi/i,
+      "Technicien informatique & dev web — terrain (fibre), intensif (42), autodidacte (Docker, full-stack). Tape <span class='t-accent'>whoami</span>."],
+    [/pourquoi|recruter|embaucher|choisir/i,
+      "Tape <span class='t-accent'>sudo hire davidson</span> — la réponse vaut le détour."],
+  ];
+  const hit = RULES.find(([re]) => re.test(q));
+  printLines([
+    line(`<span class="t-dim2">Q : ${escHtml(q)}</span>`),
+    hit
+      ? line(`<span class="t-text">R : ${hit[1]}</span>`)
+      : line("<span class='t-text'>R : Bonne question — je n'ai pas la réponse en stock. Pose-la moi directement : </span><span class='t-accent'>davedorelus025@icloud.com</span>"),
+    '',
+  ]);
+}
+
+/* ── git : le parcours en commits ── */
+function cmdGit(arg) {
+  const sub = (arg || '').split(/\s+/)[0];
+  if (sub === 'status') {
+    printLines([
+      line('<span class="t-text">Sur la branche </span><span class="t-purple">alternance</span>'),
+      line("<span class=\"t-dim\">Votre branche est prête à être fusionnée avec 'ton-entreprise/main'.</span>"),
+      line('<span class="t-green">rien à valider — dispo pour commencer ✓</span>'),
+      '',
+    ]);
+    return;
+  }
+  if (sub !== 'log' && sub !== '') {
+    printLines([line(`<span class="t-dim">git : sous-commande inconnue. Essaie </span><span class="t-accent">git log</span><span class="t-dim"> ou </span><span class="t-accent">git status</span>`), '']);
+    return;
+  }
+  const commits = [
+    ['a3f42c1', '(HEAD → alternance)', "chore: recherche d'entreprise — dispo immédiatement", '2026'],
+    ['9b21e07', '',                    'feat(formation): OpenClassrooms Technicien Informatique — RNCP 5', '2026'],
+    ['7c0ffee', '',                    'feat(42): Piscine École 42 — C, shell, peer-to-peer', '2025'],
+    ['5f1b3a9', '',                    'feat(fibre): 6 mois technicien fibre optique — Solutions 30', '2024'],
+    ['2e88d4c', '',                    'feat(terrain): 10 mois installateur — Multi-Services', '2023-24'],
+    ['c0deba5', '',                    'init: bac général et technologique — Guyane', '2023'],
+  ];
+  printLines([
+    ...commits.map(([h, ref, msg, y]) =>
+      line(`<span class="t-accent">${h}</span>${ref ? ` <span class="t-green">${ref}</span>` : ''} <span class="t-text">${escHtml(msg)}</span> <span class="t-dim2">· ${y}</span>`)
+    ),
+    '',
+    line("<span class=\"t-dim2\">Le prochain commit s'écrit chez toi : </span><span class=\"t-accent\">contact</span>"),
+    '',
+  ]);
+}
+
+/* ── horloge du title bar ── */
+(function tClock() {
+  const elc = document.getElementById('t-clock');
+  if (!elc) return;
+  const tick = () => { elc.textContent = new Date().toLocaleTimeString('fr-FR'); };
+  tick();
+  setInterval(tick, 1000);
+})();
