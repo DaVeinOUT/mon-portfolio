@@ -894,8 +894,8 @@ body.theme-light #title-bar-text { text-shadow: none; }
 
 #terminal-input { caret-color: var(--accent); }
 
-/* ── Vignette + reflet d'écran ── */
-#terminal-window { position: relative; }
+/* ── Vignette + reflet d'écran ──
+   (la fenêtre est déjà position:fixed — ne surtout pas y toucher) */
 #terminal-window::after {
   content: '';
   position: absolute;
