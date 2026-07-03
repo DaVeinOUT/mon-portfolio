@@ -8,10 +8,6 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FINE_POINTER = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const DPR = Math.min(window.devicePixelRatio || 1, 2);
 
-/* Ouvert en double-clic (file://) : les modules ES sont bloqués par le
-   navigateur, la scène 3D ne peut pas se charger → fond de repli propre. */
-if (location.protocol === 'file:') document.body.classList.add('no3d');
-
 /* ── Registre d'animations 2D : ne tourne que si visible ── */
 const engines = [];
 

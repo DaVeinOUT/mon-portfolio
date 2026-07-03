@@ -79,7 +79,10 @@ body.no3d {
   justify-content: space-between;
   gap: 16px;
   padding: 16px max(24px, calc((100vw - var(--w)) / 2));
-  background: linear-gradient(rgba(10, 10, 13, .85), rgba(10, 10, 13, 0));
+  background: rgba(10, 10, 13, .72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
 }
 
 .nav-logo { font-size: 19px; font-weight: 500; color: var(--ink); }
@@ -518,7 +521,6 @@ footer a:hover { color: var(--pulse); }
 
 @media (max-width: 720px) {
   #nav-burger { display: flex; }
-  #nav { background: linear-gradient(rgba(10, 10, 13, .92), rgba(10, 10, 13, 0)); }
   #nav-links {
     display: none;
     position: absolute;
