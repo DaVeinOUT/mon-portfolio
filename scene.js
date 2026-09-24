@@ -127,9 +127,9 @@ export async function initScene() {
      #reseau (dédiée) : le graphe est le sujet → dense.
      Ailleurs : fond derrière le texte → léger.
      Budget total (nœuds + impulsions inclus) :
-     dédié 1834 desktop / 1192 mobile · fond 1434 / 422. */
+     dédié 1834 desktop / 1192 mobile · fond 1434 / 400. */
   const DUST_DEDICATED = MOBILE ? 1170 : 1800;
-  const DUST_BACK = MOBILE ? 400 : 1400;
+  const DUST_BACK = MOBILE ? 378 : 1400;   /* 378 + 12 nœuds + 10 impulsions = 400 */
 
   function makeDust(count) {
     const pos = new Float32Array(count * 3);
