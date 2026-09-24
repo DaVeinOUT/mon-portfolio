@@ -433,7 +433,7 @@ function cmdEducation() {
     },
     {
       title: 'Piscine École 42',
-      sub: 'Paris · TODO : dates à compléter',
+      sub: 'Paris · août 2026',
       tag: ['Immersion', 'blue'],
       desc: 'C, shell, algorithmique, évaluation par les pairs, travail en équipe.',
     },
@@ -1237,7 +1237,7 @@ function cmdTraceroute() {
     ['1', 'lycee-melkior-garre.gf',  'bac SES et NSI',              '2023', '1.2'],
     ['2', 'multi-services.gf',       'installateur · 08/2023 à 05/2024', '2023', '4.8'],
     ['3', 'solutions30-fibre.gf',    'stage fibre · OTDR',          '2024', '9.1'],
-    ['4', 'piscine.42.fr',           'C · shell · peer-to-peer',    'TODO', '14.6'],
+    ['4', 'piscine.42.fr',           'C · shell · peer-to-peer',    '2026', '14.6'],
     ['5', 'simplon.fr',              'titre TSSR · admis',          '2026', '18.3'],
   ];
   const rows = hops.map(([i, host, det, y, ms]) =>
@@ -1430,7 +1430,7 @@ function cmdGit(arg) {
   const commits = [
     ['a3f42c1', '(HEAD → alternance)', "chore: recherche d'entreprise · contrat d'apprentissage", '2026'],
     ['9b21e07', '',                    'feat(formation): admis chez Simplon · titre TSSR (bac+2)', '2026'],
-    ['7c0ffee', '',                    'feat(42): Piscine École 42 · C, shell, peer-to-peer', 'TODO'],
+    ['7c0ffee', '',                    'feat(42): Piscine École 42 · C, shell, peer-to-peer', '2026'],
     ['5f1b3a9', '',                    'feat(fibre): stage technicien fibre optique · Solutions 30', '2024'],
     ['2e88d4c', '',                    'feat(terrain): installateur · Multi-Services', '2023-24'],
     ['c0deba5', '',                    'init: bac SES et NSI · Guyane', '2023'],
