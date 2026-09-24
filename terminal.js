@@ -329,18 +329,18 @@ function cmdProjects() {
       type: 'Infrastructure',
       desc: "Nginx Proxy Manager et Uptime Kuma en Docker Compose. Pipeline d'audit de sécurité conteneurisé, lancé par cron. Agent IA relié à Telegram. Pas d'URL publique : c'est de l'infrastructure, pas une vitrine.",
       tags: ['Linux', 'Docker Compose', 'Supervision', 'Audit sécurité'],
-      link: 'https://github.com/DaVeinOUT/homelab-stack',
-      linkLabel: 'GitHub (homelab-stack)',
-      todo: 'TODO : dépôt homelab-stack inaccessible pour le moment, confirme le lien',
+      link: null,
+      linkLabel: null,
+      todo: null,
     },
     {
-      title: 'SecDash',
+      title: 'SecDash · hors ligne',
       sub: 'Next.js · Prisma · MySQL',
       type: 'Le croisement',
-      desc: "Tableau de bord de sécurité multi-clients, hébergé sur mon Hetzner, relié à GitHub par webhooks. Audit mené : secrets exposés, fuites de variables d'environnement, protections IDOR et CSRF manquantes.",
-      tags: ['Next.js', 'Prisma', 'MySQL', 'Audit web'],
+      desc: "Tableau de bord de sécurité multi-clients, relié à GitHub par webhooks. Le serveur qui l'hébergeait a été perdu. Ce que j'en ai retenu : snapshots réguliers, sauvegardes testées, aucun secret en clair sur le disque, et un accès de secours documenté. Reconstruction prévue.",
+      tags: ['Next.js', 'Prisma', 'MySQL', 'Audit web', 'Hors ligne'],
       link: null,
-      todo: 'TODO : lien public ou dépôt SecDash à confirmer',
+      todo: null,
     },
     {
       title: 'Médecin Proche',
@@ -348,9 +348,9 @@ function cmdProjects() {
       type: 'Problème réel',
       desc: "Annuaire médical pour les DOM-TOM. Né d'un problème réel : mon père cherchait un médecin pour mon petit frère en Guyane, et aucun outil ne disait qui était disponible.",
       tags: ['TypeScript', 'Next.js', 'Supabase'],
-      link: 'https://github.com/DaVeinOUT/medecin-proche',
-      linkLabel: 'GitHub',
-      todo: 'TODO : le dépôt medecin-proche renvoie 404, rends-le public ou corrige le lien',
+      link: 'https://medecin-proche.vercel.app',
+      linkLabel: 'Voir l\'application',
+      todo: null,
     },
     {
       title: 'EDUCA',
@@ -954,7 +954,7 @@ function cmdAlternance() {
     <div class="t-card-body">
       <span class="t-dim">Contrat &nbsp;&nbsp;&nbsp;&nbsp;:</span> Apprentissage<br>
       <span class="t-dim">Formation &nbsp;&nbsp;:</span> Titre professionnel Technicien supérieur systèmes et réseaux (bac+2) · Simplon · admis<br>
-      <span class="t-dim">Rythme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> TODO : rythme à confirmer<br>
+      <span class="t-dim">Rythme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> à définir avec l'entreprise d'accueil<br>
       <span class="t-dim">Zones &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Saint-Cloud · Île-de-France<br>
       <span class="t-dim">Démarrage &nbsp;&nbsp;:</span> à convenir avec l'entreprise
     </div>
@@ -1381,7 +1381,7 @@ function cmdAsk(raw) {
     [/dispo|disponib|quand|date|d[ée]but|commence/i,
       "Contrat d'apprentissage · admis chez Simplon. Démarrage à convenir avec l'entreprise."],
     [/rythme|jour|semaine|planning|pr[ée]sence/i,
-      "TODO : rythme à confirmer · le planning se règle avec l'entreprise."],
+      "À définir avec l'entreprise d'accueil · le planning se règle ensemble."],
     [/o[uù]\b|lieu|ville|paris|mobilit|zone|r[ée]gion/i,
       'Saint-Cloud (92210) · Île-de-France.'],
     [/salaire|r[ée]mun[ée]ration|paye|co[uû]t/i,

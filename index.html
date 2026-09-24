@@ -45,6 +45,7 @@
   <a href="#top" class="nav-logo mono">dd<span class="accent">.</span></a>
   <nav id="nav-links" aria-label="Navigation principale">
     <a href="#profil">Profil</a>
+    <a href="#reseau">Réseau</a>
     <a href="#competences">Compétences</a>
     <a href="#parcours">Parcours</a>
     <a href="#projets">Projets</a>
@@ -60,10 +61,11 @@
 <nav id="dots" aria-label="Étapes du voyage">
   <a href="#top" data-i="0" class="active"><span class="sr-only">Accueil</span></a>
   <a href="#profil" data-i="1"><span class="sr-only">Profil</span></a>
-  <a href="#competences" data-i="2"><span class="sr-only">Compétences</span></a>
-  <a href="#parcours" data-i="3"><span class="sr-only">Parcours</span></a>
-  <a href="#projets" data-i="4"><span class="sr-only">Projets</span></a>
-  <a href="#contact" data-i="5"><span class="sr-only">Contact</span></a>
+  <a href="#reseau" data-i="2"><span class="sr-only">Le réseau</span></a>
+  <a href="#competences" data-i="3"><span class="sr-only">Compétences</span></a>
+  <a href="#parcours" data-i="4"><span class="sr-only">Parcours</span></a>
+  <a href="#projets" data-i="5"><span class="sr-only">Projets</span></a>
+  <a href="#contact" data-i="6"><span class="sr-only">Contact</span></a>
 </nav>
 
 <main id="top">
@@ -98,7 +100,13 @@
     </div>
   </section>
 
-  <!-- ══ STATION 2 · COMPÉTENCES ══ -->
+  <!-- ══ STATION 2 · LE RÉSEAU (dédiée : le graphe est le sujet) ══ -->
+  <section class="station station-net" id="reseau" aria-label="Mon parcours en réseau">
+    <p class="net-cue mono" aria-hidden="true">le réseau se dessine · touche un nœud</p>
+    <p class="sr-only">Le parcours en réseau : un serpent Raspberry Pi à la racine, une branche matériel et terrain, une branche code, et SecDash au croisement. Chaque nœud est réel et s'ouvre au toucher.</p>
+  </section>
+
+  <!-- ══ STATION 3 · COMPÉTENCES ══ -->
   <section class="station" id="competences">
     <div class="st-inner reveal">
       <p class="sec-num mono">02 · compétences</p>
@@ -128,7 +136,7 @@
     </div>
   </section>
 
-  <!-- ══ STATION 3 · PARCOURS ══ -->
+  <!-- ══ STATION 4 · PARCOURS ══ -->
   <section class="station" id="parcours">
     <div class="st-inner reveal">
       <p class="sec-num mono">03 · parcours</p>
@@ -157,7 +165,7 @@
     </div>
   </section>
 
-  <!-- ══ STATION 4 · PROJETS ══ -->
+  <!-- ══ STATION 5 · PROJETS ══ -->
   <section class="station" id="projets">
     <div class="st-inner st-wide reveal">
       <p class="sec-num mono">04 · projets</p>
@@ -168,21 +176,21 @@
           <h3>Serveur auto-hébergé · VPS Hetzner</h3>
           <p class="mono proj-stack">Ubuntu · Docker · cron</p>
           <p>Nginx Proxy Manager et Uptime Kuma en Docker Compose. Pipeline d'audit de sécurité conteneurisé, lancé par cron. Agent IA relié à Telegram.</p>
-          <p class="proj-links"><a href="https://github.com/DaVeinOUT/homelab-stack" target="_blank" rel="noopener">homelab-stack ↗</a><span class="proj-note mono">infrastructure, pas de vitrine publique</span></p>
+          <p class="proj-links"><span class="proj-note mono">infrastructure, pas de vitrine publique · dépôt privé</span></p>
         </article>
         <article class="project-card tilt">
           <div class="proj-viz"><canvas data-viz="secdash" aria-hidden="true"></canvas></div>
-          <h3>SecDash</h3>
+          <h3>SecDash <span class="badge-off mono">hors ligne</span></h3>
           <p class="mono proj-stack">Next.js · Prisma · MySQL</p>
-          <p>Tableau de bord de sécurité multi-clients, hébergé sur mon Hetzner, relié à GitHub par webhooks. Audit mené : secrets exposés, fuites de variables d'environnement, protections IDOR et CSRF manquantes.</p>
-          <p class="proj-links"><!-- TODO (à confirmer par Davidson) : lien public ou dépôt SecDash --></p>
+          <p>Tableau de bord de sécurité multi-clients, relié à GitHub par webhooks. Le serveur qui l'hébergeait a été perdu. Ce que j'en ai retenu : snapshots réguliers, sauvegardes testées, aucun secret en clair sur le disque, et un accès de secours documenté. Reconstruction prévue.</p>
+          <p class="proj-links"><span class="proj-note mono">le croisement des deux branches du réseau</span></p>
         </article>
         <article class="project-card tilt">
           <div class="proj-viz"><canvas data-viz="radar" aria-hidden="true"></canvas></div>
           <h3>Médecin Proche</h3>
           <p class="mono proj-stack">TypeScript · Next.js · Supabase</p>
           <p>Annuaire médical pour les DOM-TOM. Né d'un problème réel : mon père cherchait un médecin pour mon petit frère en Guyane, et aucun outil ne disait qui était disponible.</p>
-          <p class="proj-links"><a href="https://github.com/DaVeinOUT/medecin-proche" target="_blank" rel="noopener">GitHub ↗</a></p>
+          <p class="proj-links"><a href="https://medecin-proche.vercel.app" target="_blank" rel="noopener">Voir l'application ↗</a></p>
         </article>
         <article class="project-card tilt">
           <div class="proj-viz"><canvas data-viz="letters" aria-hidden="true"></canvas></div>
@@ -196,7 +204,7 @@
     </div>
   </section>
 
-  <!-- ══ STATION 5 · CONTACT ══ -->
+  <!-- ══ STATION 6 · CONTACT ══ -->
   <section class="station" id="contact">
     <div class="st-inner st-center reveal">
       <p class="sec-num mono">05 · contact</p>
@@ -207,6 +215,7 @@
         <li>contrat d'apprentissage</li>
         <li>Simplon · titre TSSR (bac+2)</li>
         <li>Saint-Cloud · Île-de-France</li>
+        <li>rythme à définir avec l'entreprise d'accueil</li>
       </ul>
       <ul class="contact-list mono">
         <li><a href="https://github.com/DaVeinOUT" target="_blank" rel="noopener">github.com/DaVeinOUT</a></li>

@@ -928,7 +928,7 @@ body.theme-amber #scanlines { opacity: .8; }
 }
 
 /* ============================================================
-   IMPRESSION — le terminal sort en document texte propre
+   IMPRESSION · le terminal sort en document texte propre
    ============================================================ */
 @media print {
   :root {

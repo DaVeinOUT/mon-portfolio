@@ -369,7 +369,23 @@ h2 {
 }
 
 /* ============================================================
-   STATION 2 · COMPÉTENCES (cinq familles, aucune barre)
+   STATION 2 · LE RÉSEAU (dédiée : aucun texte par-dessus)
+   ============================================================ */
+.station-net { pointer-events: none; }
+.net-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11.5px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 1px 8px rgba(10, 10, 13, .9);
+}
+
+/* ============================================================
+   STATION 3 · COMPÉTENCES (cinq familles, aucune barre)
    ============================================================ */
 .fam-list { display: grid; gap: 0; max-width: 780px; }
 .fam {
@@ -490,6 +506,19 @@ h2 {
 }
 .proj-links { font-size: 14px; font-weight: 500; margin: 0 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
 .proj-note { font-size: 11.5px; color: var(--ink-3); font-weight: 400; }
+
+.badge-off {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+  padding: 3px 10px;
+  border: 1px solid rgba(247, 106, 106, .35);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #f09898;
+  letter-spacing: .04em;
+}
 
 /* ============================================================
    STATION 5 · CONTACT
