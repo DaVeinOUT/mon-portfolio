@@ -1,6 +1,6 @@
 /* ============================================================
-   TERMINAL PORTFOLIO — main.js
-   Dorelus Davidson
+   TERMINAL PORTFOLIO · main.js
+   Davidson Dorelus
    ============================================================ */
 
 'use strict';
@@ -36,8 +36,8 @@ const COMMANDS = [
   { cmd: 'xp',                desc: 'Alias de projects' },
   { cmd: 'contact',           desc: 'Mes coordonnées' },
   { cmd: 'education',         desc: 'Formation & diplômes' },
-  { cmd: 'learning',          desc: 'Cours en ligne — Codecademy' },
-  { cmd: 'alternance',        desc: 'Infos recruteurs — apprentissage' },
+  { cmd: 'learning',          desc: 'Certification Codecademy' },
+  { cmd: 'alternance',        desc: 'Infos recruteurs · apprentissage' },
   { cmd: 'cv',                desc: 'Télécharge mon CV (PDF)' },
   { cmd: 'neofetch',          desc: 'Carte d\'identité système' },
   { cmd: 'snake',             desc: 'Mini-jeu dans le terminal' },
@@ -47,9 +47,9 @@ const COMMANDS = [
   { cmd: 'nmap',              desc: 'Scan de ports → compétences' },
   { cmd: 'traceroute',        desc: "La route vers l'alternance" },
   { cmd: 'ping',              desc: 'Teste ma réactivité' },
-  { cmd: 'ssh',               desc: 'Session distante — Guyane' },
+  { cmd: 'ssh',               desc: 'Session distante · Guyane' },
   { cmd: 'htop',              desc: 'Mes processus en cours' },
-  { cmd: 'git',               desc: 'git log — le parcours en commits' },
+  { cmd: 'git',               desc: 'git log · le parcours en commits' },
   { cmd: 'clear',             desc: 'Efface le terminal' },
   { cmd: 'ls',                desc: 'Liste les sections' },
   { cmd: 'theme',             desc: 'theme [dark|light|retro|glass]' },
@@ -138,7 +138,7 @@ function boot() {
     { text: 'Chargement des modules réseau...             <span class="t-green">OK</span>', delay: 180 },
     { text: 'Vérification des compétences...              <span class="t-green">OK</span>', delay: 340 },
     { text: 'Montage du portfolio...                      <span class="t-green">OK</span>', delay: 490 },
-    { text: 'Connexion établie.                           <span class="t-accent">v3.0</span>', delay: 640 },
+    { text: 'Connexion établie.                           <span class="t-accent">v5</span>', delay: 640 },
   ];
 
   BOOT.forEach(({ text, delay }) => {
@@ -169,11 +169,11 @@ function printWelcome() {
   box.innerHTML = `
     <div class="t-ascii">${escHtml(ascii)}</div>
     <div style="margin-top:.85rem">
-      <div class="name">Dorelus Davidson</div>
+      <div class="name">Davidson Dorelus</div>
       <div class="role">
-        Technicien Informatique &amp; Développeur Web
-        &nbsp;—&nbsp;
-        <span class="t-dot"></span><span class="t-green">Recherche alternance · dispo immédiatement</span>
+        Technicien supérieur systèmes et réseaux
+        &nbsp;·&nbsp;
+        <span class="t-dot"></span><span class="t-green">Recherche entreprise d'accueil · contrat d'apprentissage</span>
       </div>
     </div>
     <div class="links">
@@ -201,14 +201,14 @@ function printWelcome() {
 function cmdHelp() {
   const rows = [
     ['tour',               'Visite guidée automatique (recruteurs)'],
-    ['ask <question>',     'FAQ interactive — dispo, rythme, lieu…'],
+    ['ask <question>',     'FAQ interactive · dispo, rythme, lieu…'],
     ['whoami / about',     'Qui je suis'],
-    ['alternance',         'Infos recruteurs — apprentissage'],
+    ['alternance',         'Infos recruteurs · apprentissage'],
     ['cv',                 'Télécharge mon CV (PDF)'],
     ['skills',             'Compétences techniques'],
     ['projects / xp',      'Projets & expériences'],
     ['education',          'Formation & diplômes'],
-    ['learning',           'Progression Codecademy'],
+    ['learning',           'Certification Codecademy'],
     ['contact',            'Email, téléphone, GitHub'],
     ['nmap davidson',      'Scan de ports → compétences'],
     ['traceroute',         "La route vers l'alternance"],
@@ -244,25 +244,25 @@ function cmdWhoami() {
     el('span', 't-section', 'À propos de moi'),
     blank(),
     line('<span class="t-accent t-bold">Davidson Dorelus</span>'),
-    line('<span class="t-dim">Technicien Informatique &amp; Développeur Web</span>'),
+    line('<span class="t-dim">Technicien supérieur systèmes et réseaux · Saint-Cloud</span>'),
     blank(),
-    line('Passionné par le développement web et l\'automatisation, j\'apprends'),
-    line('en construisant : serveurs VPS sous Docker, applications full-stack,'),
-    line('visualiseur d\'algorithmes en vanilla JS. Six mois sur la fibre optique'),
-    line('chez Solutions 30 en Guyane et la Piscine de l\'École 42 m\'ont appris'),
-    line('à travailler sous pression réelle, en équipe et au contact du terrain.'),
+    line('Admis chez Simplon en Technicien supérieur systèmes et réseaux,'),
+    line('je cherche une entreprise d\'accueil pour mon alternance. J\'ai fait'),
+    line('un stage de technicien fibre optique et j\'administre seul un serveur'),
+    line('Linux où tournent plusieurs services en production : Docker,'),
+    line('reverse proxy, supervision, audit de sécurité.'),
     blank(),
-    line('<span class="t-dot"></span><span class="t-green">En recherche d\'alternance — contrat d\'apprentissage · dispo immédiatement</span>'),
+    line('<span class="t-dot"></span><span class="t-green">Recherche entreprise d\'accueil · contrat d\'apprentissage · titre TSSR (bac+2) · Simplon</span>'),
     blank(),
     (() => {
       const g = el('div', 't-card');
       g.innerHTML = `
         <div class="t-card-title">Infos rapides</div>
         <div class="t-card-body">
-          <span class="t-dim">Localisation &nbsp;:</span> Paris, France<br>
-          <span class="t-dim">Objectif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Alternance Technicien Informatique (bac+2, RNCP 5)<br>
-          <span class="t-dim">Rythme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> 4 j entreprise / 1 j formation · 12 mois<br>
-          <span class="t-dim">Langues &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Français (natif) · Anglais (B1-B2) · Portugais (A1-A2)
+          <span class="t-dim">Localisation &nbsp;:</span> Saint-Cloud (92210), France<br>
+          <span class="t-dim">Formation &nbsp;&nbsp;&nbsp;:</span> Titre TSSR (bac+2) · Simplon · admis<br>
+          <span class="t-dim">Contact &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> 07 69 59 54 72 · davedorelus025@icloud.com<br>
+          <span class="t-dim">Langues &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Français (langue maternelle) · Anglais (B1-B2) · Portugais (A1-A2)
         </div>
       `;
       return g;
@@ -275,115 +275,105 @@ function cmdWhoami() {
 }
 
 function cmdSkills() {
-  const groups = [
-    {
-      title: 'Développement Web',
-      color: 'accent',
-      skills: [
-        { name: 'HTML5',                pct: 80 },
-        { name: 'CSS3',                 pct: 65 },
-        { name: 'JavaScript',           pct: 60 },
-        { name: 'TypeScript / Next.js', pct: 35 },
-        { name: 'SQL',                  pct: 55 },
-        { name: 'Git / GitHub',         pct: 70 },
-        { name: 'C (en cours)',         pct: 25 },
-      ],
-    },
-    {
-      title: 'Infrastructure & Réseaux',
-      color: 'blue',
-      skills: [
-        { name: 'Fibre Optique',         pct: 85 },
-        { name: 'TCP/IP',                pct: 72 },
-        { name: 'Configuration réseau',  pct: 68 },
-        { name: 'Support IT / Helpdesk', pct: 78 },
-      ],
-    },
-    {
-      title: 'Systèmes & Automatisation',
-      color: 'green',
-      skills: [
-        { name: 'Windows Server',   pct: 78 },
-        { name: 'Linux (bases)',    pct: 55 },
-        { name: 'Active Directory', pct: 50 },
-        { name: 'Docker',           pct: 45 },
-        { name: 'PowerShell',       pct: 35 },
-        { name: 'Cybersécurité',    pct: 45 },
-      ],
-    },
+  const FAMILIES = [
+    { t: 'Systèmes Linux',            d: 'VPS Ubuntu chez Hetzner, administration en ligne de commande via SSH, tâches planifiées (cron).' },
+    { t: 'Conteneurs & services',     d: 'Docker, Docker Compose, reverse proxy (Nginx Proxy Manager), services auto-hébergés.' },
+    { t: 'Supervision & sécurité',    d: "Uptime Kuma, scans automatisés, audit d'une application web : secrets exposés, fuites de variables d'environnement, failles IDOR et CSRF." },
+    { t: 'Réseaux & terrain',         d: 'Raccordement fibre, mesures OTDR, diagnostic sur site, notions TCP/IP, adressage et routage.' },
+    { t: 'Automatisation & dev',      d: 'n8n, Git/GitHub, TypeScript, React, Next.js, Supabase, SQL.' },
   ];
-
-  const nodes = [el('span', 't-section', 'Compétences'), blank()];
-
-  groups.forEach(g => {
-    nodes.push(el('div', 'skill-group-title', g.title));
-    g.skills.forEach(sk => {
-      const row = el('div', 'skill-row');
-      row.innerHTML = `
-        <span class="skill-name">${escHtml(sk.name)}</span>
-        <div class="skill-bar-bg">
-          <div class="skill-bar-fill ${g.color}" data-pct="${sk.pct}"></div>
-        </div>
-        <span class="skill-pct">${sk.pct}%</span>
-      `;
-      nodes.push(row);
-    });
+  const nodes = [
+    el('span', 't-section', 'Compétences · cinq familles'),
+    blank(),
+    line('<span class="t-dim2">Pas de barres ni de pourcentages : ce qui se défend en entretien, pas ce qui se devine.</span>'),
+    blank(),
+  ];
+  FAMILIES.forEach(f => {
+    const card = el('div', 't-card');
+    card.innerHTML = `
+      <div class="t-card-title">${escHtml(f.t)}</div>
+      <div class="t-card-body">${escHtml(f.d)}</div>
+    `;
+    nodes.push(card);
   });
-
+  nodes.push(blank());
+  nodes.push(line('<span class="t-dim2">Où ça se voit : tape </span><span class="t-accent">projects</span><span class="t-dim2">.</span>'));
   nodes.push(blank());
   printLines(nodes);
-
-  setTimeout(() => {
-    document.querySelectorAll('.skill-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.pct + '%';
-    });
-  }, 80);
 }
 
 function cmdProjects() {
   const experiences = [
     {
-      title:    'Technicien Fibre Optique',
-      company:  'Solutions 30',
+      title: 'Stage · technicien fibre optique',
+      company: 'Solutions 30',
       location: 'Guyane française',
-      period:   '06/2024 – 11/2024 · 6 mois',
-      type:     'Emploi',
-      desc:     'Installation, maintenance et déploiement de la fibre optique. Diagnostics terrain avec réflectomètre OTDR, raccordements, coordination avec les équipes sur site.',
-      tags: [
-        { text: 'Fibre Optique', cls: 'accent' },
-        { text: 'OTDR',          cls: 'blue'   },
-        { text: 'Réseaux',       cls: 'accent' },
-        { text: 'Diagnostic',    cls: ''       },
-      ],
+      period: '06/2024 à 11/2024',
+      desc: "Installation, raccordement et maintenance de lignes fibre chez les clients. Mesures au réflectomètre (OTDR), tests de validation et mise en service. Relation client en intervention.",
+      tags: [{ text: 'Fibre optique', cls: 'accent' }, { text: 'OTDR', cls: 'blue' }, { text: 'Stage', cls: 'green' }],
     },
     {
-      title:    'Installateur d\'équipements sportifs',
-      company:  'Multi-Services et Finitions',
+      title: "Installateur d'équipements sportifs",
+      company: 'Multi-Services et Finitions',
       location: 'Guyane française',
-      period:   '08/2023 – 05/2024 · 10 mois',
-      type:     'Emploi',
-      desc:     'Installation de paniers de basket et systèmes de support, montage et fixation sécurisée des équipements, mise en place des structures associées.',
-      tags: [
-        { text: 'Rigueur',          cls: ''      },
-        { text: 'Sécurité',         cls: 'green' },
-        { text: 'Travail en équipe', cls: ''     },
-      ],
+      period: '08/2023 à 05/2024',
+      desc: 'Montage, fixation, installation. Rigueur, sécurité, travail en équipe.',
+      tags: [{ text: 'Rigueur', cls: '' }, { text: 'Sécurité', cls: 'green' }, { text: 'Équipe', cls: '' }],
+    },
+  ];
+
+  const projects = [
+    {
+      title: 'Serveur auto-hébergé · VPS Hetzner',
+      sub: 'Ubuntu · Docker · cron',
+      type: 'Infrastructure',
+      desc: "Nginx Proxy Manager et Uptime Kuma en Docker Compose. Pipeline d'audit de sécurité conteneurisé, lancé par cron. Agent IA relié à Telegram. Pas d'URL publique : c'est de l'infrastructure, pas une vitrine.",
+      tags: ['Linux', 'Docker Compose', 'Supervision', 'Audit sécurité'],
+      link: 'https://github.com/DaVeinOUT/homelab-stack',
+      linkLabel: 'GitHub (homelab-stack)',
+      todo: 'TODO : dépôt homelab-stack inaccessible pour le moment, confirme le lien',
+    },
+    {
+      title: 'SecDash',
+      sub: 'Next.js · Prisma · MySQL',
+      type: 'Le croisement',
+      desc: "Tableau de bord de sécurité multi-clients, hébergé sur mon Hetzner, relié à GitHub par webhooks. Audit mené : secrets exposés, fuites de variables d'environnement, protections IDOR et CSRF manquantes.",
+      tags: ['Next.js', 'Prisma', 'MySQL', 'Audit web'],
+      link: null,
+      todo: 'TODO : lien public ou dépôt SecDash à confirmer',
+    },
+    {
+      title: 'Médecin Proche',
+      sub: 'TypeScript · Next.js · Supabase',
+      type: 'Problème réel',
+      desc: "Annuaire médical pour les DOM-TOM. Né d'un problème réel : mon père cherchait un médecin pour mon petit frère en Guyane, et aucun outil ne disait qui était disponible.",
+      tags: ['TypeScript', 'Next.js', 'Supabase'],
+      link: 'https://github.com/DaVeinOUT/medecin-proche',
+      linkLabel: 'GitHub',
+      todo: 'TODO : le dépôt medecin-proche renvoie 404, rends-le public ou corrige le lien',
+    },
+    {
+      title: 'EDUCA',
+      sub: 'Vanilla JS · hors-ligne d\'abord · police OpenDyslexic',
+      type: 'Pour mon petit frère',
+      desc: "Jeu d'alphabétisation écrit pour mon petit frère. Fonctionne d'abord hors-ligne, conçu pour la dyslexie.",
+      tags: ['Vanilla JS', 'Hors-ligne', 'OpenDyslexic'],
+      link: 'https://daveinout.github.io/edugame/',
+      linkLabel: 'Jouer',
+      link2: 'https://github.com/DaVeinOUT/edugame',
+      link2Label: 'GitHub',
     },
   ];
 
   const nodes = [el('span', 't-section', 'Expériences professionnelles'), blank()];
-
   experiences.forEach(xp => {
     const card = el('div', 't-card');
-    const tagsHtml = xp.tags.map(t =>
-      `<span class="t-tag ${t.cls}">${escHtml(t.text)}</span>`
-    ).join('');
+    const tagsHtml = xp.tags.map(t => `<span class="t-tag ${t.cls}">${escHtml(t.text)}</span>`).join('');
     card.innerHTML = `
       <div class="t-card-title">${escHtml(xp.title)}</div>
       <div class="t-card-sub">
         <span class="t-accent">${escHtml(xp.company)}</span>
         <span class="t-dim2"> · ${escHtml(xp.location)} · ${escHtml(xp.period)}</span>
-        <span class="t-tag blue" style="margin-left:.3rem">${escHtml(xp.type)}</span>
       </div>
       <div class="t-card-body">${escHtml(xp.desc)}</div>
       <div class="t-card-tags">${tagsHtml}</div>
@@ -392,282 +382,106 @@ function cmdProjects() {
   });
 
   nodes.push(blank());
-  nodes.push(el('span', 't-section', 'Projets personnels'));
+  nodes.push(el('span', 't-section', 'Projets'));
   nodes.push(blank());
 
-  const medecin = el('div', 't-card');
-  medecin.innerHTML = `
-    <div class="t-card-title">Médecin Proche</div>
-    <div class="t-card-sub">
-      <span class="t-accent">Annuaire médical DOM-TOM</span>
-      <span class="t-dim2"> · TypeScript · Next.js · Supabase</span>
-      <span class="t-tag green" style="margin-left:.3rem">Full-stack</span>
-    </div>
-    <div class="t-card-body">
-      Application web qui facilite la recherche de médecins pour les habitants des DOM-TOM. Interface, base de données et logique de recherche conçues de bout en bout. Responsive, prête pour le déploiement.
-    </div>
-    <div class="t-card-tags">
-      <span class="t-tag accent">TypeScript</span>
-      <span class="t-tag blue">Next.js</span>
-      <span class="t-tag green">Supabase</span>
-      <span class="t-tag">Modélisation BDD</span>
-    </div>
-    <div style="margin-top:.6rem;font-size:.82rem">
-      <a href="https://github.com/DaVeinOUT/medecin-proche" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">→ GitHub</a>
-    </div>
-  `;
-  nodes.push(medecin);
-  nodes.push(blank());
-
-  const algoCard = el('div', 't-card');
-  algoCard.innerHTML = `
-    <div class="t-card-title">Algo Visualizer</div>
-    <div class="t-card-sub">
-      <span class="t-accent">Projet solo</span>
-      <span class="t-dim2"> · Vanilla JS · 2025</span>
-      <span class="t-tag blue" style="margin-left:.3rem">Perso</span>
-    </div>
-    <div class="t-card-body">
-      Visualiseur interactif d'algorithmes (5 tris, 3 pathfinding, 3 structures de données) animés en temps réel sur canvas HTML5. Aucune dépendance, aucun build step.
-    </div>
-    <div class="t-card-tags">
-      <span class="t-tag accent">Algorithmique</span>
-      <span class="t-tag blue">Canvas API</span>
-      <span class="t-tag">Vanilla JS</span>
-      <span class="t-tag green">Pathfinding</span>
-    </div>
-    <div style="margin-top:.6rem;font-size:.82rem">
-      <a href="https://algo-visualizer-gamma-three.vercel.app" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">→ Démo live</a>
-      <span class="t-dim2"> · </span>
-      <a href="https://github.com/DaVeinOUT/algo-visualizer" target="_blank" rel="noopener" style="color:var(--text-2);text-decoration:none">GitHub</a>
-    </div>
-  `;
-  nodes.push(algoCard);
-
-  const pfCard = el('div', 't-card');
-  pfCard.innerHTML = `
-    <div class="t-card-title">Ce portfolio</div>
-    <div class="t-card-sub">
-      <span class="t-accent">Site + terminal</span>
-      <span class="t-dim2"> · HTML · CSS · JS — fait main</span>
-    </div>
-    <div class="t-card-body">
-      Réseau 3D projeté à la main en canvas 2D sur la page d'accueil, et ce terminal interactif : commandes, autocomplétion, historique, thèmes… et un snake caché.
-    </div>
-    <div style="margin-top:.6rem;font-size:.82rem">
-      <a href="https://github.com/DaVeinOUT/mon-portfolio" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">→ GitHub</a>
-    </div>
-  `;
-  nodes.push(pfCard);
-
-  nodes.push(blank());
-  nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">Recherche alternance · Paris / Île-de-France.</span>'));
-  nodes.push(blank());
-  printLines(nodes);
-}
-
-function cmdEducation() {
-  const nodes = [
-    el('span', 't-section', 'Formation'),
-    blank(),
-  ];
-
-  const oc = el('div', 't-card');
-  oc.innerHTML = `
-    <div class="t-card-title">Technicien Informatique — OpenClassrooms</div>
-    <div class="t-card-sub">
-      <span class="t-accent">Diplôme de niveau 5 (bac+2, RNCP)</span>
-      <span class="t-dim2"> — Alternance à venir</span>
-      <span class="t-tag green" style="margin-left:.3rem">Je cherche l'entreprise</span>
-    </div>
-    <div class="t-card-body">
-      Installation et configuration de postes et serveurs, administration et
-      sécurisation de parc, réseaux, support utilisateur, automatisation PowerShell.
-      Outils au programme : Active Directory/GPO, GLPI/ITIL, Nagios/OCS, Veeam.
-    </div>
-    <div class="t-card-tags">
-      <span class="t-tag accent">Windows & Linux</span>
-      <span class="t-tag blue">Active Directory</span>
-      <span class="t-tag green">PowerShell</span>
-      <span class="t-tag">GLPI · ITIL</span>
-      <span class="t-tag">Réseaux</span>
-    </div>
-  `;
-  nodes.push(oc);
-  nodes.push(blank());
-
-  const piscine = el('div', 't-card');
-  piscine.innerHTML = `
-    <div class="t-card-title">Piscine — École 42</div>
-    <div class="t-card-sub">
-      <span class="t-accent">École 42</span>
-      <span class="t-dim2"> — Paris · Août 2025</span>
-      <span class="t-tag blue" style="margin-left:.3rem">Immersion</span>
-    </div>
-    <div class="t-card-body">
-      Immersion intensive de 4 semaines : programmation en C, shell scripting,
-      algorithmique et gestion de projet en peer-to-peer. Apprentissage
-      sous pression réelle, évaluation par les pairs, travail en équipe.
-    </div>
-    <div class="t-card-tags">
-      <span class="t-tag purple">C</span>
-      <span class="t-tag blue">Shell</span>
-      <span class="t-tag accent">Algorithmique</span>
-      <span class="t-tag green">Peer-to-peer</span>
-      <span class="t-tag">Git</span>
-    </div>
-  `;
-  nodes.push(piscine);
-  nodes.push(blank());
-
-  const online = el('div', 't-card');
-  online.innerHTML = `
-    <div class="t-card-title">Computer Science — Career Path</div>
-    <div class="t-card-sub">
-      <span class="t-accent">Codecademy</span>
-      <span class="t-dim2"> — En cours · Certification visée 2026</span>
-      <span class="t-tag blue" style="margin-left:.3rem">Career Path</span>
-    </div>
-    <div style="margin:.5rem 0 .4rem">
-      <div class="skill-bar-bg" style="height:5px">
-        <div class="skill-bar-fill accent" data-pct="31" style="transition:width 1.1s cubic-bezier(.22,.68,0,1.18)"></div>
-      </div>
-    </div>
-    <div class="t-card-body">
-      Algorithmique, structures de données, Python, bases de données et
-      architecture des systèmes. Parcours complet orienté fondamentaux
-      de l'informatique.
-    </div>
-    <div class="t-card-tags">
-      <span class="t-tag accent">Python</span>
-      <span class="t-tag blue">Algorithmique</span>
-      <span class="t-tag">Structures de données</span>
-      <span class="t-tag green">SQL</span>
-    </div>
-  `;
-  nodes.push(online);
-  nodes.push(blank());
-
-  const bac = el('div', 't-card');
-  bac.innerHTML = `
-    <div class="t-card-title">Baccalauréat général et technologique</div>
-    <div class="t-card-sub">
-      <span class="t-accent">Lycée Melkior-Garré</span>
-      <span class="t-dim2"> — Guyane · 2023</span>
-    </div>
-  `;
-  nodes.push(bac);
-  nodes.push(blank());
-  nodes.push(line('<span class="t-dim2">→ Tape </span><span class="t-accent">learning</span><span class="t-dim2"> pour la progression détaillée.</span>'));
-  nodes.push(blank());
-  printLines(nodes);
-
-  setTimeout(() => {
-    document.querySelectorAll('.skill-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.pct + '%';
-    });
-  }, 80);
-}
-
-function cmdLearning() {
-  const CS_MODULES = [
-    { name: 'Intro to Programming',    pct: 59,  done: false },
-    { name: 'Intro to Data Structures',pct: 84,  done: false },
-    { name: 'Linked Lists',            pct: 35,  done: false },
-    { name: 'Queues, Stacks, HashMaps',pct: 0,   done: false },
-    { name: 'Algorithms',              pct: 4,   done: false, current: true },
-    { name: 'Trees and Graphs',        pct: 0,   done: false },
-    { name: 'Databases',               pct: 0,   done: false },
-    { name: 'Computer Architecture',   pct: 0,   done: false },
-    { name: 'Math for CS',             pct: 0,   done: false },
-    { name: 'Interview Prep',          pct: 0,   done: false },
-  ];
-
-  const OTHER_COURSES = [
-    { title: 'Learn CSS',                         type: 'Course',     pct: 45,  color: 'blue'   },
-    { title: 'Learn HTML',                        type: 'Course',     pct: 100, color: 'green'  },
-    { title: 'Learn C',                           type: 'Skill Path', pct: 12,  color: 'purple' },
-    { title: 'How to Make a Website with NameCheap', type: 'Course', pct: 40,  color: 'green'  },
-  ];
-
-  const nodes = [
-    el('span', 't-section', 'Formation en ligne — Codecademy'),
-    blank(),
-  ];
-
-  /* ── Career Path CS — carte principale ── */
-  const csCard = el('div', 't-card');
-  const modulesHtml = CS_MODULES.map(m => {
-    const label = m.current
-      ? `<span class="t-accent" style="font-size:10px">▶ en cours</span>`
-      : (m.pct === 100 ? `<span class="t-green" style="font-size:10px">✓</span>` : '');
-    return `
-      <div class="skill-row" style="margin:.22rem 0">
-        <span class="skill-name" style="font-size:11px;color:${m.current ? 'var(--accent)' : 'var(--text-2)'}">${escHtml(m.name)}</span>
-        <div class="skill-bar-bg">
-          <div class="skill-bar-fill accent" data-pct="${m.pct}"></div>
-        </div>
-        <span class="skill-pct" style="width:52px;text-align:right;font-size:10px">${m.pct > 0 ? m.pct + '%' : ''} ${label}</span>
-      </div>`;
-  }).join('');
-
-  csCard.innerHTML = `
-    <div class="t-card-title" style="font-size:15px">Computer Science — Career Path</div>
-    <div class="t-card-sub">
-      <span class="t-accent">Codecademy</span>
-      <span class="t-dim2"> · Python · Algorithmique · Structures de données · Bases de données</span>
-    </div>
-    <div style="margin:.5rem 0 .3rem;display:flex;align-items:center;gap:.8rem">
-      <div class="skill-bar-bg" style="flex:1;height:6px">
-        <div class="skill-bar-fill accent" data-pct="31" style="transition:width 1.2s cubic-bezier(.22,.68,0,1.18)"></div>
-      </div>
-      <span class="t-accent t-bold" style="font-size:13px;flex-shrink:0">31%</span>
-    </div>
-    <div class="t-card-body" style="margin-top:.8rem">${modulesHtml}</div>
-    <div class="t-card-tags" style="margin-top:.8rem">
-      <span class="t-tag accent">Python</span>
-      <span class="t-tag blue">Algorithmique</span>
-      <span class="t-tag">Structures de données</span>
-      <span class="t-tag green">SQL</span>
-      <span class="t-tag">Architecture</span>
-    </div>
-  `;
-  nodes.push(csCard);
-  nodes.push(blank());
-
-  /* ── Autres cours ── */
-  nodes.push(el('div', 'skill-group-title', 'Autres cours'));
-
-  OTHER_COURSES.forEach(c => {
+  projects.forEach(pr => {
     const card = el('div', 't-card');
-    const pctLabel = c.pct === 100
-      ? '<span class="t-green t-bold">✓ Terminé</span>'
-      : `<span class="t-dim2">${c.pct}%</span>`;
+    const tagsHtml = pr.tags.map(t => `<span class="t-tag">${escHtml(t)}</span>`).join('');
+    let linksHtml = '';
+    if (pr.link)  linksHtml += `<a href="${pr.link}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">→ ${escHtml(pr.linkLabel)}</a>`;
+    if (pr.link2) linksHtml += ` <span class="t-dim2">·</span> <a href="${pr.link2}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">${escHtml(pr.link2Label)}</a>`;
+    if (pr.todo)  linksHtml += ` <span class="t-tag" style="border-color:rgba(247,106,106,.4);color:var(--red)">${escHtml(pr.todo)}</span>`;
     card.innerHTML = `
-      <div class="t-card-sub" style="justify-content:space-between">
-        <div>
-          <span class="t-bold" style="color:var(--text);font-size:12.5px">${escHtml(c.title)}</span>
-          <span class="t-dim2" style="font-size:10.5px"> · ${escHtml(c.type)}</span>
-        </div>
-        ${pctLabel}
+      <div class="t-card-title">${escHtml(pr.title)}</div>
+      <div class="t-card-sub">
+        <span class="t-accent">${escHtml(pr.sub)}</span>
+        <span class="t-tag green" style="margin-left:.3rem">${escHtml(pr.type)}</span>
       </div>
-      <div style="margin:.45rem 0 0">
-        <div class="skill-bar-bg" style="height:4px">
-          <div class="skill-bar-fill ${c.color}" data-pct="${c.pct}" style="transition:width 1.1s cubic-bezier(.22,.68,0,1.18)"></div>
-        </div>
-      </div>
+      <div class="t-card-body">${escHtml(pr.desc)}</div>
+      <div class="t-card-tags">${tagsHtml}</div>
+      ${linksHtml ? `<div style="margin-top:.6rem;font-size:.82rem">${linksHtml}</div>` : ''}
     `;
     nodes.push(card);
   });
 
   nodes.push(blank());
+  nodes.push(line('<span class="t-dot"></span><span class="t-green t-dim">SecDash, le nœud vert du site : du code qui surveille de l\'infrastructure.</span>'));
+  nodes.push(blank());
   printLines(nodes);
+}
 
-  setTimeout(() => {
-    document.querySelectorAll('.skill-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.pct + '%';
-    });
-  }, 80);
+function cmdEducation() {
+  const cards = [
+    {
+      title: 'Titre professionnel Technicien supérieur systèmes et réseaux (Bac+2)',
+      sub: 'Simplon · admis, 2026',
+      tag: ['Recherche entreprise', 'green'],
+      desc: 'Contrat d\'apprentissage. Infrastructure d\'abord, le développement ensuite.',
+    },
+    {
+      title: 'Parcours guidé Cyber IBM x Simplon',
+      sub: 'IBM SkillsBuild · 10 semaines · inscrit, 2026',
+      tag: ['Cybersécurité', 'blue'],
+      desc: '',
+    },
+    {
+      title: 'Certification Computer Science',
+      sub: 'Codecademy · 2026',
+      tag: null,
+      desc: '',
+    },
+    {
+      title: 'Piscine École 42',
+      sub: 'Paris · TODO : dates à compléter',
+      tag: ['Immersion', 'blue'],
+      desc: 'C, shell, algorithmique, évaluation par les pairs, travail en équipe.',
+    },
+    {
+      title: 'Licence informatique, 1re année',
+      sub: 'Université de Guyane · 2023-2024',
+      tag: null,
+      desc: '',
+    },
+    {
+      title: 'Baccalauréat général, spécialités SES et NSI',
+      sub: 'Lycée Melkior et Garré, Guyane française · 2023',
+      tag: null,
+      desc: 'C\'est en Terminale NSI que le serpent Raspberry Pi a tout déclenché.',
+    },
+  ];
+
+  const nodes = [el('span', 't-section', 'Formation'), blank()];
+  cards.forEach(c => {
+    const card = el('div', 't-card');
+    card.innerHTML = `
+      <div class="t-card-title">${escHtml(c.title)}</div>
+      <div class="t-card-sub">
+        <span class="t-accent">${escHtml(c.sub)}</span>
+        ${c.tag ? `<span class="t-tag ${c.tag[1]}" style="margin-left:.3rem">${escHtml(c.tag[0])}</span>` : ''}
+      </div>
+      ${c.desc ? `<div class="t-card-body">${escHtml(c.desc)}</div>` : ''}
+    `;
+    nodes.push(card);
+  });
+
+  nodes.push(blank());
+  nodes.push(line('<span class="t-dim2">Langues : français (langue maternelle) · anglais (B1-B2) · portugais (A1-A2)</span>'));
+  nodes.push(blank());
+  printLines(nodes);
+}
+
+function cmdLearning() {
+  const nodes = [
+    el('span', 't-section', 'Formation en ligne · Codecademy'),
+    blank(),
+    line('Certification Computer Science · 2026 : algorithmique, structures'),
+    line('de données, Python, bases de données, architecture des systèmes.'),
+    blank(),
+    line('<span class="t-dim2">Aucun pourcentage affiché : la certification fera foi.</span>'),
+    blank(),
+  ];
+  printLines(nodes);
 }
 
 function cmdContact() {
@@ -682,8 +496,8 @@ function cmdContact() {
     { label: 'Email',       value: 'davedorelus025@icloud.com',  href: 'mailto:davedorelus025@icloud.com' },
     { label: 'Téléphone',   value: '07 69 59 54 72',             href: 'tel:+33769595472'                 },
     { label: 'GitHub',      value: 'github.com/DaVeinOUT',       href: 'https://github.com/DaVeinOUT'     },
-    { label: 'Localisation',value: 'Paris, France',              href: null                               },
-    { label: 'Statut',      value: '●  Recherche alternance · dispo immédiatement', href: null          },
+    { label: 'Localisation',value: 'Saint-Cloud (92210), France', href: null                              },
+    { label: 'Statut',      value: '●  Recherche entreprise d\'accueil · contrat d\'apprentissage', href: null },
   ];
 
   contacts.forEach(c => {
@@ -752,12 +566,12 @@ function cmdSudoHire() {
     blank(),
     line('Pourquoi recruter Davidson en alternance :'),
     blank(),
-    line(' ✦  <span class="t-accent">Alternance</span> — contrat d\'apprentissage 12 mois · 4 j entreprise / 1 j formation'),
-    line(' ✦  <span class="t-accent">Terrain</span> — 6 mois de fibre optique chez Solutions 30 (OTDR, raccordements)'),
-    line(' ✦  <span class="t-accent">Intensif</span> — Piscine École 42 : C, shell, algo, peer-to-peer (Août 2025)'),
-    line(' ✦  <span class="t-accent">Builder</span> — Médecin Proche (Next.js/Supabase), Algo Visualizer, ce portfolio'),
-    line(' ✦  <span class="t-accent">Autodidacte</span> — Codecademy CS, Docker, PowerShell, veille continue'),
-    line(' ✦  <span class="t-accent">Disponible</span> — immédiatement · Paris / Hauts-de-Seine / Île-de-France'),
+    line(' ✦  <span class="t-accent">Alternance</span> · contrat d\'apprentissage · titre TSSR (bac+2) · Simplon · admis'),
+    line(' ✦  <span class="t-accent">Terrain</span> · stage technicien fibre optique chez Solutions 30 (OTDR, raccordements)'),
+    line(' ✦  <span class="t-accent">Intensif</span> · Piscine École 42 : C, shell, algo, peer-to-peer'),
+    line(' ✦  <span class="t-accent">Infra</span> · VPS Hetzner : Docker, reverse proxy, supervision, audit de sécurité'),
+    line(' ✦  <span class="t-accent">Code</span> · SecDash, Médecin Proche, EDUCA, ce portfolio'),
+    line(' ✦  <span class="t-accent">Base</span> · Saint-Cloud · Île-de-France'),
     blank(),
     line('<span class="t-dim">→ </span><span class="t-accent">davedorelus025@icloud.com</span>'),
     line('<span class="t-dim">→ </span><span class="t-text">07 69 59 54 72</span>'),
@@ -985,9 +799,9 @@ const IDLE_HINTS = [
   'Un break ? Tape <span class="t-accent">snake</span>.',
   'Tape <span class="t-accent">neofetch</span> pour ma carte d\'identité système.',
   'Scanne-moi : <span class="t-accent">nmap davidson</span>',
-  'Pressé ? Tape <span class="t-accent">tour</span> — le terminal fait la visite tout seul.',
+  'Pressé ? Tape <span class="t-accent">tour</span> · le terminal fait la visite tout seul.',
   'Essaie <span class="t-accent">theme synthwave</span> ou <span class="t-accent">theme amber</span>.',
-  'Essaie <span class="t-accent">sudo hire davidson</span> — accès root garanti.',
+  'Essaie <span class="t-accent">sudo hire davidson</span> · accès root garanti.',
 ];
 
 function resetIdleTimer() {
@@ -1100,7 +914,7 @@ document.addEventListener('keydown', e => {
       konamiIdx = 0;
       printLines([
         blank(),
-        line('<span class="t-purple t-bold">[ok] Konami Code activé — confettis.</span>'),
+        line('<span class="t-purple t-bold">[ok] Konami Code activé · confettis.</span>'),
         blank(),
       ]);
       launchConfetti();
@@ -1112,7 +926,7 @@ document.addEventListener('keydown', e => {
 
 /* ── Traffic light buttons ────────────────────────────────── */
 document.querySelector('.tl-close').addEventListener('click', () => {
-  printLines([line('<span class="t-err">Permission refusée — le terminal persiste.</span>'), blank()]);
+  printLines([line('<span class="t-err">Permission refusée · le terminal persiste.</span>'), blank()]);
 });
 document.querySelector('.tl-min').addEventListener('click', () => {
   printLines([line('<span class="t-dim">Minimisation non disponible en mode plein écran.</span>'), blank()]);
@@ -1129,23 +943,23 @@ resetIdleTimer();
 
 
 /* ============================================================
-   NOUVELLES COMMANDES — v3
+   NOUVELLES COMMANDES · v3
    ============================================================ */
 
 /* ── alternance : pitch recruteur ── */
 function cmdAlternance() {
   const card = el('div', 't-card');
   card.innerHTML = `
-    <div class="t-card-title">// recruteurs — recherche d'alternance</div>
+    <div class="t-card-title">// recruteurs · recherche d'alternance</div>
     <div class="t-card-body">
-      <span class="t-dim">Contrat &nbsp;&nbsp;&nbsp;&nbsp;:</span> Apprentissage · 12 mois<br>
-      <span class="t-dim">Rythme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> 4 j entreprise / 1 j formation (jour au choix)<br>
-      <span class="t-dim">Démarrage &nbsp;&nbsp;:</span> <span class="t-green">Immédiat</span><br>
-      <span class="t-dim">Zones &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Paris · Hauts-de-Seine · Île-de-France · Guyane<br>
-      <span class="t-dim">Formation &nbsp;&nbsp;:</span> Technicien Informatique — OpenClassrooms (bac+2, RNCP 5)
+      <span class="t-dim">Contrat &nbsp;&nbsp;&nbsp;&nbsp;:</span> Apprentissage<br>
+      <span class="t-dim">Formation &nbsp;&nbsp;:</span> Titre professionnel Technicien supérieur systèmes et réseaux (bac+2) · Simplon · admis<br>
+      <span class="t-dim">Rythme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> TODO : rythme à confirmer<br>
+      <span class="t-dim">Zones &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> Saint-Cloud · Île-de-France<br>
+      <span class="t-dim">Démarrage &nbsp;&nbsp;:</span> à convenir avec l'entreprise
     </div>
     <div style="margin-top:.7rem;font-size:.85rem">
-      <a href="mailto:davedorelus025@icloud.com?subject=Alternance%20Technicien%20Informatique" style="color:var(--accent);text-decoration:none">→ davedorelus025@icloud.com</a>
+      <a href="mailto:davedorelus025@icloud.com?subject=Alternance%20TSSR" style="color:var(--accent);text-decoration:none">→ davedorelus025@icloud.com</a>
     </div>
   `;
   printLines([
@@ -1204,13 +1018,13 @@ function cmdNeofetch() {
   ].join('\n');
 
   const fields = [
-    ['OS',       'DavidsonOS 1.0 (Guyane → Paris)'],
+    ['OS',       'DavidsonOS 1.0 (Guyane → Saint-Cloud)'],
     ['Host',     'recherche-alternance.local'],
-    ['Kernel',   'technicien-informatique-rncp5'],
-    ['Shell',    'bash · powershell'],
-    ['Packages', 'fibre, réseaux, linux, AD, docker'],
+    ['Kernel',   'tssr · simplon · admis'],
+    ['Shell',    'bash · ssh'],
+    ['Packages', 'linux, docker, réseau, supervision, sécu'],
     ['IDE',      'VS Code · Git'],
-    ['CPU',      'Motivation @ 100%'],
+    ['CPU',      'motivation (benchmarks non publics)'],
     ['Uptime',   'apprend depuis 2023 sans reboot'],
     ['Contact',  'davedorelus025@icloud.com'],
   ];
@@ -1237,7 +1051,7 @@ let snakeActive = false;
 
 function cmdSnake() {
   if (snakeActive) {
-    printLines([line('<span class="t-dim">Snake tourne déjà — Échap ou X pour quitter.</span>'), blank()]);
+    printLines([line('<span class="t-dim">Snake tourne déjà · Échap ou X pour quitter.</span>'), blank()]);
     return;
   }
   snakeActive = true;
@@ -1285,7 +1099,7 @@ function cmdSnake() {
       c.fillStyle = '#f0d284';
       c.font = '600 18px "JetBrains Mono", monospace';
       c.textAlign = 'center';
-      c.fillText('GAME OVER — ' + pts + ' pts', W / 2, H / 2);
+      c.fillText('GAME OVER · ' + pts + ' pts', W / 2, H / 2);
       c.textAlign = 'left';
     }
   }
@@ -1298,7 +1112,7 @@ function cmdSnake() {
     snakeActive = false;
     document.removeEventListener('keydown', onKey, true);
     printLines([
-      line(`<span class="t-accent">Game over — score : ${pts}</span>`),
+      line(`<span class="t-accent">Game over · score : ${pts}</span>`),
       line('<span class="t-dim2">Retape <span class="t-accent">snake</span> pour rejouer.</span>'),
       blank(),
     ]);
@@ -1368,7 +1182,7 @@ function cmdSnake() {
 
 
 /* ============================================================
-   TERMINAL V4 — outils réseau + mode recruteur
+   TERMINAL V4 · outils réseau + mode recruteur
    ============================================================ */
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -1391,28 +1205,28 @@ function printSlow(items, stepMs = 110) {
 function cmdNmap(target) {
   const t = (target || 'davidson').split(/\s+/)[0];
   const ports = [
-    ['22/tcp',   'open', 'ssh',       'Support IT · Helpdesk'],
-    ['53/tcp',   'open', 'dns',       'Réseaux · TCP/IP'],
-    ['80/tcp',   'open', 'http',      'HTML · CSS · JavaScript'],
-    ['389/tcp',  'open', 'ldap',      'Active Directory'],
-    ['443/tcp',  'open', 'https',     'Cybersécurité (bases)'],
-    ['2375/tcp', 'open', 'docker',    'Docker · VPS'],
-    ['3306/tcp', 'open', 'mysql',     'SQL'],
-    ['5985/tcp', 'open', 'winrm',     'PowerShell · Windows Server'],
-    ['8443/tcp', 'open', 'fibre',     'Fibre optique · OTDR'],
+    ['22/tcp',   'open', 'ssh',       'Systèmes Linux · administration'],
+    ['53/tcp',   'open', 'dns',       'Réseaux · TCP/IP · routage'],
+    ['80/tcp',   'open', 'http',      'Reverse proxy · services web'],
+    ['443/tcp',  'open', 'https',     'Services auto-hébergés'],
+    ['2375/tcp', 'open', 'docker',    'Docker · Docker Compose'],
+    ['3001/tcp', 'open', 'uptime',    'Supervision · Uptime Kuma'],
+    ['3306/tcp', 'open', 'mysql',     'SQL · SecDash'],
+    ['5678/tcp', 'open', 'n8n',       'Automatisation'],
+    ['8442/tcp', 'open', 'fibre',     'Fibre optique · OTDR'],
   ];
   const rows = ports.map(([p, st, svc, skill]) =>
     line(`<span class="t-accent">${p.padEnd(10)}</span><span class="t-green">${st.padEnd(7)}</span><span class="t-text">${svc.padEnd(12)}</span><span class="t-dim">${skill}</span>`)
   );
   printSlow([
-    line(`<span class="t-dim">Starting nmap 7.95 — scan de <span class="t-accent">${escHtml(t)}</span></span>`),
+    line(`<span class="t-dim">Starting nmap 7.95 · scan de <span class="t-accent">${escHtml(t)}</span></span>`),
     line('<span class="t-dim">Host is up (0.042s latency).</span>'),
     '',
     line(`<span class="t-dim2">${'PORT'.padEnd(10)}${'ÉTAT'.padEnd(7)}${'SERVICE'.padEnd(12)}COMPÉTENCE</span>`),
     ...rows,
     '',
-    line('<span class="t-dim">OS detection : Technicien Informatique — RNCP 5 en préparation</span>'),
-    line('<span class="t-text">nmap done : 1 profil scanné — </span><span class="t-green t-bold">recrutable ✓</span>'),
+    line('<span class="t-dim">OS detection : Technicien supérieur systèmes et réseaux · admis chez Simplon</span>'),
+    line('<span class="t-text">nmap done : 1 profil scanné · </span><span class="t-green t-bold">recrutable ✓</span>'),
     '',
   ], 90);
 }
@@ -1420,11 +1234,11 @@ function cmdNmap(target) {
 /* ── traceroute : la route vers l'alternance ── */
 function cmdTraceroute() {
   const hops = [
-    ['1', 'lycee-melkior-garre.gf',  'bac général & technologique', '2023', '1.2'],
-    ['2', 'multi-services.gf',       'installateur · 10 mois',      '2023', '4.8'],
-    ['3', 'solutions30-fibre.gf',    'technicien fibre · 6 mois',   '2024', '9.1'],
-    ['4', 'piscine.42.fr',           'C · shell · peer-to-peer',    '2025', '14.6'],
-    ['5', 'openclassrooms.fr',       'technicien info · RNCP 5',    '2026', '18.3'],
+    ['1', 'lycee-melkior-garre.gf',  'bac SES et NSI',              '2023', '1.2'],
+    ['2', 'multi-services.gf',       'installateur · 08/2023 à 05/2024', '2023', '4.8'],
+    ['3', 'solutions30-fibre.gf',    'stage fibre · OTDR',          '2024', '9.1'],
+    ['4', 'piscine.42.fr',           'C · shell · peer-to-peer',    'TODO', '14.6'],
+    ['5', 'simplon.fr',              'titre TSSR · admis',          '2026', '18.3'],
   ];
   const rows = hops.map(([i, host, det, y, ms]) =>
     line(` ${i}  <span class="t-accent">${host.padEnd(24)}</span><span class="t-dim">${det.padEnd(30)}</span><span class="t-dim2">${y}</span>  <span class="t-text">${ms} ms</span>`)
@@ -1432,7 +1246,7 @@ function cmdTraceroute() {
   printSlow([
     line('<span class="t-dim">traceroute to alternance (ton-entreprise.fr), 6 hops max</span>'),
     ...rows,
-    line(` 6  <span class="t-green t-bold">ton-entreprise.fr</span>          <span class="t-green">* * *  en attente de réponse — contacte-moi</span>`),
+    line(` 6  <span class="t-green t-bold">ton-entreprise.fr</span>          <span class="t-green">* * *  en attente de réponse · contacte-moi</span>`),
     '',
   ], 320);
 }
@@ -1442,7 +1256,7 @@ function cmdPing(target) {
   const t = (target || 'ton-entreprise.fr').split(/\s+/)[0];
   if (/davidson/i.test(t)) {
     printLines([
-      line('<span class="t-green">PONG — réponse en 0.1 ms. Toujours dispo, toujours réactif.</span>'),
+      line('<span class="t-green">PONG · réponse en 0.1 ms. Toujours dispo, toujours réactif.</span>'),
       line('<span class="t-dim2">→ davedorelus025@icloud.com · 07 69 59 54 72</span>'),
       '',
     ]);
@@ -1457,7 +1271,7 @@ function cmdPing(target) {
     '',
     line(`<span class="t-dim">--- ${escHtml(t)} ping statistics ---</span>`),
     line('<span class="t-dim">4 packets transmitted, 4 received, 0% packet loss</span>'),
-    line('<span class="t-green">La connexion est bonne — on se lance ? Tape </span><span class="t-accent">contact</span>'),
+    line('<span class="t-green">La connexion est bonne · on se lance ? Tape </span><span class="t-accent">contact</span>'),
     '',
   ], 480);
 }
@@ -1466,12 +1280,13 @@ function cmdPing(target) {
 function cmdSsh() {
   const card = el('div', 't-card');
   card.innerHTML = `
-    <div class="t-card-title">davidson@guyane — chantier fibre, 2024</div>
+    <div class="t-card-title">davidson@guyane · stage fibre, 06/2024 à 11/2024</div>
     <div class="t-card-body">
-      Six mois sur le terrain avec Solutions 30 : déploiement et maintenance
-      de la fibre optique, diagnostics au réflectomètre OTDR, raccordements,
-      coordination des équipes sur site. La vraie vie du réseau — celle
-      qu'on ne voit pas depuis un bureau.
+      Stage technicien fibre optique chez Solutions 30 : installation,
+      raccordement et maintenance de lignes fibre, mesures au réflectomètre
+      OTDR, tests de validation, mise en service, relation client en
+      intervention. La vraie vie du réseau, celle qu'on ne voit pas
+      depuis un bureau.
     </div>
     <div class="t-card-tags">
       <span class="t-tag accent">Fibre optique</span>
@@ -1486,35 +1301,31 @@ function cmdSsh() {
     '',
     card,
     '',
-    line('<span class="t-dim">logout — Connection to guyane closed.</span>'),
+    line('<span class="t-dim">logout · Connection to guyane closed.</span>'),
     '',
   ], 340);
 }
 
 /* ── htop : mes processus ── */
 function cmdHtop() {
-  const bar = pct => {
-    const f = Math.round(pct / 10);
-    return `<span class="t-green">${'▓'.repeat(f)}</span><span class="t-dim2">${'░'.repeat(10 - f)}</span>`;
-  };
   const procs = [
-    ['1',    'recherche-alternance', 100.0],
-    ['42',   'motivation',            99.9],
-    ['2024', 'apprentissage-c',       87.3],
-    ['365',  'veille-techno',         64.2],
-    ['31',   'codecademy-cs',         31.0],
-    ['7',    'snake.exe',              4.2],
+    ['1',    'recherche-alternance', 'R'],
+    ['42',   'motivation',           'R'],
+    ['80',   'vps.hetzner',          'R'],
+    ['3001', 'uptime-kuma',          'S'],
+    ['5678', 'n8n',                  'S'],
+    ['7',    'snake.exe',            'S'],
   ];
-  const rows = procs.map(([pid, name, pct]) =>
-    line(`<span class="t-dim2">${pid.padStart(5)}</span> <span class="t-dim">davidson</span>  ${bar(pct)} <span class="t-text">${String(pct).padStart(5)}%</span>  <span class="t-accent">${name}</span>`)
+  const rows = procs.map(([pid, name, st]) =>
+    line(`<span class="t-dim2">${pid.padStart(5)}</span> <span class="t-dim">davidson</span>  <span class="t-green">${st}</span>  <span class="t-accent">${name}</span>`)
   );
   printLines([
-    el('span', 't-section', 'htop — uptime : depuis 2023 · load average : 0.99 1.00 0.87'),
+    el('span', 't-section', 'htop · uptime : apprend depuis 2023 · aucun processus zombie'),
     '',
-    line(`<span class="t-dim2">${'PID'.padStart(5)} ${'USER'.padEnd(9)} ${'CPU'.padEnd(11)}${'%'.padStart(6)}  COMMAND</span>`),
+    line(`<span class="t-dim2">${'PID'.padStart(5)} ${'USER'.padEnd(9)} S  COMMAND</span>`),
     ...rows,
     '',
-    line('<span class="t-dim2">Aucun processus zombie. Tape </span><span class="t-accent">kill</span><span class="t-dim2"> … non, rien ne tue la motivation.</span>'),
+    line('<span class="t-dim2">Tape </span><span class="t-accent">kill</span><span class="t-dim2"> … non, rien ne tue la motivation.</span>'),
     '',
   ]);
 }
@@ -1525,7 +1336,7 @@ let tourActive = false;
 async function cmdTour() {
   if (tourActive) return;
   tourActive = true;
-  printLines([line('<span class="t-dim2">— visite guidée · <span class="t-accent">Échap</span> pour arrêter —</span>'), '']);
+  printLines([line('<span class="t-dim2">· visite guidée · <span class="t-accent">Échap</span> pour arrêter ·</span>'), '']);
   const steps = ['whoami', 'skills', 'projects', 'alternance', 'contact'];
   const stop = e => {
     if (e.key === 'Escape') { e.preventDefault(); tourActive = false; }
@@ -1548,7 +1359,7 @@ async function cmdTour() {
   document.removeEventListener('keydown', stop, true);
   printLines([
     tourActive
-      ? line('<span class="t-green">— fin de la visite · tape </span><span class="t-accent">help</span><span class="t-green"> pour explorer, ou </span><span class="t-accent">cv</span><span class="t-green"> pour le PDF —</span>')
+      ? line('<span class="t-green">· fin de la visite · tape </span><span class="t-accent">help</span><span class="t-green"> pour explorer, ou </span><span class="t-accent">cv</span><span class="t-green"> pour le PDF ·</span>')
       : line('<span class="t-dim">Visite interrompue.</span>'),
     '',
   ]);
@@ -1568,34 +1379,34 @@ function cmdAsk(raw) {
   }
   const RULES = [
     [/dispo|disponib|quand|date|d[ée]but|commence/i,
-      "Disponible <span class='t-green'>immédiatement</span> — contrat d'apprentissage de 12 mois."],
+      "Contrat d'apprentissage · admis chez Simplon. Démarrage à convenir avec l'entreprise."],
     [/rythme|jour|semaine|planning|pr[ée]sence/i,
-      '4 jours en entreprise / 1 jour en formation — jour au choix, flexible.'],
+      "TODO : rythme à confirmer · le planning se règle avec l'entreprise."],
     [/o[uù]\b|lieu|ville|paris|mobilit|zone|r[ée]gion/i,
-      'Paris · Hauts-de-Seine · Île-de-France (et Guyane).'],
+      'Saint-Cloud (92210) · Île-de-France.'],
     [/salaire|r[ée]mun[ée]ration|paye|co[uû]t/i,
-      "Grille légale du contrat d'apprentissage — parlons-en : <span class='t-accent'>davedorelus025@icloud.com</span>"],
+      "Grille légale du contrat d'apprentissage · parlons-en : <span class='t-accent'>davedorelus025@icloud.com</span>"],
     [/stack|techno|comp[ée]tence|skill|outil|niveau/i,
-      "Systèmes & réseaux (Linux, AD, TCP/IP, fibre) + dev (JS, Python, SQL, Docker, PowerShell). Tape <span class='t-accent'>skills</span>."],
-    [/formation|[ée]cole|dipl[oô]me|rncp|openclassrooms|[ée]tude/i,
-      "Technicien Informatique — OpenClassrooms, bac+2, RNCP niveau 5. Tape <span class='t-accent'>education</span>."],
-    [/projet|medecin|algo|portfolio|r[ée]alis/i,
-      "Médecin Proche (Next.js/Supabase), Algo Visualizer, ce portfolio. Tape <span class='t-accent'>projects</span>."],
+      "Cinq familles : systèmes Linux, conteneurs & services, supervision & sécurité, réseaux & terrain, automatisation & dev. Tape <span class='t-accent'>skills</span>."],
+    [/formation|[ée]cole|dipl[oô]me|rncp|simplon|[ée]tude/i,
+      "Titre professionnel Technicien supérieur systèmes et réseaux (bac+2) · Simplon · admis. Tape <span class='t-accent'>education</span>."],
+    [/projet|medecin|edugame|educa|portfolio|r[ée]alis/i,
+      "Serveur auto-hébergé (Hetzner), SecDash, Médecin Proche, EDUCA. Tape <span class='t-accent'>projects</span>."],
     [/contact|mail|t[ée]l[ée]phone|joindre|appel|num[ée]ro/i,
       "davedorelus025@icloud.com · 07 69 59 54 72. Tape <span class='t-accent'>contact</span>."],
     [/\bcv\b|curriculum/i,
-      "Tape <span class='t-accent'>cv</span> — le PDF se télécharge direct."],
+      "Tape <span class='t-accent'>cv</span> · le PDF se télécharge direct."],
     [/qui|profil|pr[ée]sent|parle.moi/i,
-      "Technicien informatique & dev web — terrain (fibre), intensif (42), autodidacte (Docker, full-stack). Tape <span class='t-accent'>whoami</span>."],
+      "Technicien systèmes et réseaux : terrain (fibre), production (VPS Hetzner seul), admis chez Simplon. Tape <span class='t-accent'>whoami</span>."],
     [/pourquoi|recruter|embaucher|choisir/i,
-      "Tape <span class='t-accent'>sudo hire davidson</span> — la réponse vaut le détour."],
+      "Tape <span class='t-accent'>sudo hire davidson</span> · la réponse vaut le détour."],
   ];
   const hit = RULES.find(([re]) => re.test(q));
   printLines([
     line(`<span class="t-dim2">Q : ${escHtml(q)}</span>`),
     hit
       ? line(`<span class="t-text">R : ${hit[1]}</span>`)
-      : line("<span class='t-text'>R : Bonne question — je n'ai pas la réponse en stock. Pose-la moi directement : </span><span class='t-accent'>davedorelus025@icloud.com</span>"),
+      : line("<span class='t-text'>R : Bonne question · je n'ai pas la réponse en stock. Pose-la moi directement : </span><span class='t-accent'>davedorelus025@icloud.com</span>"),
     '',
   ]);
 }
@@ -1607,7 +1418,7 @@ function cmdGit(arg) {
     printLines([
       line('<span class="t-text">Sur la branche </span><span class="t-purple">alternance</span>'),
       line("<span class=\"t-dim\">Votre branche est prête à être fusionnée avec 'ton-entreprise/main'.</span>"),
-      line('<span class="t-green">rien à valider — dispo pour commencer ✓</span>'),
+      line('<span class="t-green">rien à valider · dispo pour commencer ✓</span>'),
       '',
     ]);
     return;
@@ -1617,12 +1428,12 @@ function cmdGit(arg) {
     return;
   }
   const commits = [
-    ['a3f42c1', '(HEAD → alternance)', "chore: recherche d'entreprise — dispo immédiatement", '2026'],
-    ['9b21e07', '',                    'feat(formation): OpenClassrooms Technicien Informatique — RNCP 5', '2026'],
-    ['7c0ffee', '',                    'feat(42): Piscine École 42 — C, shell, peer-to-peer', '2025'],
-    ['5f1b3a9', '',                    'feat(fibre): 6 mois technicien fibre optique — Solutions 30', '2024'],
-    ['2e88d4c', '',                    'feat(terrain): 10 mois installateur — Multi-Services', '2023-24'],
-    ['c0deba5', '',                    'init: bac général et technologique — Guyane', '2023'],
+    ['a3f42c1', '(HEAD → alternance)', "chore: recherche d'entreprise · contrat d'apprentissage", '2026'],
+    ['9b21e07', '',                    'feat(formation): admis chez Simplon · titre TSSR (bac+2)', '2026'],
+    ['7c0ffee', '',                    'feat(42): Piscine École 42 · C, shell, peer-to-peer', 'TODO'],
+    ['5f1b3a9', '',                    'feat(fibre): stage technicien fibre optique · Solutions 30', '2024'],
+    ['2e88d4c', '',                    'feat(terrain): installateur · Multi-Services', '2023-24'],
+    ['c0deba5', '',                    'init: bac SES et NSI · Guyane', '2023'],
   ];
   printLines([
     ...commits.map(([h, ref, msg, y]) =>
