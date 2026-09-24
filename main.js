@@ -1,6 +1,6 @@
 /* ============================================================
-   PORTFOLIO V4 — interactions UI
-   (la scène 3D vit dans scene.js)
+   PORTFOLIO V5 · interactions UI
+   (la scène 3D vit dans scene.js, chargée en différé)
    ============================================================ */
 'use strict';
 
@@ -72,7 +72,45 @@ if (burger && navLinks) {
 })();
 
 /* ============================================================
-   2. REVEALS
+   2. VERSION RAPIDE · un écran, zéro spectacle
+   ============================================================ */
+(function fastMode() {
+  const btn = document.getElementById('fast-btn');
+  const sec = document.getElementById('fast');
+  const exitBtn = document.getElementById('fast-exit');
+  if (!btn || !sec) return;
+
+  function enter() {
+    document.body.classList.add('fast');
+    sec.hidden = false;
+    btn.setAttribute('aria-pressed', 'true');
+    try { history.replaceState(null, '', '#rapide'); } catch (e) {}
+    window.scrollTo(0, 0);
+    const h = sec.querySelector('h2');
+    if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+  }
+  function exit() {
+    document.body.classList.remove('fast');
+    sec.hidden = true;
+    btn.setAttribute('aria-pressed', 'false');
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    btn.focus({ preventScroll: true });
+  }
+
+  btn.addEventListener('click', () =>
+    btn.getAttribute('aria-pressed') === 'true' ? exit() : enter()
+  );
+  if (exitBtn) exitBtn.addEventListener('click', exit);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.body.classList.contains('fast')) exit();
+  });
+
+  /* Lien direct #rapide pour un recruteur pressé */
+  if (location.hash === '#rapide') enter();
+})();
+
+/* ============================================================
+   3. REVEALS
    ============================================================ */
 if (!REDUCED && 'IntersectionObserver' in window) {
   const io = new IntersectionObserver(entries => {
@@ -86,7 +124,8 @@ if (!REDUCED && 'IntersectionObserver' in window) {
 }
 
 /* ============================================================
-   3. TYPO CINÉTIQUE — le nom réagit au curseur
+   4. TYPO CINÉTIQUE · rects mis en cache, plus un getBoundingClientRect
+      par lettre et par pointermove
    ============================================================ */
 (function kineticName() {
   const h1 = document.getElementById('kinetic-name');
@@ -110,29 +149,64 @@ if (!REDUCED && 'IntersectionObserver' in window) {
   h1.appendChild(frag);
 
   if (!FINE_POINTER) return;
-  const letters = h1.querySelectorAll('.kl');
+  const letters = [...h1.querySelectorAll('.kl')];
+  let cache = [], dirty = true, near = false;
+
+  const invalidate = () => { dirty = true; };
+  window.addEventListener('scroll', invalidate, { passive: true });
+  window.addEventListener('resize', invalidate);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(invalidate);
 
   window.addEventListener('pointermove', e => {
-    const r = h1.getBoundingClientRect();
-    if (e.clientY < r.top - 220 || e.clientY > r.bottom + 220) return;
-    letters.forEach(l => {
-      const lr = l.getBoundingClientRect();
+    if (!near) {
+      const hr = h1.getBoundingClientRect();
+      near = e.clientY > hr.top - 220 && e.clientY < hr.bottom + 220;
+      if (!near) return;
+    }
+    if (dirty) {
+      cache = letters.map(l => l.getBoundingClientRect());
+      dirty = false;
+    }
+    for (let i = 0; i < letters.length; i++) {
+      const lr = cache[i];
+      if (!lr) continue;
       const dx = e.clientX - (lr.left + lr.width / 2);
       const dy = e.clientY - (lr.top + lr.height / 2);
       const d = Math.hypot(dx, dy);
       const f = Math.max(0, 1 - d / 240);
-      if (f <= 0.01) { l.style.transform = ''; l.style.color = ''; return; }
+      const l = letters[i];
+      if (f <= 0.01) { if (l.style.transform) { l.style.transform = ''; l.style.color = ''; } continue; }
       l.style.transform = `translate(${(-dx * f * 0.12).toFixed(1)}px, ${(-dy * f * 0.16).toFixed(1)}px)`;
       l.style.color = f > 0.55 ? 'var(--gold)' : '';
-    });
+    }
+    /* hors zone : on rend le cache périmé et on repartira vite */
+    const hr2 = h1.getBoundingClientRect();
+    if (e.clientY < hr2.top - 260 || e.clientY > hr2.bottom + 260) {
+      near = false;
+      letters.forEach(l => { l.style.transform = ''; l.style.color = ''; });
+    }
   }, { passive: true });
 })();
 
 /* ============================================================
-   4. CARTES PROJETS VIVANTES
+   5. CARTES PROJETS VIVANTES
    ============================================================ */
 (function projectViz() {
-  const GOLD = '#e8c56a', GREEN = '#5ef0b0', DIM = 'rgba(242,238,228,.32)';
+  /* roundRect : polyfill pour les vieux Safari (< 16) */
+  if (!CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+      r = Math.min(r, w / 2, h / 2);
+      this.moveTo(x + r, y);
+      this.arcTo(x + w, y, x + w, y + h, r);
+      this.arcTo(x + w, y + h, x, y + h, r);
+      this.arcTo(x, y + h, x, y, r);
+      this.arcTo(x, y, x + w, y, r);
+      this.closePath();
+      return this;
+    };
+  }
+  const GOLD = '#e8c56a', GREEN = '#5ef0b0', PALE = '#f2eee4',
+        RED = '#f76a6a';
 
   function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -140,38 +214,72 @@ if (!REDUCED && 'IntersectionObserver' in window) {
       [a[i], a[j]] = [a[j], a[i]];
     }
   }
-  function* bubble(a) {
-    for (let n = a.length; n > 1; n--)
-      for (let i = 0; i < n - 1; i++) {
-        if (a[i] > a[i + 1]) [a[i], a[i + 1]] = [a[i + 1], a[i]];
-        yield i;
-      }
-  }
 
   const VIZ = {
-    sort(s, ts, still) {
+    /* Uptime : une ligne de monitors, presque tout vert, un dip rare */
+    uptime(s, ts, still) {
       const { ctx, w, h } = s;
+      if (!s.bars) {
+        s.bars = Array.from({ length: 26 }, () => 0.78 + Math.random() * 0.22);
+        s.next = 0;
+      }
       if (!still && ts > s.next) {
-        s.next = ts + 85;
-        if (s.done && ts > s.done) { shuffle(s.vals); s.gen = bubble(s.vals); s.done = 0; }
-        else if (!s.done) {
-          const r = s.gen.next();
-          if (r.done) { s.cur = null; s.done = ts + 1100; }
-          else s.cur = r.value;
-        }
+        s.next = ts + 190;
+        s.bars.shift();
+        if (s.fault > 0) { s.bars.push(0.32); s.fault--; }
+        else if (Math.random() < 0.06) { s.bars.push(0.32); s.fault = 1; }
+        else s.bars.push(0.78 + Math.random() * 0.22);
       }
       ctx.clearRect(0, 0, w, h);
-      const n = s.vals.length, bw = (w - 32) / n;
-      s.vals.forEach((v, i) => {
-        const bh = (v / n) * (h - 34);
-        const active = s.cur !== null && (i === s.cur || i === s.cur + 1);
-        ctx.fillStyle = s.done || active ? GREEN : GOLD;
-        ctx.globalAlpha = s.done || active ? 0.95 : 0.55;
-        ctx.fillRect(16 + i * bw + 1, h - 17 - bh, bw - 2, bh);
+      const n = s.bars.length, bw = (w - 36) / n, base = h - 22;
+      ctx.strokeStyle = 'rgba(242,238,228,.12)';
+      ctx.beginPath(); ctx.moveTo(18, base); ctx.lineTo(w - 18, base); ctx.stroke();
+      s.bars.forEach((v, i) => {
+        const bh = v * (h - 44);
+        ctx.fillStyle = v < 0.5 ? RED : GREEN;
+        ctx.globalAlpha = v < 0.5 ? 0.95 : 0.55 + v * 0.4;
+        const x = 18 + i * bw;
+        ctx.beginPath();
+        ctx.roundRect(x + 1, base - bh, Math.max(2, bw - 3), bh, 2);
+        ctx.fill();
       });
       ctx.globalAlpha = 1;
     },
 
+    /* SecDash : heatmap de clients, un scan qui balaie, des découvertes en rouge */
+    secdash(s, ts, still) {
+      const { ctx, w, h } = s;
+      if (s.col === undefined) { s.col = 0; s.findings = new Set(); s.next = 0; }
+      if (!still && ts > s.next) {
+        s.next = ts + 130;
+        s.col = (s.col + 1) % 10;
+        if (Math.random() < 0.08) {
+          const r = (Math.random() * 3) | 0, c = (Math.random() * 10) | 0;
+          s.findings.add(r + ',' + c);
+          setTimeout(() => s.findings.delete(r + ',' + c), 4200);
+        }
+      }
+      ctx.clearRect(0, 0, w, h);
+      const gx = (w - 24) / 10, gy = (h - 20) / 3;
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 10; c++) {
+          const key = r + ',' + c;
+          const x = 12 + c * gx, y = 10 + r * gy;
+          ctx.fillStyle = s.findings.has(key) ? RED : 'rgba(94,240,176,.16)';
+          ctx.beginPath();
+          ctx.roundRect(x + 2, y + 2, gx - 5, gy - 5, 3);
+          ctx.fill();
+        }
+      }
+      /* colonne de scan */
+      const sx = 12 + s.col * gx;
+      ctx.fillStyle = 'rgba(232,197,106,.10)';
+      ctx.fillRect(sx, 6, gx, h - 12);
+      ctx.fillStyle = GOLD;
+      ctx.fillRect(sx + 1, 6, 1.5, h - 12);
+    },
+
+    /* Radar : recherche de médecin, ping des disponibilités */
     radar(s, ts, still) {
       const { ctx, w, h } = s;
       const cx = w / 2, cy = h * 0.56, r = h * 0.46;
@@ -200,39 +308,30 @@ if (!REDUCED && 'IntersectionObserver' in window) {
       });
     },
 
-    term(s, ts, still) {
+    /* EDUCA : lettres qui se posent, une qui danse · OpenDyslexic en esprit */
+    letters(s, ts, still) {
       const { ctx, w, h } = s;
-      const SCRIPT = [
-        ['$ ', 'whoami', GOLD],
-        ['  ', 'Technicien IT — Paris', DIM],
-        ['$ ', 'sudo hire davidson', GOLD],
-        ['  ', 'dispo immédiatement [ok]', GREEN],
-        ['$ ', 'exit', GOLD],
-      ];
-      if (!still && ts > s.wait) {
-        s.wait = ts + 46;
-        const [, txt] = SCRIPT[s.li];
-        if (s.ch < txt.length) s.ch++;
-        else { s.wait = ts + 750; s.lines.push(s.li); s.lines = s.lines.slice(-3); s.li = (s.li + 1) % SCRIPT.length; s.ch = 0; }
-      }
-      if (still) { s.lines = [0, 1, 2]; s.li = 3; s.ch = SCRIPT[3][1].length; }
+      const WORD = ['E', 'D', 'U', 'C', 'A'];
+      const t = ts / 1000;
       ctx.clearRect(0, 0, w, h);
-      ctx.font = '11.5px "JetBrains Mono", monospace';
-      const shown = [...s.lines.slice(-3), s.li];
-      shown.forEach((idx, row) => {
-        const [pre, txt, col] = SCRIPT[idx];
-        const full = idx === s.li ? txt.slice(0, s.ch) : txt;
-        const y = 24 + row * 20;
-        ctx.fillStyle = 'rgba(94,240,176,.8)';
-        ctx.fillText(pre, 16, y);
-        ctx.fillStyle = col;
-        ctx.fillText(full, 16 + ctx.measureText(pre).width, y);
-        if (idx === s.li && Math.floor(ts / 450) % 2 === 0) {
-          const cw = ctx.measureText(pre + full).width;
-          ctx.fillStyle = GOLD;
-          ctx.fillRect(18 + cw, y - 9, 6, 11);
-        }
-      });
+      const n = WORD.length;
+      const cw = w / (n + 1);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (let i = 0; i < n; i++) {
+        const dancing = !still && Math.floor(t / 1.4) % n === i;
+        const rot = still ? 0 : Math.sin(t * 1.1 + i * 1.7) * 0.055 + (dancing ? Math.sin(t * 9) * 0.16 : 0);
+        const dy = still ? 0 : Math.sin(t * 1.6 + i * 2.1) * 2.6 + (dancing ? -5 : 0);
+        ctx.save();
+        ctx.translate(cw * (i + 1), h / 2 + dy);
+        ctx.rotate(rot);
+        ctx.font = `800 ${h * 0.44}px Syne, sans-serif`;
+        ctx.fillStyle = i === 3 ? GOLD : PALE;
+        ctx.globalAlpha = 0.92;
+        ctx.fillText(WORD[i], 0, 0);
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
     },
   };
 
@@ -243,14 +342,7 @@ if (!REDUCED && 'IntersectionObserver' in window) {
     function init() {
       const { ctx, w, h } = fitCanvas(canvas);
       const s = { ctx, w, h };
-      if (kind === 'sort') {
-        s.vals = Array.from({ length: 16 }, (_, i) => i + 1);
-        shuffle(s.vals);
-        s.gen = bubble(s.vals);
-        s.cur = null; s.next = 0; s.done = 0;
-      }
       if (kind === 'radar') { s.angle = 0; s.pings = []; s.first = true; }
-      if (kind === 'term') { s.li = 0; s.ch = 0; s.lines = []; s.wait = 0; }
       return s;
     }
 
@@ -267,7 +359,7 @@ if (!REDUCED && 'IntersectionObserver' in window) {
 })();
 
 /* ============================================================
-   5. TILT + MAGNÉTIQUE
+   6. TILT + MAGNÉTIQUE
    ============================================================ */
 if (FINE_POINTER && !REDUCED) {
   document.querySelectorAll('.tilt').forEach(card => {
@@ -292,7 +384,7 @@ if (FINE_POINTER && !REDUCED) {
 }
 
 /* ============================================================
-   6. TRANSITION BOOT → TERMINAL
+   7. TRANSITION BOOT → TERMINAL
    ============================================================ */
 (function bootTransition() {
   const overlay = document.getElementById('boot');
@@ -320,7 +412,7 @@ if (FINE_POINTER && !REDUCED) {
 
 /* ── Pour les curieux ── */
 console.log(
-  '%c davidson@portfolio:~$ %c La scene 3D est pilotee par le scroll — Three.js + vanilla JS, code sur github.com/DaVeinOUT',
+  '%c davidson@portfolio:~$ %c Chaque nœud du réseau est réel : survole, clique. Code sur github.com/DaVeinOUT',
   'background:#0a0a0d;color:#e8c56a;padding:4px 8px;border-radius:4px;font-family:monospace',
   'color:#9a948a;font-family:monospace'
 );

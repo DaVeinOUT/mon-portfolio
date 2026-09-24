@@ -7,7 +7,7 @@
   --bg-hover:    #161616;
   --text:        #f0ece3;
   --text-2:      #a0998e;
-  --text-3:      #504945;
+  --text-3:      #857c6f;
   --border:      rgba(255,255,255,.07);
   --border-h:    rgba(255,255,255,.14);
   --accent:      #c9a84c;
@@ -41,7 +41,7 @@ body.theme-light {
   --bg-hover:    #e6e2d8;
   --text:        #1a1610;
   --text-2:      #6b6257;
-  --text-3:      #a09880;
+  --text-3:      #776d62;
   --border:      rgba(0,0,0,.08);
   --border-h:    rgba(0,0,0,.16);
   --accent:      #a07830;
@@ -57,7 +57,7 @@ body.theme-retro {
   --bg-hover:    #0d1800;
   --text:        #39ff14;
   --text-2:      #25c20c;
-  --text-3:      #145a06;
+  --text-3:      #2ea80c;
   --border:      rgba(57,255,20,.10);
   --border-h:    rgba(57,255,20,.22);
   --accent:      #39ff14;
@@ -399,64 +399,6 @@ body.theme-glass #terminal-window {
 .t-tag.green  { border-color: rgba(62,207,142,.30);        color: var(--green);  }
 
 /* ============================================================
-   SKILL BARS
-   ============================================================ */
-.skill-group-title {
-  font-size: 10px;
-  color: var(--text-3);
-  letter-spacing: .10em;
-  text-transform: uppercase;
-  margin: 1rem 0 .45rem;
-  animation: lineIn .15s ease both;
-}
-
-.skill-row {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  margin: .32rem 0;
-  animation: lineIn .2s ease both;
-}
-
-.skill-name {
-  width: 185px;
-  font-size: 12px;
-  color: var(--text-2);
-  flex-shrink: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.skill-bar-bg {
-  flex: 1;
-  height: 4px;
-  background: var(--bg-hover);
-  border-radius: 99px;
-  overflow: hidden;
-}
-
-.skill-bar-fill {
-  height: 100%;
-  border-radius: 99px;
-  background: var(--accent);
-  width: 0;
-  transition: width 1.25s cubic-bezier(.22,.68,0,1.18);
-  position: relative;
-}
-.skill-bar-fill.blue   { background: var(--blue);   }
-.skill-bar-fill.green  { background: var(--green);  }
-.skill-bar-fill.purple { background: var(--purple); }
-
-.skill-pct {
-  font-size: 10px;
-  color: var(--text-3);
-  width: 32px;
-  text-align: right;
-  flex-shrink: 0;
-}
-
-/* ============================================================
    CONTACT LINKS
    ============================================================ */
 .t-contact-link {
@@ -762,7 +704,7 @@ body.theme-glass #terminal-window {
 }
 
 /* ============================================================
-   RESPONSIVE — MOBILE (< 640px)
+   RESPONSIVE · MOBILE (< 640px)
    ============================================================ */
 @media (max-width: 639px) {
   html, body { font-size: 13px; }
@@ -793,9 +735,6 @@ body.theme-glass #terminal-window {
   .t-welcome-box .role  { font-size: 12px; }
   .t-welcome-box::before { display: none; }
 
-  .skill-name { width: 120px; font-size: 11px; }
-  .skill-pct  { display: none; }
-
   #title-bar-text { font-size: 10px; }
   #title-bar { gap: .6rem; }
 
@@ -818,7 +757,7 @@ body.theme-glass #terminal-window {
 }
 
 /* ============================================================
-   RESPONSIVE — TABLET & DESKTOP (>= 640px)
+   RESPONSIVE · TABLET & DESKTOP (>= 640px)
    ============================================================ */
 @media (min-width: 640px) {
   #mobile-cmd-bar { display: none; }
@@ -832,7 +771,6 @@ body.theme-glass #terminal-window {
   #terminal-input-row {
     padding: .8rem 2.4rem 1rem;
   }
-  .skill-name { width: 200px; }
   html, body { font-size: 15px; }
 }
 
@@ -840,9 +778,8 @@ body.theme-glass #terminal-window {
    REDUCED MOTION
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  .t-line, .t-card, .skill-row, .t-contact-link,
+  .t-line, .t-card, .t-contact-link,
   .t-help-row, .t-section, .t-welcome-box, .t-ascii { animation: none; }
-  .skill-bar-fill { transition: none; }
   .t-dot          { animation: none; }
   .t-quick-link:hover   { transform: none; }
   .t-contact-link:hover { transform: none; }
@@ -880,7 +817,7 @@ body.theme-retro .t-welcome-box .name {
 
 
 /* ============================================================
-   V4 — CRT PREMIUM (bloom, vignette, flicker) + nouveaux thèmes
+   V4 · CRT PREMIUM (bloom, vignette, flicker) + nouveaux thèmes
    ============================================================ */
 
 /* ── Bloom phosphore ── */
@@ -895,7 +832,7 @@ body.theme-light #title-bar-text { text-shadow: none; }
 #terminal-input { caret-color: var(--accent); }
 
 /* ── Vignette + reflet d'écran ──
-   (la fenêtre est déjà position:fixed — ne surtout pas y toucher) */
+   (la fenêtre est déjà position:fixed · ne surtout pas y toucher) */
 #terminal-window::after {
   content: '';
   position: absolute;
@@ -931,7 +868,7 @@ body.theme-gruvbox {
   --bg-hover:    #32302f;
   --text:        #ebdbb2;
   --text-2:      #a89984;
-  --text-3:      #665c54;
+  --text-3:      #998d7c;
   --border:      rgba(235, 219, 178, .08);
   --border-h:    rgba(235, 219, 178, .18);
   --accent:      #fabd2f;
@@ -951,7 +888,7 @@ body.theme-synthwave {
   --bg-hover:    #241040;
   --text:        #f4eefe;
   --text-2:      #b39ddb;
-  --text-3:      #5e4a8a;
+  --text-3:      #8d78b8;
   --border:      rgba(244, 238, 254, .1);
   --border-h:    rgba(244, 238, 254, .22);
   --accent:      #ff6ec7;
@@ -972,7 +909,7 @@ body.theme-amber {
   --bg-hover:    #1c1000;
   --text:        #ffb000;
   --text-2:      #c78800;
-  --text-3:      #6e4a00;
+  --text-3:      #a87500;
   --border:      rgba(255, 176, 0, .1);
   --border-h:    rgba(255, 176, 0, .22);
   --accent:      #ffcf60;
@@ -988,4 +925,27 @@ body.theme-amber #scanlines { opacity: .8; }
 
 @media (prefers-reduced-motion: reduce) {
   #terminal-output { animation: none; }
+}
+
+/* ============================================================
+   IMPRESSION · le terminal sort en document texte propre
+   ============================================================ */
+@media print {
+  :root {
+    --bg: #ffffff; --bg-card: #ffffff; --bg-hover: #ffffff;
+    --text: #171410; --text-2: #3d3830; --text-3: #55504a;
+    --border: rgba(0,0,0,.25); --border-h: rgba(0,0,0,.35);
+    --accent: #7a5c1e; --green: #1a6b45; --blue: #235a8a; --red: #8a2a2a; --purple: #5a4a7a;
+  }
+  html, body { overflow: visible; height: auto; background: #fff !important; font-size: 11pt; }
+  #scanlines, #fx-canvas, #mobile-cmd-bar, #traffic-lights, #theme-indicator, #t-clock { display: none !important; }
+  #terminal-window { position: static; background: #fff !important; backdrop-filter: none; }
+  #terminal-window::after { display: none !important; }
+  #terminal-output { overflow: visible; height: auto; }
+  .t-line, .t-card, .t-contact-link, .t-help-row, .t-section, .t-welcome-box, .t-ascii { animation: none; text-shadow: none; }
+  .t-card, .t-welcome-box { border-color: #999; background: none; box-shadow: none; }
+  .t-welcome-box::before { display: none; }
+  .t-welcome-box .name { -webkit-text-fill-color: #171410; color: #171410; background: none; }
+  .t-ascii { display: block; }
+  #terminal-input-row { display: none; }
 }
