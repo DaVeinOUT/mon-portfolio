@@ -45,9 +45,18 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 const burger = document.getElementById('nav-burger');
 const navLinks = document.getElementById('nav-links');
 if (burger && navLinks) {
+  /* Le bouton suit les liens dans le DOM : à l'ouverture, le focus va au premier
+     lien ; Échap referme et rend le focus au bouton. */
   burger.addEventListener('click', () => {
     const open = navLinks.classList.toggle('open');
     burger.setAttribute('aria-expanded', String(open));
+    if (open) navLinks.querySelector('a').focus();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !navLinks.classList.contains('open')) return;
+    navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.focus();
   });
   navLinks.querySelectorAll('a').forEach(a =>
     a.addEventListener('click', () => {
@@ -129,7 +138,11 @@ if (!REDUCED && 'IntersectionObserver' in window) {
    ============================================================ */
 (function kineticName() {
   const h1 = document.getElementById('kinetic-name');
-  if (!h1 || REDUCED) return;
+  /* Découpage réservé à la souris : au doigt, l'effet ne peut pas se déclencher,
+     et des lettres en inline-block autorisaient une coupure en plein mot.
+     Le h1 porte aria-label="Davidson Dorelus" : les lettres sont masquées aux
+     lecteurs d'écran, qui liraient sinon lettre par lettre. */
+  if (!h1 || REDUCED || !FINE_POINTER) return;
 
   const frag = document.createDocumentFragment();
   h1.childNodes.forEach(node => {
@@ -138,6 +151,7 @@ if (!REDUCED && 'IntersectionObserver' in window) {
         if (ch.trim() === '') { frag.appendChild(document.createTextNode(ch)); continue; }
         const s = document.createElement('span');
         s.className = 'kl';
+        s.setAttribute('aria-hidden', 'true');
         s.textContent = ch;
         frag.appendChild(s);
       }
@@ -148,7 +162,6 @@ if (!REDUCED && 'IntersectionObserver' in window) {
   h1.innerHTML = '';
   h1.appendChild(frag);
 
-  if (!FINE_POINTER) return;
   const letters = [...h1.querySelectorAll('.kl')];
   let cache = [], dirty = true, near = false;
 

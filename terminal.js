@@ -389,8 +389,8 @@ function cmdProjects() {
     const card = el('div', 't-card');
     const tagsHtml = pr.tags.map(t => `<span class="t-tag">${escHtml(t)}</span>`).join('');
     let linksHtml = '';
-    if (pr.link)  linksHtml += `<a href="${pr.link}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">→ ${escHtml(pr.linkLabel)}</a>`;
-    if (pr.link2) linksHtml += ` <span class="t-dim2">·</span> <a href="${pr.link2}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">${escHtml(pr.link2Label)}</a>`;
+    if (pr.link)  linksHtml += `<a class="t-card-link" href="${pr.link}" target="_blank" rel="noopener">→ ${escHtml(pr.linkLabel)}</a>`;
+    if (pr.link2) linksHtml += ` <span class="t-dim2">·</span> <a class="t-card-link" href="${pr.link2}" target="_blank" rel="noopener">${escHtml(pr.link2Label)}</a>`;
     if (pr.todo)  linksHtml += ` <span class="t-tag" style="border-color:rgba(247,106,106,.4);color:var(--red)">${escHtml(pr.todo)}</span>`;
     card.innerHTML = `
       <div class="t-card-title">${escHtml(pr.title)}</div>
@@ -959,7 +959,7 @@ function cmdAlternance() {
       <span class="t-dim">Démarrage &nbsp;&nbsp;:</span> à convenir avec l'entreprise
     </div>
     <div style="margin-top:.7rem;font-size:.85rem">
-      <a href="mailto:davedorelus025@icloud.com?subject=Alternance%20TSSR" style="color:var(--accent);text-decoration:none">→ davedorelus025@icloud.com</a>
+      <a class="t-card-link" href="mailto:davedorelus025@icloud.com?subject=Alternance%20TSSR">→ davedorelus025@icloud.com</a>
     </div>
   `;
   printLines([
