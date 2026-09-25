@@ -273,11 +273,26 @@
 
 <script src="main.js"></script>
 <script type="module">
-  /* 3D en différé : le premier écran est lisible avant que Three.js arrive. */
-  const startScene = () =>
-    import('./scene.js')
+  /* 3D en différé : le premier écran est lisible avant que Three.js arrive.
+     three.module.min.js importe three.core.min.js : sans préchargement, les
+     deux fichiers arrivaient l'un après l'autre. Les deux <link rel="modulepreload">
+     sont posés au démarrage de la scène, pas dans le <head> : ils y feraient
+     partir 176 Ko pendant le premier écran. Même version que l'import map. */
+  const THREE_FILES = [
+    'https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.min.js',
+    'https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.core.min.js',
+  ];
+  const startScene = () => {
+    THREE_FILES.forEach(href => {
+      const link = document.createElement('link');
+      link.rel = 'modulepreload';
+      link.href = href;
+      document.head.appendChild(link);
+    });
+    return import('./scene.js')
       .then(m => m.initScene())
       .catch(() => document.body.classList.add('no3d'));
+  };
   if (document.readyState === 'complete') {
     ('requestIdleCallback' in window)
       ? requestIdleCallback(startScene, { timeout: 2000 })
