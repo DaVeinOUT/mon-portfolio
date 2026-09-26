@@ -14,7 +14,7 @@ const ctx        = canvas.getContext('2d');
 const themeLabel = document.getElementById('theme-indicator');
 
 /* ── State ────────────────────────────────────────────────── */
-let history      = [];
+const commandHistory = [];   /* « history » masquait window.history */
 let histIdx      = -1;
 let acIdx        = -1;
 let idleTimer    = null;
@@ -22,6 +22,17 @@ let idleCount    = 0;
 let currentTheme = 'dark';
 let matrixActive = false;
 let matrixRAF    = null;
+let confettiRAF  = 0;
+let printGen     = 0;     /* incrémenté par clear : les impressions lentes en cours s'arrêtent */
+
+/* ── Préférences de l'appareil ────────────────────────────── */
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
+const FINE_POINTER   = window.matchMedia('(pointer: fine)');
+
+/* Focus sur la saisie à la souris seulement : au doigt, il ouvrirait le clavier virtuel. */
+function focusInput() {
+  if (FINE_POINTER.matches) inputEl.focus();
+}
 
 /* ── Themes ───────────────────────────────────────────────── */
 const THEMES = ['dark', 'retro', 'amber', 'gruvbox', 'synthwave', 'light', 'glass'];
@@ -150,7 +161,7 @@ function boot() {
   setTimeout(() => {
     append(blank());
     printWelcome();
-    setTimeout(() => inputEl.focus(), 100);
+    setTimeout(focusInput, 100);
   }, 950);
 }
 
@@ -389,8 +400,8 @@ function cmdProjects() {
     const card = el('div', 't-card');
     const tagsHtml = pr.tags.map(t => `<span class="t-tag">${escHtml(t)}</span>`).join('');
     let linksHtml = '';
-    if (pr.link)  linksHtml += `<a href="${pr.link}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">→ ${escHtml(pr.linkLabel)}</a>`;
-    if (pr.link2) linksHtml += ` <span class="t-dim2">·</span> <a href="${pr.link2}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">${escHtml(pr.link2Label)}</a>`;
+    if (pr.link)  linksHtml += `<a class="t-card-link" href="${pr.link}" target="_blank" rel="noopener">→ ${escHtml(pr.linkLabel)}</a>`;
+    if (pr.link2) linksHtml += ` <span class="t-dim2">·</span> <a class="t-card-link" href="${pr.link2}" target="_blank" rel="noopener">${escHtml(pr.link2Label)}</a>`;
     if (pr.todo)  linksHtml += ` <span class="t-tag" style="border-color:rgba(247,106,106,.4);color:var(--red)">${escHtml(pr.todo)}</span>`;
     card.innerHTML = `
       <div class="t-card-title">${escHtml(pr.title)}</div>
@@ -587,13 +598,15 @@ function cmdMatrix() {
     stopMatrix();
     printLines([line('<span class="t-dim">Matrix désactivé.</span>'), blank()]);
   } else {
-    startMatrix();
-    printLines([line('<span class="t-green">Follow the white rabbit... (relance pour arrêter)</span>'), blank()]);
+    printLines([startMatrix()
+      ? line('<span class="t-green">Follow the white rabbit... (relance pour arrêter)</span>')
+      : line('<span class="t-err">Matrix indisponible sur cet appareil pour le moment.</span>'), blank()]);
   }
 }
 
 function cmdClear() {
   if (snakeActive && cmdSnake.stop) cmdSnake.stop();
+  printGen++;
   output.innerHTML = '';
   printWelcome();
 }
@@ -611,9 +624,13 @@ function runCommand(raw) {
   const input = raw.trim();
   if (!input) return;
 
-  if (history[0] !== input) history.unshift(input);
-  if (history.length > 80)  history.pop();
+  if (commandHistory[0] !== input) commandHistory.unshift(input);
+  if (commandHistory.length > 80)  commandHistory.pop();
   histIdx = -1;
+
+  /* Une autre commande termine la partie en cours : sinon le jeu, hors écran,
+     finit contre un mur et écrit « Game over » au milieu de la nouvelle sortie. */
+  if (snakeActive && cmdSnake.stop && input.toLowerCase().split(/\s+/)[0] !== 'snake') cmdSnake.stop();
 
   printCmdEcho(input);
 
@@ -687,9 +704,9 @@ inputEl.addEventListener('keydown', e => {
 
   if (e.key === 'ArrowUp') {
     e.preventDefault();
-    if (histIdx < history.length - 1) {
+    if (histIdx < commandHistory.length - 1) {
       histIdx++;
-      inputEl.value = history[histIdx];
+      inputEl.value = commandHistory[histIdx];
       setTimeout(() => inputEl.setSelectionRange(9999, 9999), 0);
     }
     return;
@@ -699,7 +716,7 @@ inputEl.addEventListener('keydown', e => {
     e.preventDefault();
     if (histIdx > 0) {
       histIdx--;
-      inputEl.value = history[histIdx];
+      inputEl.value = commandHistory[histIdx];
     } else {
       histIdx = -1;
       inputEl.value = '';
@@ -707,10 +724,12 @@ inputEl.addEventListener('keydown', e => {
     return;
   }
 
-  if (e.key === 'Tab') {
-    e.preventDefault();
+  /* Tab complète une suggestion ; sans suggestion, et toujours avec Maj,
+     il déplace le focus normalement (pas de piège clavier). */
+  if (e.key === 'Tab' && !e.shiftKey) {
     const items = dropdown.querySelectorAll('.ac-item');
     if (!items.length) return;
+    e.preventDefault();
     if (items.length === 1) {
       inputEl.value = items[0].dataset.cmd;
       closeDropdown();
@@ -731,11 +750,13 @@ inputEl.addEventListener('input', () => {
   updateDropdown(inputEl.value);
 });
 
-/* Focus on click anywhere (not on links/buttons) */
+/* Clic hors lien ou bouton : le focus revient à la saisie, à la souris
+   seulement (sur iPhone, chaque toucher ouvrait le clavier), et sans voler
+   une sélection de texte en cours de copie. */
 document.addEventListener('click', e => {
-  if (!e.target.closest('a') && !e.target.closest('button')) {
-    inputEl.focus();
-  }
+  if (e.target.closest('a, button, [role="button"], canvas')) return;   /* canvas : le clic sur snake garde ZQSD au jeu */
+  if (window.getSelection().toString()) return;
+  focusInput();
 });
 
 /* ── Autocomplete ─────────────────────────────────────────── */
@@ -819,6 +840,8 @@ function showIdleHint() {
 
 /* ── Matrix rain ──────────────────────────────────────────── */
 function startMatrix() {
+  if (!ctx) { console.warn('[terminal] matrix : contexte 2D indisponible'); return false; }
+  stopConfetti();   /* un seul effet à la fois sur le canvas partagé */
   matrixActive = true;
   canvas.classList.add('active');
   canvas.width  = window.innerWidth;
@@ -843,6 +866,7 @@ function startMatrix() {
     matrixRAF = requestAnimationFrame(draw);
   }
   draw();
+  return true;
 }
 
 function stopMatrix() {
@@ -860,8 +884,23 @@ window.addEventListener('resize', () => {
 });
 
 /* ── Confetti ─────────────────────────────────────────────── */
+/* Confettis : sautés si « Réduire les animations » est actif (renvoie false).
+   Une seule boucle à la fois ; sa fin ne masque pas Matrix, qui partage le canvas. */
+function stopConfetti() {
+  if (!confettiRAF) return;
+  cancelAnimationFrame(confettiRAF);
+  confettiRAF = 0;
+  if (!matrixActive) {
+    canvas.classList.remove('active');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
 function launchConfetti() {
+  if (REDUCED_MOTION.matches) return false;
+  if (!ctx) { console.warn('[terminal] confettis : contexte 2D indisponible'); return false; }
   if (matrixActive) stopMatrix();
+  stopConfetti();
   canvas.width  = window.innerWidth;
   canvas.height = window.innerHeight;
   canvas.classList.add('active');
@@ -893,13 +932,15 @@ function launchConfetti() {
       ctx.restore();
     });
     frame++;
-    if (frame < 200) requestAnimationFrame(draw);
+    if (frame < 200) confettiRAF = requestAnimationFrame(draw);
     else {
+      confettiRAF = 0;
       canvas.classList.remove('active');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   }
-  draw();
+  confettiRAF = requestAnimationFrame(draw);
+  return true;
 }
 
 /* ── Konami code ──────────────────────────────────────────── */
@@ -912,12 +953,12 @@ document.addEventListener('keydown', e => {
     konamiIdx++;
     if (konamiIdx === KONAMI.length) {
       konamiIdx = 0;
+      const fired = launchConfetti();
       printLines([
         blank(),
-        line('<span class="t-purple t-bold">[ok] Konami Code activé · confettis.</span>'),
+        line(`<span class="t-purple t-bold">[ok] Konami Code activé${fired ? ' · confettis.' : REDUCED_MOTION.matches ? ' · animations réduites, pas de confettis.' : ' · confettis indisponibles.'}</span>`),
         blank(),
       ]);
-      launchConfetti();
     }
   } else {
     konamiIdx = 0;
@@ -931,10 +972,22 @@ document.querySelector('.tl-close').addEventListener('click', () => {
 document.querySelector('.tl-min').addEventListener('click', () => {
   printLines([line('<span class="t-dim">Minimisation non disponible en mode plein écran.</span>'), blank()]);
 });
+/* L'API plein écran n'existe pas pour une page sur iPhone : on la teste avant
+   l'appel (TypeError sinon) et on dit ce qui se passe au lieu d'échouer en silence. */
 document.querySelector('.tl-max').addEventListener('click', () => {
-  document.fullscreenElement
-    ? document.exitFullscreen()
-    : document.documentElement.requestFullscreen().catch(() => {});
+  const root = document.documentElement;
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(err => console.warn('[terminal] sortie du plein écran impossible :', err));
+    return;
+  }
+  if (typeof root.requestFullscreen !== 'function') {
+    printLines([line('<span class="t-dim">Plein écran indisponible sur cet appareil.</span>'), blank()]);
+    return;
+  }
+  root.requestFullscreen().catch(err => {
+    console.warn('[terminal] plein écran refusé :', err);
+    printLines([line('<span class="t-dim">Plein écran refusé par le navigateur.</span>'), blank()]);
+  });
 });
 
 /* ── Init ─────────────────────────────────────────────────── */
@@ -959,7 +1012,7 @@ function cmdAlternance() {
       <span class="t-dim">Démarrage &nbsp;&nbsp;:</span> à convenir avec l'entreprise
     </div>
     <div style="margin-top:.7rem;font-size:.85rem">
-      <a href="mailto:davedorelus025@icloud.com?subject=Alternance%20TSSR" style="color:var(--accent);text-decoration:none">→ davedorelus025@icloud.com</a>
+      <a class="t-card-link" href="mailto:davedorelus025@icloud.com?subject=Alternance%20TSSR">→ davedorelus025@icloud.com</a>
     </div>
   `;
   printLines([
@@ -972,14 +1025,18 @@ function cmdAlternance() {
   ]);
 }
 
-/* ── cv : téléchargement du PDF ── */
+/* ── cv : téléchargement du PDF ──
+   Le clic reste synchrone (les navigateurs exigent un geste de l'utilisateur) ;
+   une requête HEAD vérifie en parallèle que le PDF existe avant d'afficher la
+   coche : plus de succès annoncé à tort. */
+const CV_URL = 'assets/cv-davidson-dorelus.pdf';
 function cmdCv() {
   printLines([
     line('<span class="t-dim">$</span> wget cv-davidson-dorelus.pdf'),
-    line('<span class="t-green">Téléchargement lancé ✓</span>'),
+    line('<span class="t-dim">Téléchargement demandé…</span>'),
     (() => {
       const a = el('a', 't-contact-link');
-      a.href = 'assets/cv-davidson-dorelus.pdf';
+      a.href = CV_URL;
       a.download = 'CV_Davidson_Dorelus.pdf';
       a.innerHTML = '<span class="t-contact-label">CV (PDF)</span><span class="t-contact-val">clique ici si le téléchargement n\'a pas démarré</span>';
       return a;
@@ -987,20 +1044,33 @@ function cmdCv() {
     blank(),
   ]);
   const a = document.createElement('a');
-  a.href = 'assets/cv-davidson-dorelus.pdf';
+  a.href = CV_URL;
   a.download = 'CV_Davidson_Dorelus.pdf';
   document.body.appendChild(a);
   a.click();
   a.remove();
+  const gen = printGen;   /* clear entre-temps : rien à afficher */
+  fetch(CV_URL, { method: 'HEAD' })
+    .then(res => {
+      if (gen !== printGen) return;
+      const type = res.headers.get('content-type') || '';
+      if (!res.ok || !type.includes('pdf')) throw new Error(`HTTP ${res.status} (${type || 'type inconnu'})`);
+      printLines([line('<span class="t-green">CV vérifié ✓ · si rien ne s\'est passé, utilise le lien ci-dessus.</span>'), blank()]);
+    })
+    .catch(err => {
+      console.error('[terminal] CV introuvable :', err);
+      if (gen !== printGen) return;
+      printLines([line('<span class="t-err">CV introuvable pour le moment · écris-moi : davedorelus025@icloud.com</span>'), blank()]);
+    });
 }
 
 /* ── history ── */
 function cmdHistory() {
-  if (history.length <= 1) {
+  if (commandHistory.length <= 1) {
     printLines([line('<span class="t-dim">Historique vide.</span>'), blank()]);
     return;
   }
-  const rows = history.slice(1, 16).map((h, i) =>
+  const rows = commandHistory.slice(1, 16).map((h, i) =>
     line(`<span class="t-dim2">${String(i + 1).padStart(3, ' ')}</span>  ${escHtml(h)}`)
   );
   printLines([...rows, blank()]);
@@ -1051,25 +1121,35 @@ let snakeActive = false;
 
 function cmdSnake() {
   if (snakeActive) {
-    printLines([line('<span class="t-dim">Snake tourne déjà · Échap ou X pour quitter.</span>'), blank()]);
+    printLines([line('<span class="t-dim">Snake tourne déjà · Échap, X ou « quitter » pour arrêter.</span>'), blank()]);
     return;
   }
-  snakeActive = true;
-
   const COLS = 22, ROWS = 13, CELL = 16, W = COLS * CELL, H = ROWS * CELL;
   const card = el('div', 't-card');
   card.innerHTML = `<div class="t-card-title">snake</div>
-    <div class="t-card-sub"><span class="t-dim2">Flèches / ZQSD · swipe sur mobile · Échap ou X pour quitter</span></div>`;
+    <div class="t-card-sub"><span class="t-dim2">Flèches / ZQSD · swipe sur mobile · Échap, X ou « quitter » pour arrêter</span></div>`;
   const cv = document.createElement('canvas');
   cv.width = W * 2; cv.height = H * 2;
+  /* Contexte obtenu avant de déclarer la partie lancée : s'il manque (mémoire
+     des canvas épuisée sur iOS), snake répondait ensuite « tourne déjà » à tort. */
+  const c = cv.getContext('2d');
+  if (!c) {
+    console.warn('[terminal] snake : contexte 2D indisponible');
+    printLines([line('<span class="t-err">Snake indisponible sur cet appareil pour le moment.</span>'), blank()]);
+    return;
+  }
+  snakeActive = true;
   cv.style.cssText = 'width:100%;max-width:' + W + 'px;display:block;margin:.5rem 0;border-radius:6px;touch-action:none';
   const scoreEl = el('div', 't-card-sub');
   scoreEl.innerHTML = '<span class="t-accent">score : 0</span>';
   card.appendChild(cv);
   card.appendChild(scoreEl);
+  /* Au doigt, pas de touche Échap : un bouton arrête la partie. */
+  const quitBtn = el('button', 't-quick-link', 'quitter');
+  quitBtn.type = 'button';
+  card.appendChild(quitBtn);
   append(card, blank());
 
-  const c = cv.getContext('2d');
   c.scale(2, 2);
   let snake = [{ x: 6, y: 6 }, { x: 5, y: 6 }, { x: 4, y: 6 }];
   let dir = { x: 1, y: 0 }, nextDir = dir, pts = 0, dead = false, last = 0, raf = 0;
@@ -1116,7 +1196,8 @@ function cmdSnake() {
       line('<span class="t-dim2">Retape <span class="t-accent">snake</span> pour rejouer.</span>'),
       blank(),
     ]);
-    inputEl.focus();
+    quitBtn.disabled = true;
+    focusInput();
   }
 
   function step(ts) {
@@ -1145,6 +1226,10 @@ function cmdSnake() {
   }
 
   function onKey(e) {
+    /* Un caractère tapé dans la saisie va à la commande, pas au jeu : sinon
+       « skills » devenait « kill » et « x » terminait la partie. Flèches et
+       Échap pilotent toujours le jeu. */
+    if (e.target === inputEl && e.key.length === 1) return;
     if (e.key === 'Escape' || e.key === 'x' || e.key === 'X') {
       e.preventDefault(); e.stopPropagation(); end(); return;
     }
@@ -1159,6 +1244,7 @@ function cmdSnake() {
   }
 
   cmdSnake.stop = end;
+  quitBtn.addEventListener('click', () => end());
   document.addEventListener('keydown', onKey, true);
 
   let tx = 0, ty = 0;
@@ -1188,10 +1274,12 @@ function cmdSnake() {
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function printSlow(items, stepMs = 110) {
+  const gen = printGen;
   return new Promise(resolve => {
     let i = 0;
     (function next() {
-      if (i >= items.length) { resolve(); return; }
+      /* clear a vidé la sortie entre-temps : on s'arrête là */
+      if (gen !== printGen || i >= items.length) { resolve(); return; }
       const it = items[i++];
       if (it === '') append(blank());
       else if (typeof it === 'string') append(line(it));
@@ -1332,38 +1420,70 @@ function cmdHtop() {
 
 /* ── tour : visite guidée automatique ── */
 let tourActive = false;
+let tourRun    = 0;       /* numéro de visite : la fin d'une ancienne visite n'éteint pas la suivante */
 
 async function cmdTour() {
-  if (tourActive) return;
+  const how = FINE_POINTER.matches ? 'Échap' : 'un toucher';
+  if (tourActive) {
+    printLines([line(`<span class="t-dim">Visite déjà en cours · ${how} pour l'arrêter.</span>`), blank()]);
+    return;
+  }
+  const run = ++tourRun;
+  const gen = printGen;
   tourActive = true;
-  printLines([line('<span class="t-dim2">· visite guidée · <span class="t-accent">Échap</span> pour arrêter ·</span>'), '']);
+  const alive = () => tourActive && run === tourRun;
+  printLines([line(`<span class="t-dim2">· visite guidée · <span class="t-accent">${how}</span> pour arrêter ·</span>`), '']);
   const steps = ['whoami', 'skills', 'projects', 'alternance', 'contact'];
+  /* Une touche ou un toucher arrête la visite, pas seulement Échap. Elle écrit
+     dans la saisie : son texte partiel est effacé avant que la touche n'y arrive. */
+  let typed = '';
   const stop = e => {
-    if (e.key === 'Escape') { e.preventDefault(); tourActive = false; }
+    if (e.type === 'keydown' && e.key === 'Escape') e.preventDefault();
+    if (typed && inputEl.value === typed) inputEl.value = '';
+    typed = '';
+    if (run === tourRun) tourActive = false;
   };
   document.addEventListener('keydown', stop, true);
-  await sleep(700);
-  for (const c of steps) {
-    if (!tourActive) break;
-    for (let i = 1; i <= c.length; i++) {
-      if (!tourActive) break;
-      inputEl.value = c.slice(0, i);
-      await sleep(65);
+  document.addEventListener('pointerdown', stop, true);
+  /* attente découpée : l'arrêt prend effet en 0,1 s au plus */
+  const wait = async ms => {
+    for (let t = 0; t < ms && alive(); t += 100) await sleep(Math.min(100, ms - t));
+  };
+  let failed = false;
+  try {
+    await wait(700);
+    for (const c of steps) {
+      if (!alive()) break;
+      for (let i = 1; i <= c.length; i++) {
+        if (!alive()) break;
+        typed = c.slice(0, i);
+        inputEl.value = typed;
+        await sleep(65);
+      }
+      if (!alive()) break;
+      await wait(260);
+      if (!alive()) break;
+      typed = '';
+      inputEl.value = '';
+      runCommand(c);
+      await wait(2700);
     }
-    if (!tourActive) break;
-    await sleep(260);
-    inputEl.value = '';
-    runCommand(c);
-    await sleep(2700);
+  } catch (err) {
+    failed = true;
+    console.error('[terminal] visite interrompue par une erreur :', err);
+  } finally {
+    document.removeEventListener('keydown', stop, true);
+    document.removeEventListener('pointerdown', stop, true);
+    const completed = alive() && !failed;
+    if (run === tourRun) tourActive = false;
+    /* une nouvelle visite a pris la main, ou clear a vidé l'écran : rien à dire */
+    if (run === tourRun && gen === printGen) printLines([
+      completed
+        ? line('<span class="t-green">· fin de la visite · tape </span><span class="t-accent">help</span><span class="t-green"> pour explorer, ou </span><span class="t-accent">cv</span><span class="t-green"> pour le PDF ·</span>')
+        : line('<span class="t-dim">Visite interrompue.</span>'),
+      '',
+    ]);
   }
-  document.removeEventListener('keydown', stop, true);
-  printLines([
-    tourActive
-      ? line('<span class="t-green">· fin de la visite · tape </span><span class="t-accent">help</span><span class="t-green"> pour explorer, ou </span><span class="t-accent">cv</span><span class="t-green"> pour le PDF ·</span>')
-      : line('<span class="t-dim">Visite interrompue.</span>'),
-    '',
-  ]);
-  tourActive = false;
 }
 
 /* ── ask : FAQ interactive ── */

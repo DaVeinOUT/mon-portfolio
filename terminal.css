@@ -75,6 +75,7 @@ body.theme-glass {
   --bg-hover: rgba(30,30,50,.62);
   --border:   rgba(255,255,255,.12);
   --border-h: rgba(255,255,255,.22);
+  background: linear-gradient(135deg, #0d0d2b 0%, #1a0a2e 50%, #0a1a2a 100%);
 }
 
 /* ── Reset ────────────────────────────────────────────────── */
@@ -92,10 +93,6 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
-}
-
-body.theme-glass {
-  background: linear-gradient(135deg, #0d0d2b 0%, #1a0a2e 50%, #0a1a2a 100%);
 }
 
 /* ============================================================
@@ -212,6 +209,7 @@ body.theme-glass #terminal-window {
 #title-bar-right {
   display: flex;
   align-items: center;
+  gap: 12px;
   flex-shrink: 0;
 }
 
@@ -247,6 +245,7 @@ body.theme-glass #terminal-window {
   scroll-behavior: smooth;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  animation: crtFlicker 9s infinite;   /* micro-scintillement, voir @keyframes crtFlicker */
 }
 
 #terminal-output::-webkit-scrollbar { width: 4px; }
@@ -294,8 +293,6 @@ body.theme-glass #terminal-window {
 /* Color utilities */
 .t-accent { color: var(--accent);  }
 .t-green  { color: var(--green);   }
-.t-blue   { color: var(--blue);    }
-.t-red    { color: var(--red);     }
 .t-purple { color: var(--purple);  }
 .t-dim    { color: var(--text-2);  }
 .t-dim2   { color: var(--text-3);  }
@@ -394,6 +391,7 @@ body.theme-glass #terminal-window {
   color: var(--text-2);
   transition: background .15s, color .15s;
 }
+.t-card-link { color: var(--accent); text-decoration: none; }
 .t-tag.accent { border-color: var(--accent-b);            color: var(--accent); }
 .t-tag.blue   { border-color: rgba(74,124,247,.30);        color: var(--blue);   }
 .t-tag.green  { border-color: rgba(62,207,142,.30);        color: var(--green);  }
@@ -556,7 +554,6 @@ body.theme-glass #terminal-window {
 /* Misc */
 .t-boot  { color: var(--green); font-size: 12px; }
 .t-err   { color: var(--red);   }
-.t-info  { color: var(--blue);  }
 
 /* ============================================================
    INPUT ROW
@@ -695,7 +692,7 @@ body.theme-glass #terminal-window {
   background: var(--accent-dim);
 }
 .mob-cmd-hire .mob-cmd-label { color: var(--accent); }
-.mob-cmd-icon  { font-size: 18px; line-height: 1; }
+.mob-cmd-icon  { font-size: 18px; line-height: 1; font-family: var(--font-mono); color: var(--accent); font-weight: 500; }
 .mob-cmd-label {
   font-size: 9px;
   color: var(--text-3);
@@ -715,11 +712,13 @@ body.theme-glass #terminal-window {
     padding: .85rem 1rem .6rem;
   }
 
-  /* Shorten prompt: hide @portfolio:~ part */
+  /* Invite courte : ni « @portfolio:~ » ni « git:(alternance) » (la saisie n'avait plus que 140 px) */
   #prompt-label .p-host,
   #prompt-label .p-at,
   #prompt-label .p-sep,
-  #prompt-label .p-dir { display: none; }
+  #prompt-label .p-dir,
+  #prompt-label .p-git,
+  #prompt-label .p-branch { display: none; }
 
   #terminal-input-row {
     padding: .6rem .85rem;
@@ -763,6 +762,38 @@ body.theme-glass #terminal-window {
   #mobile-cmd-bar { display: none; }
 }
 
+/* ============================================================
+   CIBLES TACTILES · 44 px minimum, sans chevauchement
+   Écran étroit ou pointeur tactile (iPhone, iPad).
+   ============================================================ */
+@media (max-width: 639px), (pointer: coarse) {
+  /* La barre de titre fait 44 px : la zone de ces deux petits contrôles
+     s'étend à toute sa hauteur, sans déborder sur le voisin (12 px d'écart). */
+  #back-to-site, #theme-indicator { position: relative; }
+  #back-to-site::after, #theme-indicator::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    width: max(100%, 44px);
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+  .t-quick-link, .t-contact-link, .ac-item { min-height: 44px; }
+  .t-quick-link { min-width: 44px; justify-content: center; }
+  .t-card-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
+  #terminal-input { min-height: 44px; }
+}
+@media (max-width: 639px) {
+  /* Commandes de fenêtre façon macOS : décoratives, sans usage sur téléphone. */
+  #traffic-lights { display: none; }
+  #terminal-input-row { padding-top: 0; padding-bottom: 0; }
+}
+@media (pointer: coarse) and (min-width: 640px) {
+  /* Tablette : les trois ronds gardent leur taille, leur zone passe à 44 px. */
+  #traffic-lights { gap: 31px; }
+  .tl::after { inset: -15.5px; }
+}
+
 /* Large desktop: extra breathing room */
 @media (min-width: 1280px) {
   #terminal-output {
@@ -784,6 +815,7 @@ body.theme-glass #terminal-window {
   .t-quick-link:hover   { transform: none; }
   .t-contact-link:hover { transform: none; }
   .t-card:hover         { transform: none; }
+  #terminal-output      { animation: none; scroll-behavior: auto; }
 }
 
 /* ============================================================
@@ -799,7 +831,6 @@ body.theme-retro .t-welcome-box .name {
 }
 
 /* ── Lien retour vers le site classique ── */
-#title-bar-right { display: flex; align-items: center; gap: 12px; }
 #back-to-site {
   font-size: 11px;
   color: var(--text-3);
@@ -807,12 +838,10 @@ body.theme-retro .t-welcome-box .name {
   transition: color .2s;
 }
 #back-to-site:hover { color: var(--accent); }
-
-/* ── Glyphes mono de la barre mobile (remplacent les emojis) ── */
-.mob-cmd-icon {
-  font-family: var(--font-mono);
-  color: var(--accent);
-  font-weight: 500;
+#back-to-site:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Au doigt, :hover reste collé : pas de grossissement qui ferait déborder la zone de toucher. */
+@media (hover: none) {
+  .tl:hover { transform: none; }
 }
 
 
@@ -828,8 +857,6 @@ body.theme-light #terminal-output,
 body.theme-light #prompt-label,
 body.theme-light #terminal-input,
 body.theme-light #title-bar-text { text-shadow: none; }
-
-#terminal-input { caret-color: var(--accent); }
 
 /* ── Vignette + reflet d'écran ──
    (la fenêtre est déjà position:fixed · ne surtout pas y toucher) */
@@ -852,7 +879,6 @@ body.theme-light #terminal-window::after { opacity: .35; }
   97.2% { opacity: .93; }
   97.8% { opacity: .985; }
 }
-#terminal-output { animation: crtFlicker 9s infinite; }
 
 /* ── Prompt riche ── */
 .p-git    { color: var(--text-3); }
@@ -922,10 +948,6 @@ body.theme-amber {
   --purple:      #ffcf60;
 }
 body.theme-amber #scanlines { opacity: .8; }
-
-@media (prefers-reduced-motion: reduce) {
-  #terminal-output { animation: none; }
-}
 
 /* ============================================================
    IMPRESSION · le terminal sort en document texte propre

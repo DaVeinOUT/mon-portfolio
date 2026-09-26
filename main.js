@@ -19,6 +19,9 @@ function registerEngine(el, frameFn) {
     if (run && !eng.raf) eng.raf = requestAnimationFrame(tick);
     if (!run && eng.raf) { cancelAnimationFrame(eng.raf); eng.raf = 0; }
   };
+  /* Sans IntersectionObserver, l'animation tourne quand l'onglet est visible,
+     au lieu d'une ReferenceError qui arrêtait tout main.js (reveals compris). */
+  if (!('IntersectionObserver' in window)) { eng.inView = true; engines.push(eng); eng.update(); return; }
   new IntersectionObserver(entries => {
     eng.inView = entries[0].isIntersecting;
     eng.update();
@@ -45,9 +48,18 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 const burger = document.getElementById('nav-burger');
 const navLinks = document.getElementById('nav-links');
 if (burger && navLinks) {
+  /* Le bouton suit les liens dans le DOM : à l'ouverture, le focus va au premier
+     lien ; Échap referme et rend le focus au bouton. */
   burger.addEventListener('click', () => {
     const open = navLinks.classList.toggle('open');
     burger.setAttribute('aria-expanded', String(open));
+    if (open) navLinks.querySelector('a').focus();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !navLinks.classList.contains('open')) return;
+    navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.focus();
   });
   navLinks.querySelectorAll('a').forEach(a =>
     a.addEventListener('click', () => {
@@ -60,7 +72,7 @@ if (burger && navLinks) {
 (function dots() {
   const links = document.querySelectorAll('#dots a');
   const stations = document.querySelectorAll('.station');
-  if (!links.length || !stations.length) return;
+  if (!links.length || !stations.length || !('IntersectionObserver' in window)) return;
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => {
       if (!en.isIntersecting) return;
@@ -84,7 +96,7 @@ if (burger && navLinks) {
     document.body.classList.add('fast');
     sec.hidden = false;
     btn.setAttribute('aria-pressed', 'true');
-    try { history.replaceState(null, '', '#rapide'); } catch (e) {}
+    try { history.replaceState(null, '', '#rapide'); } catch (e) { console.warn('[version rapide] adresse non mise à jour :', e); }
     window.scrollTo(0, 0);
     const h = sec.querySelector('h2');
     if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
@@ -93,7 +105,7 @@ if (burger && navLinks) {
     document.body.classList.remove('fast');
     sec.hidden = true;
     btn.setAttribute('aria-pressed', 'false');
-    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { console.warn('[version rapide] adresse non mise à jour :', e); }
     btn.focus({ preventScroll: true });
   }
 
@@ -129,7 +141,11 @@ if (!REDUCED && 'IntersectionObserver' in window) {
    ============================================================ */
 (function kineticName() {
   const h1 = document.getElementById('kinetic-name');
-  if (!h1 || REDUCED) return;
+  /* Découpage réservé à la souris : au doigt, l'effet ne peut pas se déclencher,
+     et des lettres en inline-block autorisaient une coupure en plein mot.
+     Le h1 porte aria-label="Davidson Dorelus" : les lettres sont masquées aux
+     lecteurs d'écran, qui liraient sinon lettre par lettre. */
+  if (!h1 || REDUCED || !FINE_POINTER) return;
 
   const frag = document.createDocumentFragment();
   h1.childNodes.forEach(node => {
@@ -138,6 +154,7 @@ if (!REDUCED && 'IntersectionObserver' in window) {
         if (ch.trim() === '') { frag.appendChild(document.createTextNode(ch)); continue; }
         const s = document.createElement('span');
         s.className = 'kl';
+        s.setAttribute('aria-hidden', 'true');
         s.textContent = ch;
         frag.appendChild(s);
       }
@@ -148,7 +165,6 @@ if (!REDUCED && 'IntersectionObserver' in window) {
   h1.innerHTML = '';
   h1.appendChild(frag);
 
-  if (!FINE_POINTER) return;
   const letters = [...h1.querySelectorAll('.kl')];
   let cache = [], dirty = true, near = false;
 
@@ -207,13 +223,6 @@ if (!REDUCED && 'IntersectionObserver' in window) {
   }
   const GOLD = '#e8c56a', GREEN = '#5ef0b0', PALE = '#f2eee4',
         RED = '#f76a6a';
-
-  function shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = (Math.random() * (i + 1)) | 0;
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-  }
 
   const VIZ = {
     /* Uptime : une ligne de monitors, presque tout vert, un dip rare */
@@ -390,23 +399,35 @@ if (FINE_POINTER && !REDUCED) {
   const overlay = document.getElementById('boot');
   const textEl = document.getElementById('boot-text');
   if (!overlay || !textEl) return;
+  const bootTimers = { type: 0, go: 0 };
 
   document.querySelectorAll('.to-terminal').forEach(link => {
     link.addEventListener('click', e => {
-      if (REDUCED) return;
+      /* Ctrl, Cmd, Maj, Alt ou clic du milieu : ouverture dans un nouvel onglet, sans animation. */
+      if (REDUCED || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
       const dest = link.getAttribute('href');
       overlay.classList.add('on');
       const cmd = 'boot --terminal';
       let i = 0;
-      const type = setInterval(() => {
+      bootTimers.type = setInterval(() => {
         textEl.textContent = cmd.slice(0, ++i);
         if (i >= cmd.length) {
-          clearInterval(type);
-          setTimeout(() => { window.location.href = dest; }, 380);
+          clearInterval(bootTimers.type);
+          bootTimers.go = setTimeout(() => { window.location.href = dest; }, 380);
         }
       }, 34);
     });
+  });
+
+  /* Retour arrière : Safari et Chrome restaurent la page depuis leur cache avec
+     le voile encore affiché, noir et plein écran, qui bloquait tout clic. */
+  window.addEventListener('pageshow', e => {
+    if (!e.persisted) return;
+    clearInterval(bootTimers.type);
+    clearTimeout(bootTimers.go);   /* retour pendant l'animation : pas de navigation différée */
+    overlay.classList.remove('on');
+    textEl.textContent = '';
   });
 })();
 
