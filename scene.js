@@ -14,6 +14,7 @@ export async function initScene() {
   try {
     THREE = await import('three');
   } catch (e) {
+    console.warn('[3D] Three.js indisponible, repli sans 3D :', e);
     document.body.classList.add('no3d');
     return;
   }
@@ -29,9 +30,14 @@ export async function initScene() {
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'default' });
   } catch (e) {
+    console.warn('[3D] WebGL indisponible, repli sans 3D :', e);
     document.body.classList.add('no3d');
     return;
   }
+
+  /* Vrai en fin d'initialisation : si elle échoue en route, les écouteurs déjà
+     branchés restent muets au lieu d'ouvrir des sections via des nœuds invisibles. */
+  let alive = false;
 
   renderer.setClearColor(0x0a0a0d, 1);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MOBILE ? 1.5 : 1.75));
@@ -278,7 +284,7 @@ export async function initScene() {
     }
     gTarget = Math.min(STATIONS - 1, Math.max(0, g));
   }
-  window.addEventListener('scroll', () => { readScroll(); armTour(); wake(); }, { passive: true });
+  window.addEventListener('scroll', () => { if (!alive) return; readScroll(); armTour(); wake(); }, { passive: true });
   window.addEventListener('load', () => { readAnchors(); readScroll(); });
   function inDedicated() { return Math.round(gCur) === DEDICATED_STATION; }
 
@@ -313,7 +319,7 @@ export async function initScene() {
   }
 
   window.addEventListener('pointermove', e => {
-    if (e.pointerType === 'touch') return;   /* pas de :hover collé sur iOS */
+    if (!alive || e.pointerType === 'touch') return;   /* pas de :hover collé sur iOS */
     pointerIsTouch = false;
     px = e.clientX; py = e.clientY;
     /* Boucle suspendue : le survol ne change que le DOM (curseur, étiquette),
@@ -322,11 +328,13 @@ export async function initScene() {
   }, { passive: true });
 
   window.addEventListener('pointerdown', e => {
+    if (!alive) return;
     downX = e.clientX; downY = e.clientY;
     pointerIsTouch = e.pointerType === 'touch';
   }, { passive: true });
 
   window.addEventListener('pointerup', e => {
+    if (!alive) return;
     userTouched();
     if (isContent(e.target)) return;
     if (Math.hypot(e.clientX - downX, e.clientY - downY) > 10) return; /* c'était un scroll */
@@ -514,9 +522,8 @@ export async function initScene() {
     cancelAnimationFrame(rafId);
   }
 
-  function frame(ts) {
-    if (!running) return;
-
+  /* Une image ; renvoie false quand la boucle peut s'arrêter. */
+  function step(ts) {
     const time = ts / 1000;
     const dt = Math.min(0.05, lastTs ? (ts - lastTs) / 1000 : 0.016);
     lastTs = ts;
@@ -576,8 +583,22 @@ export async function initScene() {
     renderer.render(scene, camera);
 
     if (gCur !== gTarget || drawing || autoTour || moving) lastBusy = ts;
-    if (ts - lastBusy > IDLE_BEFORE_PAUSE) { running = false; return; }
-    rafId = requestAnimationFrame(frame);
+    return ts - lastBusy <= IDLE_BEFORE_PAUSE;
+  }
+
+  /* Une exception dans une image figeait la 3D sans rien dire : elle est
+     journalisée et la page bascule sur le repli sans 3D. */
+  function frame(ts) {
+    if (!running) return;
+    try {
+      if (step(ts)) rafId = requestAnimationFrame(frame);
+      else running = false;
+    } catch (err) {
+      console.error('[3D] rendu interrompu, repli sans 3D :', err);
+      running = false;
+      alive = false;
+      document.body.classList.add('no3d');
+    }
   }
 
   /* ── Image fixe (réglage « Réduire les animations ») ── */
@@ -614,7 +635,7 @@ export async function initScene() {
     if (afterResize) afterResize();
     wake();
   }
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', () => { if (alive) resize(); });
   resize();
 
   if (REDUCED) {
@@ -623,6 +644,7 @@ export async function initScene() {
     afterResize = renderStatic;
     let scrollT = 0;
     window.addEventListener('scroll', () => {
+      if (!alive) return;
       clearTimeout(scrollT);
       scrollT = setTimeout(() => { gCur = gTarget; renderStatic(); }, 120);
     }, { passive: true });
@@ -643,9 +665,11 @@ export async function initScene() {
   }
 
   document.addEventListener('visibilitychange', () => {
+    if (!alive) return;
     if (document.hidden) pause(); else wake();
   });
   new MutationObserver(() => {
+    if (!alive) return;
     if (document.body.classList.contains('fast')) {
       pause();
       clearTimeout(tourTimer);
@@ -657,8 +681,16 @@ export async function initScene() {
   /* Contexte WebGL rendu par le navigateur (iOS en libère parfois en
      arrière-plan) : three.js le réinitialise, il reste à redessiner. */
   canvas.addEventListener('webglcontextrestored', () => {
+    if (!alive) return;
     if (REDUCED) renderStatic(); else wake();
   });
+  /* Perte de contexte (iOS en arrière-plan, pilote graphique) : three.js la
+     signale à peine ; on le dit, et on cesse de rendre jusqu'à la restauration. */
+  canvas.addEventListener('webglcontextlost', () => {
+    console.warn('[3D] contexte WebGL perdu : rendu suspendu jusqu\'à sa restauration');
+    pause();
+  });
 
+  alive = true;
   document.body.classList.add('scene-on');
 }

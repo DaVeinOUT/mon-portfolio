@@ -716,11 +716,13 @@ body.theme-glass #terminal-window {
     padding: .85rem 1rem .6rem;
   }
 
-  /* Shorten prompt: hide @portfolio:~ part */
+  /* Invite courte : ni « @portfolio:~ » ni « git:(alternance) » (la saisie n'avait plus que 140 px) */
   #prompt-label .p-host,
   #prompt-label .p-at,
   #prompt-label .p-sep,
-  #prompt-label .p-dir { display: none; }
+  #prompt-label .p-dir,
+  #prompt-label .p-git,
+  #prompt-label .p-branch { display: none; }
 
   #terminal-input-row {
     padding: .6rem .85rem;
@@ -962,7 +964,7 @@ body.theme-amber {
 body.theme-amber #scanlines { opacity: .8; }
 
 @media (prefers-reduced-motion: reduce) {
-  #terminal-output { animation: none; }
+  #terminal-output { animation: none; scroll-behavior: auto; }
 }
 
 /* ============================================================

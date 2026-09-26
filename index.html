@@ -291,7 +291,11 @@
     });
     return import('./scene.js')
       .then(m => m.initScene())
-      .catch(() => document.body.classList.add('no3d'));
+      .catch(err => {
+        /* chargement ou démarrage impossible : repli sans 3D, cause lisible en console */
+        console.error('[3D] scène indisponible, repli sans 3D :', err);
+        document.body.classList.add('no3d');
+      });
   };
   if (document.readyState === 'complete') {
     ('requestIdleCallback' in window)

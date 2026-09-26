@@ -19,6 +19,9 @@ function registerEngine(el, frameFn) {
     if (run && !eng.raf) eng.raf = requestAnimationFrame(tick);
     if (!run && eng.raf) { cancelAnimationFrame(eng.raf); eng.raf = 0; }
   };
+  /* Sans IntersectionObserver, l'animation tourne quand l'onglet est visible,
+     au lieu d'une ReferenceError qui arrêtait tout main.js (reveals compris). */
+  if (!('IntersectionObserver' in window)) { eng.inView = true; engines.push(eng); eng.update(); return; }
   new IntersectionObserver(entries => {
     eng.inView = entries[0].isIntersecting;
     eng.update();
@@ -69,7 +72,7 @@ if (burger && navLinks) {
 (function dots() {
   const links = document.querySelectorAll('#dots a');
   const stations = document.querySelectorAll('.station');
-  if (!links.length || !stations.length) return;
+  if (!links.length || !stations.length || !('IntersectionObserver' in window)) return;
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => {
       if (!en.isIntersecting) return;
@@ -93,7 +96,7 @@ if (burger && navLinks) {
     document.body.classList.add('fast');
     sec.hidden = false;
     btn.setAttribute('aria-pressed', 'true');
-    try { history.replaceState(null, '', '#rapide'); } catch (e) {}
+    try { history.replaceState(null, '', '#rapide'); } catch (e) { console.warn('[version rapide] adresse non mise à jour :', e); }
     window.scrollTo(0, 0);
     const h = sec.querySelector('h2');
     if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
@@ -102,7 +105,7 @@ if (burger && navLinks) {
     document.body.classList.remove('fast');
     sec.hidden = true;
     btn.setAttribute('aria-pressed', 'false');
-    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { console.warn('[version rapide] adresse non mise à jour :', e); }
     btn.focus({ preventScroll: true });
   }
 
@@ -406,7 +409,8 @@ if (FINE_POINTER && !REDUCED) {
 
   document.querySelectorAll('.to-terminal').forEach(link => {
     link.addEventListener('click', e => {
-      if (REDUCED) return;
+      /* Ctrl, Cmd, Maj, Alt ou clic du milieu : ouverture dans un nouvel onglet, sans animation. */
+      if (REDUCED || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
       const dest = link.getAttribute('href');
       overlay.classList.add('on');
@@ -420,6 +424,14 @@ if (FINE_POINTER && !REDUCED) {
         }
       }, 34);
     });
+  });
+
+  /* Retour arrière : Safari et Chrome restaurent la page depuis leur cache avec
+     le voile encore affiché, noir et plein écran, qui bloquait tout clic. */
+  window.addEventListener('pageshow', e => {
+    if (!e.persisted) return;
+    overlay.classList.remove('on');
+    textEl.textContent = '';
   });
 })();
 
