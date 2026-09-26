@@ -754,7 +754,7 @@ inputEl.addEventListener('input', () => {
    seulement (sur iPhone, chaque toucher ouvrait le clavier), et sans voler
    une sélection de texte en cours de copie. */
 document.addEventListener('click', e => {
-  if (e.target.closest('a, button, [role="button"]')) return;
+  if (e.target.closest('a, button, [role="button"], canvas')) return;   /* canvas : le clic sur snake garde ZQSD au jeu */
   if (window.getSelection().toString()) return;
   focusInput();
 });
@@ -1049,14 +1049,17 @@ function cmdCv() {
   document.body.appendChild(a);
   a.click();
   a.remove();
+  const gen = printGen;   /* clear entre-temps : rien à afficher */
   fetch(CV_URL, { method: 'HEAD' })
     .then(res => {
+      if (gen !== printGen) return;
       const type = res.headers.get('content-type') || '';
       if (!res.ok || !type.includes('pdf')) throw new Error(`HTTP ${res.status} (${type || 'type inconnu'})`);
       printLines([line('<span class="t-green">CV vérifié ✓ · si rien ne s\'est passé, utilise le lien ci-dessus.</span>'), blank()]);
     })
     .catch(err => {
       console.error('[terminal] CV introuvable :', err);
+      if (gen !== printGen) return;
       printLines([line('<span class="t-err">CV introuvable pour le moment · écris-moi : davedorelus025@icloud.com</span>'), blank()]);
     });
 }
@@ -1118,7 +1121,7 @@ let snakeActive = false;
 
 function cmdSnake() {
   if (snakeActive) {
-    printLines([line('<span class="t-dim">Snake tourne déjà · Échap ou X pour quitter.</span>'), blank()]);
+    printLines([line('<span class="t-dim">Snake tourne déjà · Échap, X ou « quitter » pour arrêter.</span>'), blank()]);
     return;
   }
   const COLS = 22, ROWS = 13, CELL = 16, W = COLS * CELL, H = ROWS * CELL;
@@ -1426,6 +1429,7 @@ async function cmdTour() {
     return;
   }
   const run = ++tourRun;
+  const gen = printGen;
   tourActive = true;
   const alive = () => tourActive && run === tourRun;
   printLines([line(`<span class="t-dim2">· visite guidée · <span class="t-accent">${how}</span> pour arrêter ·</span>`), '']);
@@ -1436,6 +1440,7 @@ async function cmdTour() {
   const stop = e => {
     if (e.type === 'keydown' && e.key === 'Escape') e.preventDefault();
     if (typed && inputEl.value === typed) inputEl.value = '';
+    typed = '';
     if (run === tourRun) tourActive = false;
   };
   document.addEventListener('keydown', stop, true);
@@ -1471,7 +1476,8 @@ async function cmdTour() {
     document.removeEventListener('pointerdown', stop, true);
     const completed = alive() && !failed;
     if (run === tourRun) tourActive = false;
-    printLines([
+    /* une nouvelle visite a pris la main, ou clear a vidé l'écran : rien à dire */
+    if (run === tourRun && gen === printGen) printLines([
       completed
         ? line('<span class="t-green">· fin de la visite · tape </span><span class="t-accent">help</span><span class="t-green"> pour explorer, ou </span><span class="t-accent">cv</span><span class="t-green"> pour le PDF ·</span>')
         : line('<span class="t-dim">Visite interrompue.</span>'),

@@ -399,6 +399,7 @@ if (FINE_POINTER && !REDUCED) {
   const overlay = document.getElementById('boot');
   const textEl = document.getElementById('boot-text');
   if (!overlay || !textEl) return;
+  const bootTimers = { type: 0, go: 0 };
 
   document.querySelectorAll('.to-terminal').forEach(link => {
     link.addEventListener('click', e => {
@@ -409,11 +410,11 @@ if (FINE_POINTER && !REDUCED) {
       overlay.classList.add('on');
       const cmd = 'boot --terminal';
       let i = 0;
-      const type = setInterval(() => {
+      bootTimers.type = setInterval(() => {
         textEl.textContent = cmd.slice(0, ++i);
         if (i >= cmd.length) {
-          clearInterval(type);
-          setTimeout(() => { window.location.href = dest; }, 380);
+          clearInterval(bootTimers.type);
+          bootTimers.go = setTimeout(() => { window.location.href = dest; }, 380);
         }
       }, 34);
     });
@@ -423,6 +424,8 @@ if (FINE_POINTER && !REDUCED) {
      le voile encore affiché, noir et plein écran, qui bloquait tout clic. */
   window.addEventListener('pageshow', e => {
     if (!e.persisted) return;
+    clearInterval(bootTimers.type);
+    clearTimeout(bootTimers.go);   /* retour pendant l'animation : pas de navigation différée */
     overlay.classList.remove('on');
     textEl.textContent = '';
   });

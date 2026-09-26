@@ -389,7 +389,10 @@ export async function initScene() {
     x = (labelW + 2 * LABEL_MARGIN >= vw)
       ? vw / 2
       : Math.min(Math.max(x, LABEL_MARGIN + half), vw - LABEL_MARGIN - half);
-    y = Math.min(Math.max(y, LABEL_MARGIN + labelH), vh - LABEL_MARGIN);
+    /* borne haute : sous la barre de navigation fixe (z-index supérieur) */
+    const navEl = document.getElementById('nav');
+    const top = (navEl ? navEl.getBoundingClientRect().bottom : 0) + LABEL_MARGIN;
+    y = Math.min(Math.max(y, top + labelH), vh - LABEL_MARGIN);
     labelEl.style.left = x + 'px';
     labelEl.style.top  = y + 'px';
   }
@@ -508,10 +511,12 @@ export async function initScene() {
      figent et tout repart au premier défilement, toucher ou redimensionnement. */
   const IDLE_BEFORE_PAUSE = 2500;
   let running = false, rafId = 0, lastTs = 0, lastBusy = 0;
+  let failed = false;   /* repli sans 3D après une exception : plus aucun réveil */
+  let dustTime = 0;     /* temps des images rendues : la poussière ne saute pas après une pause */
 
   function wake() {
     lastBusy = performance.now();
-    if (running || REDUCED || document.hidden || document.body.classList.contains('fast')) return;
+    if (running || failed || REDUCED || document.hidden || document.body.classList.contains('fast')) return;
     running = true;
     lastTs = 0;
     rafId = requestAnimationFrame(frame);
@@ -553,11 +558,15 @@ export async function initScene() {
     /* visite automatique */
     if (autoTour) {
       autoT += dt;
-      const idx = Math.floor(autoT / 1.15) % NODES.length;
-      const n = NODES[idx];
-      if (n !== autoNode) {
-        autoNode = n;
-        showLabel(n);
+      if (autoT >= 1.15 * NODES.length) {
+        /* un tour complet, puis repos : la boucle peut s'arrêter (batterie) */
+        autoTour = false; autoNode = null; hideLabel();
+      } else {
+        const n = NODES[Math.floor(autoT / 1.15)];
+        if (n !== autoNode) {
+          autoNode = n;
+          showLabel(n);
+        }
       }
     }
 
@@ -574,7 +583,8 @@ export async function initScene() {
     }
     puAttr.needsUpdate = true;
 
-    dust.rotation.y = Math.sin(time * 0.05) * 0.05;
+    dustTime += dt;
+    dust.rotation.y = Math.sin(dustTime * 0.05) * 0.05;
 
     placeCamera(gCur);
     updateHover();
@@ -596,12 +606,18 @@ export async function initScene() {
       console.error('[3D] rendu interrompu, repli sans 3D :', err);
       running = false;
       alive = false;
+      failed = true;
+      clearTimeout(tourTimer);
+      autoTour = false;
+      pinned = hovered = null;
+      hideLabel();
       document.body.classList.add('no3d');
     }
   }
 
   /* ── Image fixe (réglage « Réduire les animations ») ── */
   function renderStatic() {
+    gCur = gTarget;
     const k = Math.min(STATIONS - 1, Math.round(gCur));
     placeCamera(k);
     drawProgress = MAXDRAW;
@@ -655,16 +671,19 @@ export async function initScene() {
 
   document.addEventListener('visibilitychange', () => {
     if (!alive) return;
-    if (document.hidden) pause(); else wake();
+    if (document.hidden) pause(); else { armTour(); wake(); }
   });
   new MutationObserver(() => {
     if (!alive) return;
     if (document.body.classList.contains('fast')) {
       pause();
       clearTimeout(tourTimer);
-      if (autoTour) { autoTour = false; autoNode = null; hideLabel(); }
+      if (autoTour) { autoTour = false; autoNode = null; }
+      pinned = hovered = null;
+      hideLabel();
     } else {
       resize();   /* la fenêtre a pu changer pendant la Version rapide */
+      armTour();
     }
   }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   /* Contexte WebGL rendu par le navigateur (iOS en libère parfois en

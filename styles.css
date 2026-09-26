@@ -779,7 +779,7 @@ body.fast { overflow: auto; }
    Zoom de l'écran). Numéro et e-mail restent sur une ligne, la barre tient. */
 @media (max-width: 374px) {
   .contact-tel { font-size: 1.35rem; }
-  .contact-mail { font-size: 1rem; padding-top: 8px; }   /* 16 × 1,7 + 6 + 3 + 8 = 44 px de haut */
+  .contact-mail { font-size: 1rem; }
   #nav {
     padding-left: max(16px, env(safe-area-inset-left));
     padding-right: max(16px, env(safe-area-inset-right));
@@ -816,6 +816,9 @@ body.fast { overflow: auto; }
   .contact-tel { min-height: 44px; }
   .contact-mail { padding-top: 4px; }   /* 40 → 44 px sans déplacer le soulignement doré */
 }
+@media (max-width: 374px) {
+  .contact-mail { padding-top: 8px; }   /* police de 16 px : 16 × 1,7 + 6 + 3 + 8 = 44 px */
+}
 /* Points de navigation : masqués sur téléphone (portrait ou paysage)… */
 @media (max-width: 720px), (pointer: coarse) and (max-height: 500px) {
   #dots { display: none; }
@@ -828,7 +831,7 @@ body.fast { overflow: auto; }
   #dots a.active::before { inset: -13.6px; }   /* le point actif grossit (× 1,25) : sa zone reste à 44 px */
 }
 /* Barre complète en paysage sur téléphone : écarts réduits pour tenir entre les encoches. */
-@media (pointer: coarse) and (max-height: 500px) {
+@media (pointer: coarse) and (max-height: 500px) and (min-width: 801px) {
   #nav-links { gap: 18px; }
 }
 @media (pointer: coarse) and (min-width: 801px) {
