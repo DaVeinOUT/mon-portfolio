@@ -75,6 +75,7 @@ body.theme-glass {
   --bg-hover: rgba(30,30,50,.62);
   --border:   rgba(255,255,255,.12);
   --border-h: rgba(255,255,255,.22);
+  background: linear-gradient(135deg, #0d0d2b 0%, #1a0a2e 50%, #0a1a2a 100%);
 }
 
 /* ── Reset ────────────────────────────────────────────────── */
@@ -92,10 +93,6 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
-}
-
-body.theme-glass {
-  background: linear-gradient(135deg, #0d0d2b 0%, #1a0a2e 50%, #0a1a2a 100%);
 }
 
 /* ============================================================
@@ -212,6 +209,7 @@ body.theme-glass #terminal-window {
 #title-bar-right {
   display: flex;
   align-items: center;
+  gap: 12px;
   flex-shrink: 0;
 }
 
@@ -247,6 +245,7 @@ body.theme-glass #terminal-window {
   scroll-behavior: smooth;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  animation: crtFlicker 9s infinite;   /* micro-scintillement, voir @keyframes crtFlicker */
 }
 
 #terminal-output::-webkit-scrollbar { width: 4px; }
@@ -294,8 +293,6 @@ body.theme-glass #terminal-window {
 /* Color utilities */
 .t-accent { color: var(--accent);  }
 .t-green  { color: var(--green);   }
-.t-blue   { color: var(--blue);    }
-.t-red    { color: var(--red);     }
 .t-purple { color: var(--purple);  }
 .t-dim    { color: var(--text-2);  }
 .t-dim2   { color: var(--text-3);  }
@@ -557,7 +554,6 @@ body.theme-glass #terminal-window {
 /* Misc */
 .t-boot  { color: var(--green); font-size: 12px; }
 .t-err   { color: var(--red);   }
-.t-info  { color: var(--blue);  }
 
 /* ============================================================
    INPUT ROW
@@ -696,7 +692,7 @@ body.theme-glass #terminal-window {
   background: var(--accent-dim);
 }
 .mob-cmd-hire .mob-cmd-label { color: var(--accent); }
-.mob-cmd-icon  { font-size: 18px; line-height: 1; }
+.mob-cmd-icon  { font-size: 18px; line-height: 1; font-family: var(--font-mono); color: var(--accent); font-weight: 500; }
 .mob-cmd-label {
   font-size: 9px;
   color: var(--text-3);
@@ -819,6 +815,7 @@ body.theme-glass #terminal-window {
   .t-quick-link:hover   { transform: none; }
   .t-contact-link:hover { transform: none; }
   .t-card:hover         { transform: none; }
+  #terminal-output      { animation: none; scroll-behavior: auto; }
 }
 
 /* ============================================================
@@ -834,7 +831,6 @@ body.theme-retro .t-welcome-box .name {
 }
 
 /* ── Lien retour vers le site classique ── */
-#title-bar-right { display: flex; align-items: center; gap: 12px; }
 #back-to-site {
   font-size: 11px;
   color: var(--text-3);
@@ -846,13 +842,6 @@ body.theme-retro .t-welcome-box .name {
 /* Au doigt, :hover reste collé : pas de grossissement qui ferait déborder la zone de toucher. */
 @media (hover: none) {
   .tl:hover { transform: none; }
-}
-
-/* ── Glyphes mono de la barre mobile (remplacent les emojis) ── */
-.mob-cmd-icon {
-  font-family: var(--font-mono);
-  color: var(--accent);
-  font-weight: 500;
 }
 
 
@@ -868,8 +857,6 @@ body.theme-light #terminal-output,
 body.theme-light #prompt-label,
 body.theme-light #terminal-input,
 body.theme-light #title-bar-text { text-shadow: none; }
-
-#terminal-input { caret-color: var(--accent); }
 
 /* ── Vignette + reflet d'écran ──
    (la fenêtre est déjà position:fixed · ne surtout pas y toucher) */
@@ -892,7 +879,6 @@ body.theme-light #terminal-window::after { opacity: .35; }
   97.2% { opacity: .93; }
   97.8% { opacity: .985; }
 }
-#terminal-output { animation: crtFlicker 9s infinite; }
 
 /* ── Prompt riche ── */
 .p-git    { color: var(--text-3); }
@@ -962,10 +948,6 @@ body.theme-amber {
   --purple:      #ffcf60;
 }
 body.theme-amber #scanlines { opacity: .8; }
-
-@media (prefers-reduced-motion: reduce) {
-  #terminal-output { animation: none; scroll-behavior: auto; }
-}
 
 /* ============================================================
    IMPRESSION · le terminal sort en document texte propre

@@ -14,7 +14,7 @@ const ctx        = canvas.getContext('2d');
 const themeLabel = document.getElementById('theme-indicator');
 
 /* ── State ────────────────────────────────────────────────── */
-let history      = [];
+const commandHistory = [];   /* « history » masquait window.history */
 let histIdx      = -1;
 let acIdx        = -1;
 let idleTimer    = null;
@@ -624,8 +624,8 @@ function runCommand(raw) {
   const input = raw.trim();
   if (!input) return;
 
-  if (history[0] !== input) history.unshift(input);
-  if (history.length > 80)  history.pop();
+  if (commandHistory[0] !== input) commandHistory.unshift(input);
+  if (commandHistory.length > 80)  commandHistory.pop();
   histIdx = -1;
 
   /* Une autre commande termine la partie en cours : sinon le jeu, hors écran,
@@ -704,9 +704,9 @@ inputEl.addEventListener('keydown', e => {
 
   if (e.key === 'ArrowUp') {
     e.preventDefault();
-    if (histIdx < history.length - 1) {
+    if (histIdx < commandHistory.length - 1) {
       histIdx++;
-      inputEl.value = history[histIdx];
+      inputEl.value = commandHistory[histIdx];
       setTimeout(() => inputEl.setSelectionRange(9999, 9999), 0);
     }
     return;
@@ -716,7 +716,7 @@ inputEl.addEventListener('keydown', e => {
     e.preventDefault();
     if (histIdx > 0) {
       histIdx--;
-      inputEl.value = history[histIdx];
+      inputEl.value = commandHistory[histIdx];
     } else {
       histIdx = -1;
       inputEl.value = '';
@@ -1063,11 +1063,11 @@ function cmdCv() {
 
 /* ── history ── */
 function cmdHistory() {
-  if (history.length <= 1) {
+  if (commandHistory.length <= 1) {
     printLines([line('<span class="t-dim">Historique vide.</span>'), blank()]);
     return;
   }
-  const rows = history.slice(1, 16).map((h, i) =>
+  const rows = commandHistory.slice(1, 16).map((h, i) =>
     line(`<span class="t-dim2">${String(i + 1).padStart(3, ' ')}</span>  ${escHtml(h)}`)
   );
   printLines([...rows, blank()]);

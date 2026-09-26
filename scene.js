@@ -2,7 +2,7 @@
    SCÈNE 3D · la carte du réseau réel (v2.2, lot 2 de l'audit)
    Une station plein écran où le graphe est le SUJET :
    dessin séquencé dans l'ordre du parcours (Pi → branches → SecDash),
-   tap mobile (zones ≥ 44 px, premier tap nomme, second ouvre),
+   tap mobile (zones ≥ 44 px, premier tap nomme, second ouvre ; un seul en mode réduit),
    visite automatique après 4 s d'inactivité, densité variable,
    puis retour en fond derrière les autres sections.
    Écran portrait : graphe resserré horizontalement (× 0,55).
@@ -285,7 +285,6 @@ export async function initScene() {
     gTarget = Math.min(STATIONS - 1, Math.max(0, g));
   }
   window.addEventListener('scroll', () => { if (!alive) return; readScroll(); armTour(); wake(); }, { passive: true });
-  window.addEventListener('load', () => { readAnchors(); readScroll(); });
   function inDedicated() { return Math.round(gCur) === DEDICATED_STATION; }
 
   /* ── Séquence de dessin ── */
@@ -340,8 +339,8 @@ export async function initScene() {
     if (Math.hypot(e.clientX - downX, e.clientY - downY) > 10) return; /* c'était un scroll */
     const n = pickNode(e.clientX, e.clientY);
     if (n) {
-      if (pointerIsTouch && pinned === n) openNode(n);       /* second tap : ouvre */
-      else if (pointerIsTouch) { pinned = n; showLabel(n); } /* premier tap : nomme */
+      /* au doigt, premier tap : nomme ; second tap, souris ou mode réduit : ouvre */
+      if (pointerIsTouch && !REDUCED && pinned !== n) { pinned = n; showLabel(n); }
       else openNode(n);
     } else {
       pinned = null;
@@ -649,16 +648,6 @@ export async function initScene() {
       scrollT = setTimeout(() => { gCur = gTarget; renderStatic(); }, 120);
     }, { passive: true });
     renderStatic();
-    /* tap : le nœud s'ouvre directement, sans raycast animé */
-    window.addEventListener('pointerup', e => {
-      if (isContent(e.target)) return;
-      if (Math.hypot(e.clientX - downX, e.clientY - downY) > 10) return;
-      const n = pickNode(e.clientX, e.clientY);
-      if (n) openNode(n);
-    }, { passive: true });
-    window.addEventListener('pointerdown', e => {
-      downX = e.clientX; downY = e.clientY;
-    }, { passive: true });
   } else {
     armTour();
     wake();

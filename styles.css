@@ -263,8 +263,6 @@ h2 {
 
 .st-hint { font-size: 13px; color: var(--ink-3); margin-top: 34px; }
 .st-center.st-hint { text-align: center; }
-.st-hint a { color: var(--ink-2); }
-.st-hint a:hover { color: var(--pulse); }
 
 /* ============================================================
    STATION 0 · HERO
@@ -722,7 +720,7 @@ body.fast { overflow: auto; }
 @media print {
   :root { --bg: #ffffff; --bg-2: #ffffff; --surface: #ffffff; --ink: #171410; --ink-2: #3d3830; --ink-3: #55504a; --gold: #7a5c1e; --gold-deep: #7a5c1e; --pulse: #1a6b45; }
   body { background: #fff !important; color: #171410; font-size: 12pt; overflow: visible; }
-  #gl-canvas, #net-label, #nav, #dots, #scroll-cue, .scroll-cue, #boot, .skip-link { display: none !important; }
+  #gl-canvas, #net-label, #nav, #dots, .scroll-cue, #boot, .skip-link { display: none !important; }
   .station { min-height: auto; padding: 6pt 0 10pt; break-inside: avoid; }
   .st-inner { max-width: 100%; }
   h2 { text-shadow: none; font-size: 20pt; margin-bottom: 12pt; }

@@ -224,13 +224,6 @@ if (!REDUCED && 'IntersectionObserver' in window) {
   const GOLD = '#e8c56a', GREEN = '#5ef0b0', PALE = '#f2eee4',
         RED = '#f76a6a';
 
-  function shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = (Math.random() * (i + 1)) | 0;
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-  }
-
   const VIZ = {
     /* Uptime : une ligne de monitors, presque tout vert, un dip rare */
     uptime(s, ts, still) {
